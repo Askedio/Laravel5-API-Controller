@@ -14,6 +14,7 @@ class User extends Authenticatable
 {
    
     use \Askedio\Laravel5ApiController\Traits\ApiTrait;
+    use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~
 Add the validation rules:
@@ -39,12 +40,12 @@ Add search rules defined from https://github.com/nicolaslopezj/searchable.
 
 ## In your Controller class
 ~~~
-use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
-use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
+   use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
 
-class UserController extends BaseController
-{
-    public $modal = '\App\User';
+   class UserController extends BaseController
+   {
+       public $modal = '\App\User';
+       ...
 ~~~
 
 Add the use and extends to enable the API controller. Define the modal you edited above.
