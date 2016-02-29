@@ -58,3 +58,17 @@ Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
   Route::resource('admin/user', 'App\Http\Controllers\UserController');
 });
 ~~~
+
+
+# Usage
+## api/admin/user
+#### Request Options:
+* search: string
+* sort: string (column)
+* direction: string (asc|desc)
+* limit: int (pagination limit)
+* 
+#### Response:
+...
+
+
