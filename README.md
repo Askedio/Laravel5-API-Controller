@@ -1,39 +1,50 @@
-# Laravel 5.2 Vendor Package Example
-## An Example on how-to create a Vendor Package for Composer
-
-"Packages are the primary way of adding functionality to Laravel. Packages might be anything from a great way to work with dates like Carbon, or an entire BDD testing framework like Behat."
-https://laravel.com/docs/master/packages
-
-Use this package to rapidly develop new packages to share among your projects - or the world.
-
-# Installation
-* Clone the repo
-* Rename Askedio\LaravelVendorPackage & askedio\laravelvendorpackage stuff to your namespace (search & replace all files)
-* Rename shortucts for configs, lang, etc, they are "LaravelVendorPackage::", so replace "LaravelVendorPackage" in the alias loaders
-* Add to a github repo
-* Add to packagist.org
-* Install with commands like below, but with your names and revisions
+# Laravel 5.2 API Controller
+A simple controller to help provide quick access to Modal functions and validation, mostly for a CRUD API.
 
 # Installation
 
- 
-    composer require askedio/laravel-vendor-package:dev-master
+### Install Package
+~~~
+composer require askedio/laravel5-api-controller:dev-mster
+~~~
 
+### Modify your Modal, ie: app\User.php
+~~~
+class User extends Authenticatable
+{
+   
+    use \Askedio\Laravel5ApiController\Traits\UserTrait;
+    ...
+~~~
+Add the validation rules:
+~~~
+    protected $rules = [
+      'update' => [
+         ...
+      ],
+      'create' => [
+         ...
+      ],
+    ];
+~~~
 
-## Register with config/app.php
+## In your Controller class
+~~~
+use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
 
-    Askedio\LaravelVendorPackage\Providers\GenericServiceProvider::class,
+class UserController extends BaseController
+{
+    public $modal = '\App\User';
+~~~
 
-## Test
+Add the use and extends to enable the API controller. Define the modal you edited above.
 
-    php artisan serv
+RESTful controller functions are all setup, so we can do some routes.
 
-Browse to http://localhost:8000/dashboard
-
-## Publish
-        php artisan vendor:publish 
-## Migrate
-        php artisan migrate
-## Seed
-        php artisan db:seed 
-
+## routes.php
+~~~
+Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
+{
+  Route::resource('admin/user', 'App\Http\Controllers\UserController');
+});
+~~~
