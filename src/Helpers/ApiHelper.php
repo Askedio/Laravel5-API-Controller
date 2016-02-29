@@ -2,7 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
-class ApiHelper extends BaseHelper
+class ApiHelper
 {
     public static function error($errors)
     {
