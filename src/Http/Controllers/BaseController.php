@@ -20,22 +20,15 @@ class BaseController extends Controller
 
     public function index(Request $request)
     {
-        $order = (in_array($request->input('order'), $this->_modal->getFillable()) ? $request->input('order') : 'id');
-        $sort = (in_array(strtolower($request->input('direction')), ['asc', 'desc']) ? $request->input('direction') : 'DESC');
+        $results = $this->renderIndex();
 
-        $results = $this->_modal->orderBy($order, $sort);
-
-        if ($request->input('search')) {
-            $results->search($request->input('search'));
-        }
-
-        return ApiHelper::success($results->paginate(($request->input('limit') ?: '10')));
+        return ApiHelper::success($results->paginate(($this->request->input('limit') ?: '10')));
     }
 
     public function store()
     {
         if ($errors = $this->validate('create')) {
-            return $errors;
+            return ApiHelper::error($errors);
         } else {
             $_new = $this->_modal->create($this->cleanRequest());
 
@@ -84,5 +77,17 @@ class BaseController extends Controller
         $validator = Validator::make($this->request->all(), $this->_modal->getRule($action));
 
         return $validator->fails() ? ApiHelper::error($validator->errors()->all()) : false;
+    }
+
+    public function renderIndex()
+    {
+        $order = (in_array($this->request->input('order'), $this->_modal->getFillable()) ? $this->request->input('order') : 'id');
+        $sort  = (in_array(strtolower($this->request->input('direction')), ['asc','desc']) ? $this->request->input('direction') : 'DESC');
+
+        $results = $this->_modal->orderBy($order, $sort);
+
+        if($this->request->input('search')) $results->search($this->request->input('search'));
+
+        return $results;
     }
 }
