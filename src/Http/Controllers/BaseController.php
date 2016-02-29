@@ -82,11 +82,13 @@ class BaseController extends Controller
     public function renderIndex()
     {
         $order = (in_array($this->request->input('order'), $this->_modal->getFillable()) ? $this->request->input('order') : 'id');
-        $sort  = (in_array(strtolower($this->request->input('direction')), ['asc','desc']) ? $this->request->input('direction') : 'DESC');
+        $sort = (in_array(strtolower($this->request->input('direction')), ['asc', 'desc']) ? $this->request->input('direction') : 'DESC');
 
         $results = $this->_modal->orderBy($order, $sort);
 
-        if($this->request->input('search')) $results->search($this->request->input('search'));
+        if ($this->request->input('search')) {
+            $results->search($this->request->input('search'));
+        }
 
         return $results;
     }
