@@ -2,13 +2,10 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
-trait  UserTrait 
+trait UserTrait
 {
-
     public function getRule($rule)
     {
-        return $this->rules[$rule];   
+        return $this->rules[$rule];
     }
 }
