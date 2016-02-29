@@ -5,7 +5,7 @@ A simple controller to help provide quick access to Modal functions and validati
 
 ### Install Package
 ~~~
-composer require askedio/laravel5-api-controller:dev-mster
+composer require askedio/laravel5-api-controller:dev-master
 ~~~
 
 ### Modify your Modal, ie: app\User.php
