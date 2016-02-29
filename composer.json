@@ -1,0 +1,16 @@
+{
+    "name": "askedio/laravel5-api-controller",
+    "description": "A Generic Controller for Modals",
+    "keywords": ["laravel"],
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": ">=5.5.9",
+        "laravel/framework": "5.2.*"
+     },
+    "autoload": {
+        "psr-4": {
+            "Askedio\\Laravel5ApiController\\": "src/"
+        }
+    }
+}
