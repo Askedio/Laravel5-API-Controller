@@ -13,8 +13,8 @@ composer require askedio/laravel5-api-controller:dev-mster
 class User extends Authenticatable
 {
    
-     use \Askedio\LaravelVendorPackage\Traits\UserTrait;
-     ...
+    use \Askedio\Laravel5ApiController\Traits\UserTrait;
+    ...
 ~~~
 Add the validation rules:
 ~~~
@@ -26,4 +26,25 @@ Add the validation rules:
          ...
       ],
     ];
+~~~
+
+## In your Controller class
+~~~
+use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
+
+class UserController extends BaseController
+{
+    public $modal = '\App\User';
+~~~
+
+Add the use and extends to enable the API controller. Define the modal you edited above.
+
+RESTful controller functions are all setup, so we can do some routes.
+
+## routes.php
+~~~
+Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
+{
+  Route::resource('admin/user', 'App\Http\Controllers\UserController');
+});
 ~~~
