@@ -20,8 +20,10 @@ class BaseController extends Controller
 
     public function index(Request $request)
     {
-        $results = $this->_modal->orderBy(($request->input('order') ?: 'id'),($request->input('direction') ?: 'DESC'));
-        if($request->input('search')) $results->search($request->input('search'));
+        $results = $this->_modal->orderBy(($request->input('order') ?: 'id'), ($request->input('direction') ?: 'DESC'));
+        if ($request->input('search')) {
+            $results->search($request->input('search'));
+        }
 
         return ApiHelper::success($results->paginate(($request->input('limit') ?: '10')));
     }
