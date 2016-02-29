@@ -21,11 +21,13 @@ class BaseController extends Controller
     public function index(Request $request)
     {
         $order = (in_array($request->input('order'), $this->_modal->getFillable()) ? $request->input('order') : 'id');
-        $sort  = (in_array(strtolower($request->input('direction')), ['asc','desc']) ? $request->input('direction') : 'DESC');
+        $sort = (in_array(strtolower($request->input('direction')), ['asc', 'desc']) ? $request->input('direction') : 'DESC');
 
         $results = $this->_modal->orderBy($order, $sort);
 
-        if($request->input('search')) $results->search($request->input('search'));
+        if ($request->input('search')) {
+            $results->search($request->input('search'));
+        }
 
         return ApiHelper::success($results->paginate(($request->input('limit') ?: '10')));
     }
