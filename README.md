@@ -27,10 +27,20 @@ Add the validation rules:
       ],
     ];
 ~~~
+Add search rules defined from https://github.com/nicolaslopezj/searchable.
+~~~
+    protected $searchable = [
+        'columns' => [
+            'users.name' => 10,
+            'users.email' => 5,
+        ],
+    ];
+~~~
 
 ## In your Controller class
 ~~~
 use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
+use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
 
 class UserController extends BaseController
 {
