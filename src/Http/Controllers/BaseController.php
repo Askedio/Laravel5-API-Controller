@@ -20,10 +20,10 @@ class BaseController extends Controller
 
     public function index(Request $request)
     {
-        $limit = $request->input('limit') ?: '10';
-        $results = $this->_modal->paginate($limit);
+        $results = $this->_modal->orderBy(($request->input('order') ?: 'id'),($request->input('direction') ?: 'DESC'));
+        if($request->input('search')) $results->search($request->input('search'));
 
-        return ApiHelper::success($results);
+        return ApiHelper::success($results->paginate(($request->input('limit') ?: '10')));
     }
 
     public function store()
