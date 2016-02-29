@@ -2,7 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
-trait UserTrait
+trait ApiTrait
 {
     public function getRule($rule)
     {

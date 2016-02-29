@@ -13,7 +13,7 @@ composer require askedio/laravel5-api-controller:dev-mster
 class User extends Authenticatable
 {
    
-    use \Askedio\Laravel5ApiController\Traits\UserTrait;
+    use \Askedio\Laravel5ApiController\Traits\ApiTrait;
     ...
 ~~~
 Add the validation rules:
