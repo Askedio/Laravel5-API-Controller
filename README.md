@@ -14,6 +14,7 @@ class User extends Authenticatable
 {
    
     use \Askedio\Laravel5ApiController\Traits\ApiTrait;
+    use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~
 Add the validation rules:
@@ -27,14 +28,24 @@ Add the validation rules:
       ],
     ];
 ~~~
+Add search rules defined from https://github.com/nicolaslopezj/searchable.
+~~~
+    protected $searchable = [
+        'columns' => [
+            'users.name' => 10,
+            'users.email' => 5,
+        ],
+    ];
+~~~
 
 ## In your Controller class
 ~~~
-use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
+   use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
 
-class UserController extends BaseController
-{
-    public $modal = '\App\User';
+   class UserController extends BaseController
+   {
+       public $modal = '\App\User';
+       ...
 ~~~
 
 Add the use and extends to enable the API controller. Define the modal you edited above.
@@ -48,3 +59,17 @@ Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
   Route::resource('admin/user', 'App\Http\Controllers\UserController');
 });
 ~~~
+
+
+# Usage
+## api/admin/user
+#### Request Options:
+* search: string
+* sort: string (column)
+* direction: string (asc|desc)
+* limit: int (pagination limit)
+* 
+#### Response:
+...
+
+
