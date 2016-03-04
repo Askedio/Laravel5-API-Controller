@@ -55,7 +55,7 @@ class User extends Authenticatable
        ...
 ~~~
 
-## routes.php, ie: app/Http/routes.php
+## Routes, ie: app/Http/routes.php
 ~~~
 Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 {
