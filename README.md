@@ -68,22 +68,22 @@ Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 Laravels Resource Routes are being used, so we have:
 
 ## POST
-success: Returns the Models results.
-validation failure: Returns errors[[field, error]]
-failure: Returns 500
+* success: Returns the Models results.
+* validation failure: Returns errors[[field, error]]
+* failure: Returns 500
 
 ## GET
-success: Returns the Models paginate() results.
-failure: Returns 404
+* success: Returns the Models paginate() results.
+* failure: Returns 404
 
 ## PATCH
-success: Returns the Models results.
-validation failure: Returns errors[[field, error]]
-failure: Returns 500
+* success: Returns the Models results.
+* validation failure: Returns errors[[field, error]]
+* failure: Returns 500
 
 ## DELETE
-success: Returns the Models results.
-failure: Returns 500
+* success: Returns the Models results.
+* failure: Returns 500
 
 # Results
 Results are wrapped sent in a success and results/errors array:
