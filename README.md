@@ -88,15 +88,14 @@ Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 * failure: Returns 500
 
 # Results
-Results are wrapped sent in a success and results/errors array:
+Results are sent in an array.
 ~~~
-//Errors:
+// Errors:
 ['success' => false, 'errors' => []]
 
-//No errors:
+// No errors:
 ['success' => true, 'results' => []];
 ~~~
-Programs accessing the api should base their result on the 'success' field and then generate results from results or errors.
 
 
 # Customization
