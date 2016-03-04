@@ -51,7 +51,9 @@ Add search rules defined from https://github.com/nicolaslopezj/searchable.
        ...
 ~~~
 
-Add the use and extends to enable the API controller. Define the modal you edited above.
+Add the use and extends to enable the API controller. 
+
+Define the modal you edited above.
 
 RESTful controller functions are all setup, so we can do some routes.
 
@@ -69,7 +71,7 @@ Laravels Resource Routes are being used, so we have:
 
 ## POST
 * success: Returns the Models results.
-* validation failure: Returns errors[[field, error]]
+* validation failure: Returns errors[[field => '', error => '']]
 * failure: Returns 500
 
 ## GET
