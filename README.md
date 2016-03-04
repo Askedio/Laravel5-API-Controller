@@ -1,5 +1,7 @@
 # Laravel 5.2 API Controller
-A simple controller to help provide quick access to Modal functions and validation, mostly for a CRUD API.
+A really simple controller to help provide quick access to Modal functions and validation, mostly for a CRUD API.
+
+Looking for more features? Try https://github.com/dingo/api instead. This is intended to be a really basic and easy to use API.
 
 # Installation
 
