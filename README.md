@@ -11,7 +11,8 @@ Works with https://github.com/Askedio/jQuery-Cruddy
 composer require askedio/laravel5-api-controller:dev-master
 ~~~
 
-### Modify your Modal, ie: app\User.php
+### Modal, ie: app\User.php
+#### Add the Traits
 ~~~
 class User extends Authenticatable
 {
@@ -20,7 +21,7 @@ class User extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~
-Add the validation rules:
+#### Add the validation rules
 ~~~
     protected $rules = [
       'update' => [
@@ -31,7 +32,7 @@ Add the validation rules:
       ],
     ];
 ~~~
-Add search rules defined from https://github.com/nicolaslopezj/searchable.
+#### Add search rules defined from https://github.com/nicolaslopezj/searchable 
 ~~~
     protected $searchable = [
         'columns' => [
@@ -41,7 +42,10 @@ Add search rules defined from https://github.com/nicolaslopezj/searchable.
     ];
 ~~~
 
-## In your Controller class
+## Controller, ie: app\Http\Controllers\UserController.php
+* Add the use
+* Modify the extends
+* Define $modal
 ~~~
    use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
 
@@ -51,13 +55,7 @@ Add search rules defined from https://github.com/nicolaslopezj/searchable.
        ...
 ~~~
 
-Add the use and extends to enable the API controller. 
-
-Define the modal you edited above.
-
-RESTful controller functions are all setup, so we can do some routes.
-
-## routes.php
+## routes.php, ie: app/Http/routes.php
 ~~~
 Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 {
@@ -67,7 +65,9 @@ Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 
 
 # Usage
-Laravels Resource Routes are being used, so we have:
+* Laravels Resource Routes are being used.
+* Access the route like you've defied, ie: /api/admin/user/.
+* Perform RESTful acts on the Resource Controller
 
 ## POST
 * success: Returns the Models results.
