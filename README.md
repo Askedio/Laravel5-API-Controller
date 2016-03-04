@@ -1,5 +1,5 @@
 # Laravel 5.2 API Controller
-A really simple controller to help provide quick access to Modal functions and validation, mostly for a CRUD API.
+A really simple package that provides an API for CRUD related tasks based on Modals and Resource Controllers.
 
 Works with https://github.com/Askedio/jQuery-Cruddy
 
