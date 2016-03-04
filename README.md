@@ -65,15 +65,23 @@ Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 
 
 # Usage
-## api/admin/user
-#### Request Options:
-* search: string
-* sort: string (column)
-* direction: string (asc|desc)
-* limit: int (pagination limit)
-* 
-#### Response:
-...
+Laravels Resource Routes are being used, so we have:
+
+## POST
+success: Returns the Models results.
+failure: Returns 500
+
+## GET
+success: Returns the Models paginate() results.
+failure: Returns 404
+
+## PATCH
+success: Returns the Models results.
+failure: Returns 500
+
+## DELETE
+success: Returns the Models results.
+failure: Returns 500
 
 
 # Customization
