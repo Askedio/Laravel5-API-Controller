@@ -69,6 +69,7 @@ Laravels Resource Routes are being used, so we have:
 
 ## POST
 success: Returns the Models results.
+validation failure: Returns errors[[field, error]]
 failure: Returns 500
 
 ## GET
@@ -77,11 +78,23 @@ failure: Returns 404
 
 ## PATCH
 success: Returns the Models results.
+validation failure: Returns errors[[field, error]]
 failure: Returns 500
 
 ## DELETE
 success: Returns the Models results.
 failure: Returns 500
+
+# Results
+Results are wrapped sent in a success and results/errors array:
+~~~
+# Errors
+['success' => false, 'errors' => []]
+
+# No errors
+['success' => true, 'results' => []];
+~~~
+Programs accessing the api should base their result on the 'success' field and then generate results from results or errors.
 
 
 # Customization
