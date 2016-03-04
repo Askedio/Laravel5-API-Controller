@@ -12,7 +12,7 @@ composer require askedio/laravel5-api-controller:dev-master
 ~~~
 
 ### Modal, ie: app\User.php
-#### Add the Traits
+##### Add the Traits
 ~~~
 class User extends Authenticatable
 {
@@ -21,7 +21,7 @@ class User extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~
-#### Add the validation rules
+##### Add the validation rules
 ~~~
     protected $rules = [
       'update' => [
@@ -32,7 +32,7 @@ class User extends Authenticatable
       ],
     ];
 ~~~
-#### Add search rules defined from https://github.com/nicolaslopezj/searchable 
+##### Add search rules defined from https://github.com/nicolaslopezj/searchable 
 ~~~
     protected $searchable = [
         'columns' => [
@@ -69,31 +69,31 @@ Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 * Access the route like you've defied, ie: /api/admin/user/.
 * Perform RESTful acts on the Resource Controller
 
-## POST
+##### POST
 * success: Returns the Models results.
 * validation failure: Returns errors[[field => '', error => '']]
 * failure: Returns 500
 
-## GET
+##### GET
 * success: Returns the Models paginate() results.
 * failure: Returns 404
 
-## PATCH
+##### PATCH
 * success: Returns the Models results.
 * validation failure: Returns errors[[field, error]]
 * failure: Returns 500
 
-## DELETE
+##### DELETE
 * success: Returns the Models results.
 * failure: Returns 500
 
 # Results
 Results are wrapped sent in a success and results/errors array:
 ~~~
-# Errors
+//Errors:
 ['success' => false, 'errors' => []]
 
-# No errors
+//No errors:
 ['success' => true, 'results' => []];
 ~~~
 Programs accessing the api should base their result on the 'success' field and then generate results from results or errors.
