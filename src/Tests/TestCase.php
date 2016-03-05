@@ -55,7 +55,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     public function createApplication()
     {
         /** @var $app \Illuminate\Foundation\Application */
-        $app = require __DIR__.'/../../../../../bootstrap/App.php';
+        $app = require __DIR__.'/../../../../../bootstrap/app.php';
 
         $this->setUpHttpKernel($app);
         $app->register(\Askedio\Laravel5ApiController\Tests\App\Providers\RouteServiceProvider::class);
