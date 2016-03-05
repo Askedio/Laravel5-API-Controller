@@ -6,7 +6,8 @@
     "type": "library",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*"
+        "laravel/framework": "5.2.*",
+        "askedio/laravel5-api-controller": "dev-master"
      },
     "require-dev": {
         "laravel/laravel": "5.*",
