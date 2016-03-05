@@ -1,18 +1,15 @@
 <?php
 
-namespace Askedio\Laravel5ApiController\Tests\App;
+namespace Askedio\Tests\App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-   
-     use \Spatie\Permission\Traits\HasRoles;
-     use \Askedio\Laravel5ApiController\Traits\ApiTrait;
-     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
+    use \Askedio\Laravel5ApiController\Traits\ApiTrait;
+    use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
 
-     protected $table = 'users';
-
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -32,10 +29,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
-
     /**
-     * The attributes for validation
+     * The attributes for validation.
      *
      * @var array
      */
@@ -47,9 +42,6 @@ class User extends Authenticatable
       ],
     ];
 
-
-
-
     /**
      * Searchable rules.
      *
@@ -57,10 +49,8 @@ class User extends Authenticatable
      */
     protected $searchable = [
         'columns' => [
-            'users.name' => 10,
+            'users.name'  => 10,
             'users.email' => 5,
         ],
     ];
-
-
 }

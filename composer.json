@@ -8,9 +8,18 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*"
      },
+    "require-dev": {
+        "laravel/laravel": "5.*",
+        "phpunit/phpunit": "4.*"
+    },
     "autoload": {
         "psr-4": {
             "Askedio\\Laravel5ApiController\\": "src/"
         }
-    }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Askedio\\Tests\\" : "tests/App/"
+        }
+    },
 }

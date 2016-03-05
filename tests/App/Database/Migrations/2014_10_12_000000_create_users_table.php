@@ -1,10 +1,9 @@
 <?php
 
-namespace Askedio\Laravel5ApiController\Tests\App\Database\Migrations;
+namespace Askedio\Tests\App\Database\Migrations;
 
-
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Schema;
 
 class CreateUsersTable extends Migration

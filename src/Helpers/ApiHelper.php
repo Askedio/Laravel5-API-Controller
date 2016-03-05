@@ -14,8 +14,10 @@ class ApiHelper
         return ['success' => true, 'results' => $results];
     }
 
-    public static function throwException($type, $message = false)
+    public static function throwException($type, $message=false)
     {
-        abort($type, $message);
+      abort($type, $message);
     }
+
+
 }
