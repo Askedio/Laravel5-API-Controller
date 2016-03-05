@@ -9,7 +9,7 @@ class ControllerHelper
     private $_modal;
     private $request;
 
-    public function __construct($request=false, $modal)
+    public function __construct($request, $modal)
     {
         $this->_modal = new $modal();
         $this->request = $request;
