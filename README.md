@@ -1,8 +1,11 @@
+
+
 # Laravel 5.2 API Controller
 A really simple package that provides an API for CRUD related tasks based on Modals and Resource Controllers.
 
 Made for [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy) but can work with anything.
 
+[![StyleCI](https://styleci.io/repos/52752552/shield)](https://styleci.io/repos/52752552)
 
 # Installation
 Some better examples are in the [wiki](https://github.com/Askedio/Laravel5-API-Controller/wiki).
