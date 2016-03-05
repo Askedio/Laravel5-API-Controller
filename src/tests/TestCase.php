@@ -7,19 +7,16 @@ use Illuminate\Filesystem\ClassFinder;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Routing\Router;
-use Askedio\Laravel5ApiController\Http\Controllers\TestController;
 
-
-
-class TestCase extends  \Illuminate\Foundation\Testing\TestCase
+class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
     use WithoutMiddleware;
+
     /**
      * Setup DB before each test.
      */
     public function setUp()
     {
-
         parent::setUp();
 
         $this->app['config']->set('database.default', 'sqlite');
@@ -58,7 +55,6 @@ class TestCase extends  \Illuminate\Foundation\Testing\TestCase
     public function createApplication()
     {
         /** @var $app \Illuminate\Foundation\Application */
-
         $app = require __DIR__.'/../../../../../bootstrap/App.php';
 
         $this->setUpHttpKernel($app);
@@ -113,6 +109,4 @@ class TestCase extends  \Illuminate\Foundation\Testing\TestCase
 
         return parent::call($method, $uri, $parameters, $cookies, $files, $server, $content);
     }
-
-
 }
