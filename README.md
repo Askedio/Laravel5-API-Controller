@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/travis/askedio/laravel5-api-controller/master.svg?style=flat-square)](https://travis-ci.org/askedio/laravel5-api-controller)
+[![Build Status](https://img.shields.io/travis/Askedio/Laravel5-API-Controller/master.svg?style=flat-square)](https://travis-ci.org/Askedio/Laravel5-API-Controller)
 [![StyleCI](https://styleci.io/repos/52752552/shield)](https://styleci.io/repos/52752552)
 
 
