@@ -7,7 +7,6 @@ Made for [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy) but can work 
 
 [![Build Status](https://img.shields.io/travis/askedio/laravel5-api-controller/master.svg?style=flat-square)](https://travis-ci.org/askedio/laravel5-api-controller)
 [![License](https://img.shields.io/packagist/l/askedio/laravel5-api-controller.svg?style=flat-square)](LICENSE)
-
 [![StyleCI](https://styleci.io/repos/52752552/shield)](https://styleci.io/repos/52752552)
 
 
