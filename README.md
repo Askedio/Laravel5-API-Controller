@@ -73,24 +73,24 @@ Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 * Laravels Resource Routes are being used.
 * Access the route like you've defined, ie: /api/admin/user/.
 * Perform RESTful acts on the Resource Controller
-** POST/PATCH accepts the fillable values
-** The 'fillable' data in your Model is what you can POST or PATCH with.
 
-##### POST
+##### POST [/]
+* accepts: 'fillable' data in your Model.
 * success: Returns the Models results.
 * validation failure: Returns errors[[field => '', error => '']]
 * failure: Returns 500
 
-##### GET
-* success: Returns the Models paginate() results.
+##### GET [/id|/]
+* success: Returns the Models single item result or paginate() results.
 * failure: Returns 404
 
-##### PATCH
+##### PATCH [/id]
+* accepts: 'fillable' data in your Model.
 * success: Returns the Models results.
 * validation failure: Returns errors[[field, error]]
 * failure: Returns 500
 
-##### DELETE
+##### DELETE [/id]
 * success: Returns the Models results.
 * failure: Returns 500
 
