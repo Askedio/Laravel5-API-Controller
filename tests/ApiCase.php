@@ -8,7 +8,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Routing\Router;
 
-class TestCase extends \Illuminate\Foundation\Testing\TestCase
+class ApiCase extends \Illuminate\Foundation\Testing\TestCase
 {
     use WithoutMiddleware;
 
@@ -55,7 +55,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
     public function createApplication()
     {
         /** @var $app \Illuminate\Foundation\Application */
-        $app = require __DIR__.'/../../../../../bootstrap/app.php';
+        $app = require __DIR__.'/../vendor/laravel/laravel/bootstrap/app.php';
 
         $this->setUpHttpKernel($app);
         $app->register(\Askedio\Tests\App\Providers\RouteServiceProvider::class);

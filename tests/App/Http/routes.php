@@ -15,5 +15,5 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['web', 'api']], function () {
-  Route::resource('/user', 'Askedio\Laravel5ApiController\Tests\App\Http\Controllers\TestController');
+  Route::resource('/user', 'Askedio\Tests\App\Http\Controllers\TestController');
 });

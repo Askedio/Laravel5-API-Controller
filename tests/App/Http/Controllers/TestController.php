@@ -2,7 +2,7 @@
 
 namespace Askedio\Tests\App\Http\Controllers;
 
-use Askedio\Tests\Http\Controllers\BaseController;
+use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
 
 class TestController extends BaseController
 {

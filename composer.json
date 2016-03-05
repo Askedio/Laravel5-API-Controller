@@ -6,8 +6,7 @@
     "type": "library",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*"
-     },
+        "laravel/framework": "5.2.*"     },
     "require-dev": {
         "laravel/laravel": "5.*",
         "phpunit/phpunit": "4.*"
@@ -19,7 +18,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Askedio\\Tests\\" : "tests/App/"
+            "Askedio\\Tests\\" : "tests"
         }
-    },
+    }
 }
