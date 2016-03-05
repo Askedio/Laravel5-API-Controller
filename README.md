@@ -5,6 +5,7 @@ Works with https://github.com/Askedio/jQuery-Cruddy
 
 
 # Installation
+Some better examples are in the [wiki](https://github.com/Askedio/Laravel5-API-Controller/wiki).
 
 ### Install Package
 ~~~
@@ -42,7 +43,7 @@ class User extends Authenticatable
     ];
 ~~~
 
-## Controller, ie: app\Http\Controllers\UserController.php
+## Controller, ie: app\Http\Controllers\Api\UserController.php
 * Add the use
 * Modify the extends
 * Define $modal
@@ -59,7 +60,7 @@ class User extends Authenticatable
 ~~~
 Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 {
-  Route::resource('admin/user', 'App\Http\Controllers\UserController');
+  Route::resource('admin/user', 'Api\UserController');
 });
 ~~~
 
@@ -98,7 +99,3 @@ Results are sent in an array.
 ['success' => true, 'results' => []];
 ~~~
 
-
-# Customization
-Check the wiki.
-https://github.com/Askedio/Laravel5-API-Controller/wiki
