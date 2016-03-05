@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 trait ControllerTrait
 {
+
     private $_modal;
     private $request;
     private $helper;
@@ -23,49 +24,47 @@ trait ControllerTrait
     public function index(Request $request)
     {
         $_results = $this->helper->renderIndex();
-
         return ApiHelper::success($_results->paginate(($this->request->input('limit') ?: '10')));
     }
 
     public function store()
     {
         $_results = $this->helper->store();
-        if (isset($_results['errors'])) {
-            return ApiHelper::error($_results['errors']);
-        } else {
-            return $_results
+        if(isset($_results['errors'])){
+          return ApiHelper::error($_results['errors']);
+        } else return $_results
               ? ApiHelper::success($_results)
               : ApiHelper::throwException(500);
-        }
+        
     }
-
+  
     public function show($id)
     {
-        $_results = $this->helper->show($id);
-
-        return $_results
+       $_results = $this->helper->show($id);
+       return $_results
           ? ApiHelper::success($_results)
           : ApiHelper::throwException(404);
-    }
+
+
+    }  
 
     public function update($id)
     {
         $_results = $this->helper->update($id);
-        if (isset($_results['errors'])) {
-            return ApiHelper::error($_results['errors']);
-        } else {
-            return $_results
+        if(isset($_results['errors'])){
+          return ApiHelper::error($_results['errors']);
+        } else return $_results
               ? ApiHelper::success($_results)
               : ApiHelper::throwException(500);
-        }
+        
     }
 
     public function destroy($id)
     {
         $_results = $this->helper->destroy($id);
-
         return $_results
               ? ApiHelper::success($_results)
               : ApiHelper::throwException(500);
     }
+
 }
