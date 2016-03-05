@@ -11,6 +11,7 @@
          stopOnIncomplete="false"
          stopOnSkipped="false"
          syntaxCheck="true"
+         bootstrap="vendor/autoload.php"
          verbose="true"> 
     <testsuites>
         <testsuite name="Application Test Suite">
