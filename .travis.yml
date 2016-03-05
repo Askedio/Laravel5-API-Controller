@@ -9,9 +9,6 @@ before_script:
   - chmod +x composer
   - composer install
 
-script: 
-  - php vendor/phpunit/phpunit/phpunit --coverage-text
-
 matrix:
      allow_failures:
          - php: "hhvm"
