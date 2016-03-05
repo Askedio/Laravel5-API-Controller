@@ -69,6 +69,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 * Laravels Resource Routes are being used.
 * Access the route like you've defined, ie: /api/admin/user/.
 * Perform RESTful acts on the Resource Controller
+** POST/PATCH accepts the fillable values
 ** The 'fillable' data in your Model is what you can POST or PATCH with.
 
 ##### POST
