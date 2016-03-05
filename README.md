@@ -5,7 +5,7 @@
 # Laravel 5.2 API Controller
 A really simple package that provides an API for CRUD related tasks based on Modals and Resource Controllers.
 
-Made for [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy) but can work with anything.
+Made for [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy) but can work with anything. [Live Demo](https://cruddy.io/app/)
 
 
 # Installation
