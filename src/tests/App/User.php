@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use \Spatie\Permission\Traits\HasRoles;
     use \Askedio\Laravel5ApiController\Traits\ApiTrait;
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
 
