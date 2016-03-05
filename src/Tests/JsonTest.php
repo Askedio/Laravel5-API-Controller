@@ -2,7 +2,6 @@
 
 namespace Askedio\Laravel5ApiController\Tests;
 
-
 class JsonTest extends TestCase
 {
     public $baseUrl = 'http://localhost';
@@ -14,23 +13,20 @@ class JsonTest extends TestCase
 
     public function testCreate()
     {
-
         $this->createUser();
     }
 
     public function testRead()
-  {
+    {
         $this->createUser();
         $this->json('GET', '/api/user/1')
              ->seeJson([
                  'success' => true,
              ]);
-
-  }
-  
+    }
 
     public function testUpdate()
-  {
+    {
         $this->createUser();
         $this->json('PATCH', '/api/user/1', [
           'name' => 'testupdate',
@@ -38,12 +34,10 @@ class JsonTest extends TestCase
              ->seeJson([
                  'success' => true,
              ]);
+    }
 
-  }
-  
-  public function testDelete()
+    public function testDelete()
     {
-
         $this->createUser();
 
         $this->json('DELETE', '/api/user/1')
@@ -54,7 +48,6 @@ class JsonTest extends TestCase
 
     public function testList()
     {
-
         $this->createUser();
 
         $this->json('GET', '/api/user')
@@ -63,18 +56,14 @@ class JsonTest extends TestCase
              ]);
     }
 
-
-
     private function createUser()
-  {
+    {
         $this->json('POST', '/api/user', [
-          'name' => 'test',
-          'email' => 'test@test.com',
-          'password' => bcrypt('password')])
+          'name'     => 'test',
+          'email'    => 'test@test.com',
+          'password' => bcrypt('password'), ])
              ->seeJson([
                  'success' => true,
              ]);
-
-  }
-
+    }
 }

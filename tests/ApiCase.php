@@ -8,7 +8,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Routing\Router;
 
-class TestCase extends \Illuminate\Foundation\Testing\TestCase
+class ApiCase extends \Illuminate\Foundation\Testing\TestCase
 {
     use WithoutMiddleware;
 
