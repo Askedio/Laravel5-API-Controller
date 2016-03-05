@@ -19,4 +19,3 @@ class ApiHelper
         abort($type, $message);
     }
 }
-
