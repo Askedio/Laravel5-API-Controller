@@ -1,7 +1,8 @@
 # Laravel 5.2 API Controller
-A really simple controller to help provide quick access to Modal functions and validation, mostly for a CRUD API.
+A really simple package that provides an API for CRUD related tasks based on Modals and Resource Controllers.
 
-Looking for more features? Try https://github.com/dingo/api instead. This is intended to be a really basic and easy to use API.
+Works with https://github.com/Askedio/jQuery-Cruddy
+
 
 # Installation
 
@@ -10,7 +11,8 @@ Looking for more features? Try https://github.com/dingo/api instead. This is int
 composer require askedio/laravel5-api-controller:dev-master
 ~~~
 
-### Modify your Modal, ie: app\User.php
+### Modal, ie: app\User.php
+##### Add the Traits
 ~~~
 class User extends Authenticatable
 {
@@ -19,7 +21,7 @@ class User extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~
-Add the validation rules:
+##### Add the validation rules
 ~~~
     protected $rules = [
       'update' => [
@@ -30,7 +32,7 @@ Add the validation rules:
       ],
     ];
 ~~~
-Add search rules defined from https://github.com/nicolaslopezj/searchable.
+##### Add search rules defined from https://github.com/nicolaslopezj/searchable 
 ~~~
     protected $searchable = [
         'columns' => [
@@ -40,7 +42,10 @@ Add search rules defined from https://github.com/nicolaslopezj/searchable.
     ];
 ~~~
 
-## In your Controller class
+## Controller, ie: app\Http\Controllers\UserController.php
+* Add the use
+* Modify the extends
+* Define $modal
 ~~~
    use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
 
@@ -50,11 +55,7 @@ Add search rules defined from https://github.com/nicolaslopezj/searchable.
        ...
 ~~~
 
-Add the use and extends to enable the API controller. Define the modal you edited above.
-
-RESTful controller functions are all setup, so we can do some routes.
-
-## routes.php
+## Routes, ie: app/Http/routes.php
 ~~~
 Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 {
@@ -64,14 +65,40 @@ Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
 
 
 # Usage
-## api/admin/user
-#### Request Options:
-* search: string
-* sort: string (column)
-* direction: string (asc|desc)
-* limit: int (pagination limit)
-* 
-#### Response:
-...
+* Laravels Resource Routes are being used.
+* Access the route like you've defined, ie: /api/admin/user/.
+* Perform RESTful acts on the Resource Controller
+** The 'fillable' data in your Model is what you can POST or PATCH with.
+
+##### POST
+* success: Returns the Models results.
+* validation failure: Returns errors[[field => '', error => '']]
+* failure: Returns 500
+
+##### GET
+* success: Returns the Models paginate() results.
+* failure: Returns 404
+
+##### PATCH
+* success: Returns the Models results.
+* validation failure: Returns errors[[field, error]]
+* failure: Returns 500
+
+##### DELETE
+* success: Returns the Models results.
+* failure: Returns 500
+
+# Results
+Results are sent in an array.
+~~~
+// Errors:
+['success' => false, 'errors' => []]
+
+// No errors:
+['success' => true, 'results' => []];
+~~~
 
 
+# Customization
+Check the wiki.
+https://github.com/Askedio/Laravel5-API-Controller/wiki
