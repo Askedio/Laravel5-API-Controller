@@ -7,7 +7,6 @@ use Illuminate\Routing\Router;
 
 class RouteServiceProvider extends ServiceProvider
 {
-
     /**
      * Define your route model bindings, pattern filters, etc.
      *
