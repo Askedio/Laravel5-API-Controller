@@ -8,4 +8,10 @@ trait ApiTrait
     {
         return $this->rules[$rule];
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
 }

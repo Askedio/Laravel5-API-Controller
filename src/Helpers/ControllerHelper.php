@@ -15,10 +15,6 @@ class ControllerHelper
         $this->request = $request;
     }
 
-    public function index()
-    {
-        $results = $this->renderIndex()->paginate(($this->request->input('limit') ?: '10'));
-    }
 
     public function store()
     {
@@ -99,6 +95,6 @@ class ControllerHelper
             $results->search($this->request->input('search'));
         }
 
-        return $results;
+        return $results->paginate(($this->request->input('limit') ?: '10'));
     }
 }

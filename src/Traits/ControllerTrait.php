@@ -16,7 +16,10 @@ trait ControllerTrait
     {
         $this->_modal = new $this->modal();
         $this->request = $request;
+         
+        ApiHelper::setModal(class_basename($this->_modal));
 
+        // no aliases/facades/static..
         $this->helper = new ControllerHelper($request, $this->_modal);
     }
 
@@ -24,7 +27,7 @@ trait ControllerTrait
     {
         $_results = $this->helper->renderIndex();
 
-        return ApiHelper::success($_results->paginate(($this->request->input('limit') ?: '10')));
+        return ApiHelper::success($_results);
     }
 
     public function store()
