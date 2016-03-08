@@ -12,9 +12,12 @@ class ApiHelper
     public static function success($results)
     {
         $_results = ['success' => true];
-        if(isset($results['data'])){
-          $_results = array_merge($_results, $results);
-        } else $_results['data'] = $results;
+        if (isset($results['data'])) {
+            $_results = array_merge($_results, $results);
+        } else {
+            $_results['data'] = $results;
+        }
+
         return $_results;
     }
 
