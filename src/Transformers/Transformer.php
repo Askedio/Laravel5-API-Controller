@@ -14,8 +14,13 @@ use Illuminate\Support\Collection;
  */
 class Transformer
 {
-    public function __construct()
+    private $type;
+    private $id;
+
+    public function __construct($modal)
     {
+      $this->type = strtolower($modal);
+      //$this->id = $modal->getId();
     }
 
     /**
@@ -24,7 +29,7 @@ class Transformer
      * @param $content
      * @return array
      */
-    public function modal($name, $content)
+    public function modal($type, $content)
     {
         if (is_object($content) && $this->isTransformable($content)) {
           $id = $content->getId();
@@ -32,7 +37,7 @@ class Transformer
           $data = $content->transform($content);
           $content = [
             'data' => [
-                'type'       => strtolower($name),
+                'type'       => strtolower(class_basename($content)),
                 'id'         => $content->$$id,
                 'attributes' => $content->transform($content)
             ]
@@ -42,11 +47,9 @@ class Transformer
         } elseif ($content instanceof LengthAwarePaginator) {
 
           $content = [
-            'data' => [
-                'type'       => strtolower($name),
-                'attributes' => $this->transformObjects($content->items()),
-                'pagination' => $this->getPaginationMeta($content)
-            ]
+            'data' => $this->transformObjects($type, $content->items()),
+            'pagination' => $this->getPaginationMeta($content),
+            
           ];
         }
 
@@ -62,11 +65,20 @@ class Transformer
      * @param $toTransform
      * @return array
      */
-    private function transformObjects($toTransform)
+    private function transformObjects($type, $toTransform)
     {
         $transformed = [];
         foreach ($toTransform as $key => $item) {
-            $transformed[$key] = $this->isTransformable($item) ? $item->transform($item) : $item;
+
+              $id = $item->getId();
+              $results = [
+                'type'       => strtolower(class_basename($item)),
+                'id'         => $item->$$id,
+                'attributes' => $item->transform($item)
+              ];
+
+
+            $transformed[$key] = $this->isTransformable($item) ? $results : $item;
         }
 
         return $transformed;

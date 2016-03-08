@@ -22,7 +22,7 @@ class ApiHelper
     public static function success($results)
     {
        // no alias/facade
-       $transformer = new Transformer();
+       $transformer = new Transformer(self::$modal);
 
        return response()->jsonapi(200, $transformer->modal(self::$modal, $results));
     }
