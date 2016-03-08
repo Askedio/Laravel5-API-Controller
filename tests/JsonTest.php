@@ -52,7 +52,7 @@ class JsonTest extends ApiCase
 
         $this->json('GET', '/api/user')
              ->seeJsonStructure([
-                 'results' => ['total'],
+                 'data' => ['total'],
              ]);
     }
 
