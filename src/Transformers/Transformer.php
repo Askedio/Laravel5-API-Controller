@@ -86,21 +86,21 @@ class Transformer
     private static function gen($model)
     {
         if (is_object($model)) {
-            $content = [];
+            $_results = [];
 
             if (Request::input('include') && $incs = self::includes($model)) {
-                $content['relationships'] = [];
-                $content['included'] = [];
+                $_results['relationships'] = [];
+                $_results['included'] = [];
                 foreach ($incs as $i => $include) {
-                    if (!isset($content['relationships'][$include['type']])) {
-                        $content['relationships'][$include['type']]['data'] = [];
+                    if (!isset($_results['relationships'][$include['type']])) {
+                        $_results['relationships'][$include['type']]['data'] = [];
                     }
-                    array_push($content['relationships'][$include['type']]['data'], ['id' => $include['id'], 'type' => $include['type']]);
-                    array_push($content['included'], $include);
+                    array_push($_results['relationships'][$include['type']]['data'], ['id' => $include['id'], 'type' => $include['type']]);
+                    array_push($_results['included'], $include);
                 }
             }
 
-            return $content;
+            return $_results;
         }
     }
 
@@ -108,7 +108,7 @@ class Transformer
     {
         self::$fields = self::fields($model);
 
-        $content = [
+        $_results = [
                  'jsonapi' => [
                    'version' => config('jsonapi.version', '1.0'),
                  ],
@@ -116,25 +116,25 @@ class Transformer
 
         if (is_object($model)) {
             if (!$model instanceof LengthAwarePaginator) {
-                $content = array_merge(
+                $_results = array_merge(
                 [
                   'data'  => self::render($model),
                 ],
                 self::gen($model),
-                $content
+                $_results
               );
             } elseif ($model instanceof LengthAwarePaginator) {
-                $content = array_merge(
+                $_results = array_merge(
                [
                   'data' => self::transformObjects($model->items()),
                 ],
                 self::getPaginationMeta($model),
-                $content
+                $_results
               );
             }
         }
 
-        return  $content;
+        return $_results;
     }
 
     /**
