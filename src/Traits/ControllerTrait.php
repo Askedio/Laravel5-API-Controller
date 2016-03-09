@@ -14,9 +14,9 @@ trait ControllerTrait
 
     public function __construct(Request $request)
     {
-        $this->_modal  = new $this->modal();
+        $this->_modal = new $this->modal();
         $this->request = $request;
-        $this->helper  = new ControllerHelper($request, $this->_modal);
+        $this->helper = new ControllerHelper($request, $this->_modal);
     }
 
     public function index(Request $request)
