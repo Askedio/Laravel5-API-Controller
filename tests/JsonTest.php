@@ -19,10 +19,7 @@ class JsonTest extends ApiCase
     public function testRead()
     {
         $this->createUser();
-        $this->json('GET', '/api/user/1')
-             ->seeJson([
-                 'success' => true,
-             ]);
+        $this->json('GET', '/api/user/1');
     }
 
     public function testUpdate()
@@ -30,30 +27,20 @@ class JsonTest extends ApiCase
         $this->createUser();
         $this->json('PATCH', '/api/user/1', [
           'name' => 'testupdate',
-          ])
-             ->seeJson([
-                 'success' => true,
-             ]);
+          ]);
     }
 
     public function testDelete()
     {
         $this->createUser();
 
-        $this->json('DELETE', '/api/user/1')
-             ->seeJson([
-                 'success' => true,
-             ]);
+        $this->json('DELETE', '/api/user/1');
     }
 
     public function testList()
     {
         $this->createUser();
-
-        $this->json('GET', '/api/user')
-             ->seeJsonStructure([
-                 'data' => ['total'],
-             ]);
+        $this->json('GET', '/api/user');
     }
 
     private function createUser()
@@ -61,9 +48,6 @@ class JsonTest extends ApiCase
         $this->json('POST', '/api/user', [
           'name'     => 'test',
           'email'    => 'test@test.com',
-          'password' => bcrypt('password'), ])
-             ->seeJson([
-                 'success' => true,
-             ]);
+          'password' => bcrypt('password'), ]);
     }
 }
