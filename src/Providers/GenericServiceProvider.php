@@ -27,7 +27,6 @@ class GenericServiceProvider extends ServiceProvider
       Response::macro('jsonapi', function ($code, $value) {
         return new JsonResponse($value, $code, [
           'Content-Type' => 'application/vnd.api+json',
-          'Accept'       => 'application/vnd.api+json',
         ], true);
       });
   }

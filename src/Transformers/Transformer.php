@@ -44,7 +44,7 @@ class Transformer
 
         return is_array($content) ? array_merge($content, [
           'jsonapi' => ['version' => '1.0'],
-        ]) : false;
+        ]) : $content;
     }
 
     /**

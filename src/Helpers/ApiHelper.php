@@ -6,12 +6,7 @@ use Askedio\Laravel5ApiController\Transformers\Transformer;
 
 class ApiHelper
 {
-    private static $modal;
 
-    public static function setModal($modal)
-    {
-        self::$modal = $modal;
-    }
 
     public static function error($errors)
     {
