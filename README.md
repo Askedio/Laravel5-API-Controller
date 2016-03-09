@@ -23,7 +23,7 @@ composer require askedio/laravel5-api-controller:dev-master
 ~~~
 
 ### Modal, ie: app\User.php
-##### Add the Traits
+Add the Traits
 ~~~
 class User extends Authenticatable
 {
@@ -32,7 +32,7 @@ class User extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~
-##### Add the validation rules
+Add the validation rules [optional]
 ~~~
     protected $rules = [
       'update' => [
@@ -43,7 +43,7 @@ class User extends Authenticatable
       ],
     ];
 ~~~
-##### Add search rules defined from https://github.com/nicolaslopezj/searchable 
+Add search rules defined from https://github.com/nicolaslopezj/searchable  [optional]
 ~~~
     protected $searchable = [
         'columns' => [
@@ -53,11 +53,11 @@ class User extends Authenticatable
     ];
 ~~~
 
-##### Add the $id_field 
+Add the $id_field  [optional]
 ~~~
     protected $id_field = 'id';
 ~~~
-##### If you want to transform any data..
+Transform data [optional]
 ~~~
     public function transform(User $user) {
         return [
@@ -66,7 +66,8 @@ class User extends Authenticatable
         ];
     }
 ~~~
-
+#### Relations
+Relations can be added as normal, the modal name will be used as the 'include' value.
 
 ## Controller, ie: app\Http\Controllers\Api\UserController.php
 ~~~
@@ -91,7 +92,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 # Usage
 * Laravels Resource Routes are being used.
 * Access the route like you've defined, ie: /api/admin/user/.
-* Perform RESTful acts on the Resource Controller
+
 
 ##### POST [/]
 * accepts: 'fillable' data in your Model.
