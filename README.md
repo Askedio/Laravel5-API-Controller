@@ -21,14 +21,6 @@ composer require askedio/laravel5-api-controller:dev-master
         Askedio\Laravel5ApiController\Providers\GenericServiceProvider::class,
         ...
 ~~~
-### Add to app\Http\Kernel.php
-If you want to force JSON API headers enable the middleware in your kernel:
-~~~
-        'api' => [
-            'throttle:60,1',
-            \Askedio\Laravel5ApiController\Http\Middleware\JsonApiMiddleware::class,
-        ],
-~~~
 
 ### Modal, ie: app\User.php
 ##### Add the Traits
@@ -87,8 +79,9 @@ class User extends Authenticatable
 ~~~
 
 ## Routes, ie: app/Http/routes.php
+The jsonapi middleware will deny requests without proper Accept and Content-Type.
 ~~~
-Route::group(['prefix' => 'api', 'middleware' => ['web','api']], function()
+Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 {
   Route::resource('admin/user', 'Api\UserController');
 });
