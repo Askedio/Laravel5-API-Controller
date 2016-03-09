@@ -9,9 +9,9 @@ class ApiHelper
     public static function error($code, $errors)
     {
         return response()->jsonapi($code, ['errors' => [
-            'status' => $code, 
-            'detail' => $errors
-          ]
+            'status' => $code,
+            'detail' => $errors,
+          ],
         ]);
     }
 
@@ -19,6 +19,4 @@ class ApiHelper
     {
         return response()->jsonapi($code, Transformer::convert($results));
     }
-
-
 }
