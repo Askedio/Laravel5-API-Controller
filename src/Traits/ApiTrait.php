@@ -23,7 +23,7 @@ trait ApiTrait
      */
     public function getId()
     {
-        return isset($this->id_field) ? $this->id_field : 'id';
+        return isset($this->primaryKey) ? $this->primaryKey : 'id';
     }
 
     /**
@@ -43,5 +43,10 @@ trait ApiTrait
         }
 
         return $query;
+    }
+
+    public function isSearchable()
+    {
+        return isset($this->searchable);
     }
 }

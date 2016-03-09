@@ -19,7 +19,7 @@ class ControllerHelper
     {
         $results = $this->_modal->setSort($this->request->input('sort'));
 
-        if ($this->request->input('search')) {
+        if ($this->request->input('search') && $this->_modal->isSearchable()) {
             $results->search($this->request->input('search'));
         }
 
