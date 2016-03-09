@@ -3,14 +3,11 @@
 namespace Askedio\Laravel5ApiController\Transformers;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
 
 /**
- * Class Transformer
+ * Class Transformer.
  *
  * Assists in transforming models
- *
- * @package Askedio\Laravel5ApiController
  */
 class Transformer
 {
@@ -19,39 +16,42 @@ class Transformer
 
     private static function render($content)
     {
-          $id = $content->getId();
-          return [
+        $id = $content->getId();
+
+        return [
                 'type'       => strtolower(class_basename($content)),
                 'id'         => $content->$$id,
-                'attributes' => $content->transform($content)
+                'attributes' => $content->transform($content),
           ];
     }
 
     /**
-     * Transforms the modals having transform method
+     * Transforms the modals having transform method.
      *
      * @param $content
+     *
      * @return array
      */
     public static function convert($content)
     {
         if (is_object($content) && self::isTransformable($content)) {
-          $content = ['data' => self::render($content)];
+            $content = ['data' => self::render($content)];
         } elseif ($content instanceof LengthAwarePaginator) {
-          $content = array_merge([
+            $content = array_merge([
             'data' => self::transformObjects($content->items()),
           ], self::getPaginationMeta($content));
         }
 
         return array_merge($content, [
-          'jsonapi' => ['version' => '1.0']
+          'jsonapi' => ['version' => '1.0'],
         ]);
     }
 
     /**
-     * Transforms an array of objects using the objects transform method
+     * Transforms an array of objects using the objects transform method.
      *
      * @param $toTransform
+     *
      * @return array
      */
     private static function transformObjects($toTransform)
@@ -65,9 +65,10 @@ class Transformer
     }
 
     /**
-     * Checks whether the object is transformable or not
+     * Checks whether the object is transformable or not.
      *
      * @param $item
+     *
      * @return bool
      */
     private static function isTransformable($item)
@@ -77,28 +78,28 @@ class Transformer
 
     /**
      * Gets the pagination meta data. Assumes that a paginator
-     * instance is passed \Illuminate\Pagination\LengthAwarePaginator
+     * instance is passed \Illuminate\Pagination\LengthAwarePaginator.
      *
      * @param $paginator
+     *
      * @return array
      */
     private static function getPaginationMeta($paginator)
     {
         return [
-          'meta'  => [ 
+          'meta'  => [
             'total_pages'    => $paginator->total(),
             'per_page'       => $paginator->perPage(),
             'has_more_pages' => $paginator->hasMorePages(),
             'has_pages'      => $paginator->hasPages(),
           ],
-          'links' =>[
+          'links' => [
             'self'  => $paginator->url($paginator->currentPage()),
             'first' => $paginator->url(1),
             'last'  => $paginator->url($paginator->lastPage()),
             'next'  => $paginator->nextPageUrl(),
             'prev'  => $paginator->previousPageUrl(),
-          ]
+          ],
         ];
     }
-
 }

@@ -15,7 +15,6 @@ class ControllerHelper
         $this->request = $request;
     }
 
-
     public function store()
     {
         if ($errors = $this->validate('create')) {
