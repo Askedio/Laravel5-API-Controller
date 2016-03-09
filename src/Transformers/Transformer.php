@@ -42,9 +42,9 @@ class Transformer
           ], self::getPaginationMeta($content));
         }
 
-        return array_merge($content, [
+        return is_array($content) ? array_merge($content, [
           'jsonapi' => ['version' => '1.0'],
-        ]);
+        ]) : false;
     }
 
     /**
@@ -88,6 +88,7 @@ class Transformer
     {
         return [
           'meta'  => [
+            'current_page'   => $paginator->currentPage(),
             'total_pages'    => $paginator->total(),
             'per_page'       => $paginator->perPage(),
             'has_more_pages' => $paginator->hasMorePages(),

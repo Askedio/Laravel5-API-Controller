@@ -65,10 +65,11 @@ trait ControllerTrait
 
     public function destroy($id)
     {
+        $_data = $this->helper->show($id);
         $_results = $this->helper->destroy($id);
 
         return $_results
-              ? ApiHelper::success($_results)
+              ? ApiHelper::success($_data)
               : ApiHelper::throwException(500);
     }
 }
