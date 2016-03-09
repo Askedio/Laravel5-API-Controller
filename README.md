@@ -53,9 +53,9 @@ class User extends Authenticatable
     ];
 ~~~
 
-##### Add the $id 
+##### Add the $id_field 
 ~~~
-    protected $id = 'id';
+    protected $id_field = 'id';
 ~~~
 ##### If you want to transform any data..
 ~~~
