@@ -119,16 +119,11 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 
 
 
-# Notices
-I've been looking at couple other similar packages:
+# Similar Packages
 * https://github.com/nilportugues/laravel5-jsonapi
 * https://github.com/dingo/api
 
-Nilportugues' package is pretty close to what I was after minus create and search. 
 
-Dingo is overly complicated, I wanted something simple. It took me ~2mins to unit test and live test this package, Ding or even Nils package seem like they require a bit more integration, so more time.
-
-Both packages offer 'better' support for the JSON API format where I am simply giving you Laravels output. I am not overly concered about this but it would be nice to implement in the future.
 
 # Comments
 This is package is open to code review and comments, please let me know if I have made mistakes, I love feedback.
