@@ -4,16 +4,32 @@ namespace Askedio\Laravel5ApiController\Traits;
 
 trait ApiTrait
 {
+    /**
+     * The validation rules assigned in model
+     * 
+     * @var string
+     * @return array
+     */
     public function getRule($rule)
     {
-        return $this->rules[$rule];
+        return isset($this->rules[$rule]) ? $this->rules[$rule] : [];
     }
 
+    /**
+     * The id_field defined in the model
+     *
+     * @return string
+     */
     public function getId()
     {
-        return $this->id ?: 'id';
+        return isset($this->id_field) ? $this->id_field : 'id';
     }
 
+    /**
+     * Set order/sort as per json spec
+     *
+     * @return object
+     */
     public function scopesetSort($query, $sort)
     {
         if (!empty($sort) && is_string($sort)) {
@@ -28,19 +44,4 @@ trait ApiTrait
         return $query;
     }
 
-    public function scopesetFields($query, $fields)
-    {
-        if (!empty($fields)) {
-            $fields = array_filter($fields);
-            foreach ($fields as $type => &$members) {
-                $members = explode(',', $members);
-                $members = array_map('trim', $members);
-                foreach ($members as $member) {
-                    // $object->addField($type, $member);
-                }
-            }
-        }
-
-        return $query;
-    }
 }

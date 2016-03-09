@@ -16,6 +16,7 @@ class Transformer
 
     private static function render($content)
     {
+
         $id = $content->getId();
 
         return [
@@ -33,7 +34,7 @@ class Transformer
 
         $_results = [];
         $_key = strtolower(class_basename($content));
-        $_content = $content->transform($content);
+        $_content = self::isTransformable($content) ? $content->transform($content) : $content;
         if (is_array(self::$fields[$_key])) {
             foreach (self::$fields[$_key] as $filter) {
                 if (isset($_content[$filter])) {
@@ -83,25 +84,11 @@ class Transformer
         return $_results;
     }
 
-    /**
-     * Transforms the modals having transform method.
-     *
-     * @param $content
-     *
-     * @return array
-     */
-    public static function convert($model)
-    {
-        self::$fields = self::fields($model);
+ 
+   private static function gen($model){
 
-        if (is_object($model) && self::isTransformable($model)) {
-            $content = [
-              'data'  => self::render($model),
-              /* need to go into model 'links' => [
-                  'self' => Request::url(),
-                  // 'related' => .. so need a function
-              ],*/
-            ];
+        if (is_object($model)) {
+            $content = [];
 
             if (Request::input('include') && $incs = self::includes($model)) {
                 $content['relationships'] = [];
@@ -114,21 +101,43 @@ class Transformer
                     array_push($content['included'], $include);
                 }
             }
-        } elseif ($model instanceof LengthAwarePaginator) {
-            $content = array_merge(
-              [
-                'data' => self::transformObjects($model->items()),
-              ],
-              self::getPaginationMeta($model)
-            );
-        }
+            return $content;
+        } 
+    }
 
-        return is_array($content) ? array_merge($content,
-               [
+    public static function convert($model)
+    {
+        self::$fields = self::fields($model);
+
+        $content = [
                  'jsonapi' => [
                    'version' => config('jsonapi.version', '1.0'),
                  ],
-               ]) : $content;
+               ];
+
+        if (is_object($model)){
+          if(!$model instanceof LengthAwarePaginator) {
+              $content = array_merge(
+                [
+                  'data'  => self::render($model),
+                ], 
+                self::gen($model),
+                $content
+              );
+          } elseif ($model instanceof LengthAwarePaginator) {
+              $content = array_merge(
+               [
+                  'data' => self::transformObjects($model->items()),
+                ],
+                self::getPaginationMeta($model),
+                $content
+              );
+          }
+        }
+
+
+
+        return  $content;
     }
 
     /**
@@ -142,7 +151,7 @@ class Transformer
     {
         $transformed = [];
         foreach ($toTransform as $key => $item) {
-            $transformed[$key] = self::isTransformable($item) ? self::render($item) : $item;
+            $transformed[$key] = self::isTransformable($item) ? array_merge(self::render($item), self::gen($item)) : $item;
         }
 
         return $transformed;

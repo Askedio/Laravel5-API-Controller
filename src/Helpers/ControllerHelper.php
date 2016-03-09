@@ -17,9 +17,7 @@ class ControllerHelper
 
     public function index()
     {
-        $results = $this->_modal
-          ->setSort($this->request->input('sort'))
-          ->setFields($this->request->input('fields'));
+        $results = $this->_modal->setSort($this->request->input('sort'));
 
         if ($this->request->input('search')) {
             $results->search($this->request->input('search'));
