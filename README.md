@@ -47,6 +47,21 @@ class User extends Authenticatable
     ];
 ~~~
 
+##### Add the $id 
+~~~
+    protected $id = 'id';
+~~~
+##### If you want to transform any data..
+~~~
+    public function transform(User $user) {
+        return [
+            'name' => $user->name,
+            'email' => $user->email,
+        ];
+    }
+~~~
+
+
 ## Controller, ie: app\Http\Controllers\Api\UserController.php
 * Add the use
 * Modify the extends
