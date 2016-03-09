@@ -10,15 +10,6 @@ Made for [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy) but can work 
 * [Live Demo](https://cruddy.io/app/) 
 * [Laravel Demo](https://github.com/Askedio/Laravel-5-CRUD-Example)
 
-# JSON API Spec
-There is still some work to-do on the json api spec.
-
-* Data sent from the server is (from what I can tell) is JSON API spec.
-* Data sent to the server (right now) is a json array, not JSON API spec, but just {name: value}.
-* Headers are validated with the jsonapi middleware
-* Request variables are not (currently) validated.
-* Errors are sent in valid response but more needs to be done for form validation.
-
 
 # Installation
 Some better examples are in the [wiki](https://github.com/Askedio/Laravel5-API-Controller/wiki).
@@ -130,6 +121,17 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 ~~~
 
 
+# JSON API Spec
+There is still some work to-do on the json api spec.
+
+* Data sent from the server is (from what I can tell) is JSON API spec.
+* Data sent to the server (right now) is a json array, not JSON API spec, but just {name: value}.
+* Headers are validated with the jsonapi middleware
+* Request variables are not (currently) validated.
+* Errors are sent in valid response but more needs to be done for form validation.
+
+
+
 
 # Similar Packages
 * https://github.com/nilportugues/laravel5-jsonapi
@@ -143,3 +145,4 @@ This is package is open to code review and comments, please let me know if I hav
 You can reach me here or on twitter, @askedio.
 
 Thank you.
+
