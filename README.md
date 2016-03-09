@@ -77,16 +77,13 @@ class User extends Authenticatable
 
 
 ## Controller, ie: app\Http\Controllers\Api\UserController.php
-* Add the use
-* Modify the extends
-* Define $modal
 ~~~
    use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
 
    class UserController extends BaseController
    {
        public $modal = '\App\User';
-       ...
+   }
 ~~~
 
 ## Routes, ie: app/Http/routes.php
