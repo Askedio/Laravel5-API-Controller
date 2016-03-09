@@ -3,7 +3,6 @@
 namespace Askedio\Laravel5ApiController\Transformers;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-
 use Request;
 
 /**
@@ -42,13 +41,13 @@ class Transformer
               'links' => [
                   'self' => Request::url(),
                   // 'related' => .. so need a function
-              ]
+              ],
             ];
         } elseif ($content instanceof LengthAwarePaginator) {
             $content = array_merge(
               [
                 'data' => self::transformObjects($content->items()),
-              ], 
+              ],
               self::getPaginationMeta($content)
             );
         }

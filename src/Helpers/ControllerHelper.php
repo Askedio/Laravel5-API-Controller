@@ -2,7 +2,6 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
-use DB;
 use Validator;
 
 class ControllerHelper
@@ -16,17 +15,15 @@ class ControllerHelper
         $this->request = $request;
     }
 
-
-
     public function index()
     {
         $results = $this->_modal
           ->setSort($this->request->input('sort'))
-          ->setFields($this->request->input('fields'))
-          ;
+          ->setFields($this->request->input('fields'));
 
-        if ($this->request->input('search')) $results->search($this->request->input('search'));
-        
+        if ($this->request->input('search')) {
+            $results->search($this->request->input('search'));
+        }
 
         return $results->paginate(($this->request->input('limit') ?: '10'));
     }
@@ -79,12 +76,12 @@ class ControllerHelper
                 unset($request[$var]);
             }
         }
+
         return $request;
     }
 
     private function validate($action)
     {
-
         $validator = Validator::make($this->request->all(), $this->_modal->getRule($action));
         $_errors = [];
 
@@ -99,5 +96,4 @@ class ControllerHelper
 
         return $validator->fails() ? $_errors : false;
     }
-
 }

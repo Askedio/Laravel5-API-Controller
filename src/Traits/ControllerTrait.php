@@ -15,9 +15,9 @@ trait ControllerTrait
 
     public function __construct(Request $request)
     {
-        $this->_modal  = new $this->modal();
+        $this->_modal = new $this->modal();
         $this->request = $request;
-        $this->helper  = new ControllerHelper($request, $this->_modal);
+        $this->helper = new ControllerHelper($request, $this->_modal);
     }
 
     public function index(Request $request)
@@ -72,7 +72,8 @@ trait ControllerTrait
             return $data['results']
               ? ApiHelper::success($data['success'], isset($data['data']) ? $data['data'] : $data['results'])
               : ApiHelper::error($data['error'], isset($data['errors']) ? $data['errors'] : '');
-        } else return ApiHelper::error($this->validation_error, $data['results']['errors']);
+        } else {
+            return ApiHelper::error($this->validation_error, $data['results']['errors']);
+        }
     }
-
 }

@@ -8,7 +8,7 @@ use Closure;
 class JsonApiMiddleware
 {
     /**
-     * Filter requests based on Accept and Content-Type matches
+     * Filter requests based on Accept and Content-Type matches.
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
