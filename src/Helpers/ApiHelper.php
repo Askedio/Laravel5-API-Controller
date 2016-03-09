@@ -8,7 +8,8 @@ class ApiHelper
 {
     public static function error($code, $errors)
     {
-        return response()->jsonapi($code, ['errors' => [
+        return response()->jsonapi($code, 
+          ['errors' => [
             'status' => $code,
             'detail' => $errors,
           ],

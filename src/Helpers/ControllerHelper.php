@@ -2,6 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
+use DB;
 use Validator;
 
 class ControllerHelper
@@ -13,6 +14,21 @@ class ControllerHelper
     {
         $this->_modal = new $modal();
         $this->request = $request;
+    }
+
+
+
+    public function index()
+    {
+        $results = $this->_modal
+          ->setSort($this->request->input('sort'))
+          ->setFields($this->request->input('fields'))
+          ;
+
+        if ($this->request->input('search')) $results->search($this->request->input('search'));
+        
+
+        return $results->paginate(($this->request->input('limit') ?: '10'));
     }
 
     public function store()
@@ -57,17 +73,18 @@ class ControllerHelper
     {
         $_allowed = $this->_modal->getFillable();
         $request = $this->request->all();
+
         foreach ($request as $var => $val) {
             if (!in_array($var, $_allowed)) {
                 unset($request[$var]);
             }
         }
-
         return $request;
     }
 
     private function validate($action)
     {
+
         $validator = Validator::make($this->request->all(), $this->_modal->getRule($action));
         $_errors = [];
 
@@ -83,17 +100,4 @@ class ControllerHelper
         return $validator->fails() ? $_errors : false;
     }
 
-    public function renderIndex()
-    {
-        $order = (in_array($this->request->input('order'), $this->_modal->getFillable()) ? $this->request->input('order') : 'id');
-        $sort = (in_array(strtolower($this->request->input('direction')), ['asc', 'desc']) ? $this->request->input('direction') : 'DESC');
-
-        $results = $this->_modal->orderBy($order, $sort);
-
-        if ($this->request->input('search')) {
-            $results->search($this->request->input('search'));
-        }
-
-        return $results->paginate(($this->request->input('limit') ?: '10'));
-    }
 }

@@ -4,6 +4,8 @@ namespace Askedio\Laravel5ApiController\Transformers;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
+use Request;
+
 /**
  * Class Transformer.
  *
@@ -19,10 +21,10 @@ class Transformer
         $id = $content->getId();
 
         return [
-                'type'       => strtolower(class_basename($content)),
-                'id'         => $content->$$id,
-                'attributes' => $content->transform($content),
-          ];
+          'type'       => strtolower(class_basename($content)),
+          'id'         => $content->$$id,
+          'attributes' => $content->transform($content),
+        ];
     }
 
     /**
@@ -35,16 +37,28 @@ class Transformer
     public static function convert($content)
     {
         if (is_object($content) && self::isTransformable($content)) {
-            $content = ['data' => self::render($content)];
+            $content = [
+              'data'  => self::render($content),
+              'links' => [
+                  'self' => Request::url(),
+                  // 'related' => .. so need a function
+              ]
+            ];
         } elseif ($content instanceof LengthAwarePaginator) {
-            $content = array_merge([
-            'data' => self::transformObjects($content->items()),
-          ], self::getPaginationMeta($content));
+            $content = array_merge(
+              [
+                'data' => self::transformObjects($content->items()),
+              ], 
+              self::getPaginationMeta($content)
+            );
         }
 
-        return is_array($content) ? array_merge($content, [
-          'jsonapi' => ['version' => '1.0'],
-        ]) : $content;
+        return is_array($content) ? array_merge($content,
+               [
+                 'jsonapi' => [
+                   'version' => config('jsonapi.version', '1.0'),
+                 ],
+               ]) : $content;
     }
 
     /**
@@ -88,11 +102,11 @@ class Transformer
     {
         return [
           'meta'  => [
-            'current_page'   => $paginator->currentPage(),
-            'total_pages'    => $paginator->total(),
-            'per_page'       => $paginator->perPage(),
-            'has_more_pages' => $paginator->hasMorePages(),
-            'has_pages'      => $paginator->hasPages(),
+            'total'        => $paginator->total(),
+            'currentPage'  => $paginator->currentPage(),
+            'perPage'      => $paginator->perPage(),
+            'hasMorePages' => $paginator->hasMorePages(),
+            'hasPages'     => $paginator->hasPages(),
           ],
           'links' => [
             'self'  => $paginator->url($paginator->currentPage()),

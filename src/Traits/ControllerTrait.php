@@ -11,63 +11,68 @@ trait ControllerTrait
     private $_modal;
     private $request;
     private $helper;
+    private $validation_error = 403;
 
     public function __construct(Request $request)
     {
-        $this->_modal = new $this->modal();
+        $this->_modal  = new $this->modal();
         $this->request = $request;
-        $this->helper = new ControllerHelper($request, $this->_modal);
+        $this->helper  = new ControllerHelper($request, $this->_modal);
     }
 
     public function index(Request $request)
     {
-        $_results = $this->helper->renderIndex();
-
-        return $_results
-          ? ApiHelper::success(200, $_results)
-          : ApiHelper::error(500);
+        return $this->results([
+          'success' => 200,
+          'error'   => 500,
+          'results' => $this->helper->index(),
+        ]);
     }
 
     public function store()
     {
-        $_results = $this->helper->store();
-        if (isset($_results['errors'])) {
-            return ApiHelper::error(403, $_results['errors']);
-        } else {
-            return $_results
-              ? ApiHelper::success(201, $_results)
-              : ApiHelper::error(500);
-        }
+        return $this->results([
+          'success' => 200,
+          'error'   => 500,
+          'results' => $this->helper->store(),
+        ]);
     }
 
     public function show($id)
     {
-        $_results = $this->helper->show($id);
-
-        return $_results
-          ? ApiHelper::success(200, $_results)
-          : ApiHelper::error(404);
+        return $this->results([
+          'success' => 200,
+          'error'   => 404,
+          'results' => $this->helper->show($id),
+        ]);
     }
 
     public function update($id)
     {
-        $_results = $this->helper->update($id);
-        if (isset($_results['errors'])) {
-            return ApiHelper::error(403, $_results['errors']);
-        } else {
-            return $_results
-              ? ApiHelper::success(200, $_results)
-              : ApiHelper::error(500);
-        }
+        return $this->results([
+          'success' => 200,
+          'error'   => 500,
+          'results' => $this->helper->update($id),
+        ]);
     }
 
     public function destroy($id)
     {
-        $_data = $this->helper->show($id);
-        $_results = $this->helper->destroy($id);
-
-        return $_results
-              ? ApiHelper::success(200, $_data)
-              : ApiHelper::error(404);
+        return $this->results([
+          'success' => 200,
+          'error'   => 404,
+          'data'    => $this->helper->show($id),
+          'results' => $this->helper->destroy($id),
+        ]);
     }
+
+    private function results($data)
+    {
+        if (!isset($data['results']['errors'])) {
+            return $data['results']
+              ? ApiHelper::success($data['success'], isset($data['data']) ? $data['data'] : $data['results'])
+              : ApiHelper::error($data['error'], isset($data['errors']) ? $data['errors'] : '');
+        } else return ApiHelper::error($this->validation_error, $data['results']['errors']);
+    }
+
 }

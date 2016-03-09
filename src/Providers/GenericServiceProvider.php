@@ -4,6 +4,7 @@ namespace Askedio\Laravel5ApiController\Providers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Routing\Router;
 use Response;
 
 class GenericServiceProvider extends ServiceProvider
@@ -22,11 +23,14 @@ class GenericServiceProvider extends ServiceProvider
    *
    * @return void
    */
-  public function boot()
+  public function boot(Router $router)
   {
+
+      $router->middleware('jsonapi', \Askedio\Laravel5ApiController\Http\Middleware\JsonApiMiddleware::class);
+
       Response::macro('jsonapi', function ($code, $value) {
         return new JsonResponse($value, $code, [
-          'Content-Type' => 'application/vnd.api+json',
+          'Content-Type' => config('jsonapi.content-type', 'application/vnd.api+json'),
         ], true);
       });
   }
