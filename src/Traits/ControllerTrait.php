@@ -26,7 +26,6 @@ trait ControllerTrait
     public function index(Request $request)
     {
         $_results = $this->helper->renderIndex();
-
         return ApiHelper::success($_results);
     }
 

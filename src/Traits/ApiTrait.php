@@ -11,7 +11,7 @@ trait ApiTrait
 
     public function getId()
     {
-        return $this->id;
+        return $this->id ? : 'id';
     }
 
 }

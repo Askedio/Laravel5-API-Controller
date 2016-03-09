@@ -21,14 +21,16 @@ class ApiHelper
 
     public static function success($results)
     {
-       // no alias/facade
-       $transformer = new Transformer(self::$modal);
-
-       return response()->jsonapi(200, $transformer->modal(self::$modal, $results));
+       return response()->jsonapi(200, Transformer::convert($results));
     }
 
     public static function throwException($code, $message = false)
     {
-       return response()->jsonapi($code, ['errors' => $message]);
+       return response()->jsonapi($code, ['errors' => 
+          [
+            "status" => $code,
+            "detail"=> $message
+          ]
+       ]);
     }
 }

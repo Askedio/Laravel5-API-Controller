@@ -8,51 +8,40 @@ use Illuminate\Support\Collection;
 /**
  * Class Transformer
  *
- * Assists in transforming models or custom datasets
+ * Assists in transforming models
  *
- * @package KamranAhmed\Laraformer
+ * @package Askedio\Laravel5ApiController
  */
 class Transformer
 {
     private $type;
     private $id;
 
-    public function __construct($modal)
+    private static function render($content)
     {
-      $this->type = strtolower($modal);
-      //$this->id = $modal->getId();
+          $id = $content->getId();
+          return [
+                'type'       => strtolower(class_basename($content)),
+                'id'         => $content->$$id,
+                'attributes' => $content->transform($content)
+          ];
     }
 
     /**
-     * Transforms the classes having transform method
+     * Transforms the modals having transform method
      *
      * @param $content
      * @return array
      */
-    public function modal($type, $content)
+    public static function convert($content)
     {
-        if (is_object($content) && $this->isTransformable($content)) {
-          $id = $content->getId();
-
-          $data = $content->transform($content);
-          $content = [
-            'data' => [
-                'type'       => strtolower(class_basename($content)),
-                'id'         => $content->$$id,
-                'attributes' => $content->transform($content)
-            ]
-          ];
-
-
+        if (is_object($content) && self::isTransformable($content)) {
+          $content = ['data' => self::render($content)];
         } elseif ($content instanceof LengthAwarePaginator) {
-
-          $content = [
-            'data' => $this->transformObjects($type, $content->items()),
-            'pagination' => $this->getPaginationMeta($content),
-            
-          ];
+          $content = array_merge([
+            'data' => self::transformObjects($content->items()),
+          ], self::getPaginationMeta($content));
         }
-
 
         return array_merge($content, [
           'jsonapi' => ['version' => '1.0']
@@ -65,20 +54,11 @@ class Transformer
      * @param $toTransform
      * @return array
      */
-    private function transformObjects($type, $toTransform)
+    private static function transformObjects($toTransform)
     {
         $transformed = [];
         foreach ($toTransform as $key => $item) {
-
-              $id = $item->getId();
-              $results = [
-                'type'       => strtolower(class_basename($item)),
-                'id'         => $item->$$id,
-                'attributes' => $item->transform($item)
-              ];
-
-
-            $transformed[$key] = $this->isTransformable($item) ? $results : $item;
+            $transformed[$key] = self::isTransformable($item) ? self::render($item) : $item;
         }
 
         return $transformed;
@@ -90,7 +70,7 @@ class Transformer
      * @param $item
      * @return bool
      */
-    private function isTransformable($item)
+    private static function isTransformable($item)
     {
         return is_object($item) && method_exists($item, 'transform');
     }
@@ -102,40 +82,23 @@ class Transformer
      * @param $paginator
      * @return array
      */
-    private function getPaginationMeta($paginator)
+    private static function getPaginationMeta($paginator)
     {
         return [
-            'total'          => $paginator->total(),
+          'meta'  => [ 
+            'total_pages'    => $paginator->total(),
             'per_page'       => $paginator->perPage(),
-            'current_page'   => $paginator->currentPage(),
-            'last_page'      => $paginator->lastPage(),
-            'next_page_url'  => $paginator->nextPageUrl(),
-            'prev_page_url'  => $paginator->previousPageUrl(),
-            'has_pages'      => $paginator->hasPages(),
             'has_more_pages' => $paginator->hasMorePages(),
+            'has_pages'      => $paginator->hasPages(),
+          ],
+          'links' =>[
+            'self'  => $paginator->url($paginator->currentPage()),
+            'first' => $paginator->url(1),
+            'last'  => $paginator->url($paginator->lastPage()),
+            'next'  => $paginator->nextPageUrl(),
+            'prev'  => $paginator->previousPageUrl(),
+          ]
         ];
     }
 
-    /**
-     * Calls the transformation callback on each item of the dataset
-     *
-     * @param $content
-     * @param $callback
-     * @return array
-     */
-    private function callbackTransform($content, $callback)
-    {
-        // If it is not a dataset and just a
-        // single array. Need to improve
-        if (empty($content[0])) {
-            $content = [$content];
-        }
-
-        $transformedData = [];
-        foreach ($content as $key => $item) {
-            $transformedData[$key] = $callback($item);
-        }
-
-        return $transformedData;
-    }
 }
