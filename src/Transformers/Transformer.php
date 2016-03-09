@@ -16,7 +16,6 @@ class Transformer
 
     private static function render($content)
     {
-
         $id = $content->getId();
 
         return [
@@ -84,9 +83,8 @@ class Transformer
         return $_results;
     }
 
- 
-   private static function gen($model){
-
+    private static function gen($model)
+    {
         if (is_object($model)) {
             $content = [];
 
@@ -101,8 +99,9 @@ class Transformer
                     array_push($content['included'], $include);
                 }
             }
+
             return $content;
-        } 
+        }
     }
 
     public static function convert($model)
@@ -115,27 +114,25 @@ class Transformer
                  ],
                ];
 
-        if (is_object($model)){
-          if(!$model instanceof LengthAwarePaginator) {
-              $content = array_merge(
+        if (is_object($model)) {
+            if (!$model instanceof LengthAwarePaginator) {
+                $content = array_merge(
                 [
                   'data'  => self::render($model),
-                ], 
+                ],
                 self::gen($model),
                 $content
               );
-          } elseif ($model instanceof LengthAwarePaginator) {
-              $content = array_merge(
+            } elseif ($model instanceof LengthAwarePaginator) {
+                $content = array_merge(
                [
                   'data' => self::transformObjects($model->items()),
                 ],
                 self::getPaginationMeta($model),
                 $content
               );
-          }
+            }
         }
-
-
 
         return  $content;
     }

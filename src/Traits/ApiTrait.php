@@ -5,9 +5,10 @@ namespace Askedio\Laravel5ApiController\Traits;
 trait ApiTrait
 {
     /**
-     * The validation rules assigned in model
-     * 
+     * The validation rules assigned in model.
+     *
      * @var string
+     *
      * @return array
      */
     public function getRule($rule)
@@ -16,7 +17,7 @@ trait ApiTrait
     }
 
     /**
-     * The id_field defined in the model
+     * The id_field defined in the model.
      *
      * @return string
      */
@@ -26,7 +27,7 @@ trait ApiTrait
     }
 
     /**
-     * Set order/sort as per json spec
+     * Set order/sort as per json spec.
      *
      * @return object
      */
@@ -43,5 +44,4 @@ trait ApiTrait
 
         return $query;
     }
-
 }
