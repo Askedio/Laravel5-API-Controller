@@ -14,29 +14,29 @@ trait ControllerTrait
 
     public function __construct(Request $request)
     {
-        $this->_modal = new $this->modal();
+        $this->_modal  = new $this->modal();
         $this->request = $request;
-
-        // no aliases/facades/static..
-        $this->helper = new ControllerHelper($request, $this->_modal);
+        $this->helper  = new ControllerHelper($request, $this->_modal);
     }
 
     public function index(Request $request)
     {
         $_results = $this->helper->renderIndex();
 
-        return ApiHelper::success($_results);
+        return $_results
+          ? ApiHelper::success(200, $_results)
+          : ApiHelper::error(500);
     }
 
     public function store()
     {
         $_results = $this->helper->store();
         if (isset($_results['errors'])) {
-            return ApiHelper::error($_results['errors']);
+            return ApiHelper::error(403, $_results['errors']);
         } else {
             return $_results
-              ? ApiHelper::success($_results)
-              : ApiHelper::throwException(500);
+              ? ApiHelper::success(201, $_results)
+              : ApiHelper::error(500);
         }
     }
 
@@ -45,19 +45,19 @@ trait ControllerTrait
         $_results = $this->helper->show($id);
 
         return $_results
-          ? ApiHelper::success($_results)
-          : ApiHelper::throwException(404);
+          ? ApiHelper::success(200, $_results)
+          : ApiHelper::error(404);
     }
 
     public function update($id)
     {
         $_results = $this->helper->update($id);
         if (isset($_results['errors'])) {
-            return ApiHelper::error($_results['errors']);
+            return ApiHelper::error(403, $_results['errors']);
         } else {
             return $_results
-              ? ApiHelper::success($_results)
-              : ApiHelper::throwException(500);
+              ? ApiHelper::success(200, $_results)
+              : ApiHelper::error(500);
         }
     }
 
@@ -67,7 +67,7 @@ trait ControllerTrait
         $_results = $this->helper->destroy($id);
 
         return $_results
-              ? ApiHelper::success($_data)
-              : ApiHelper::throwException(500);
+              ? ApiHelper::success(200, $_data)
+              : ApiHelper::error(404);
     }
 }

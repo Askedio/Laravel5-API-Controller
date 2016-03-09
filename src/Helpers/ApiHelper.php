@@ -6,22 +6,19 @@ use Askedio\Laravel5ApiController\Transformers\Transformer;
 
 class ApiHelper
 {
-    public static function error($errors)
-    {
-        return response()->jsonapi(200, ['errors' => $errors]);
-    }
-
-    public static function success($results)
-    {
-        return response()->jsonapi(200, Transformer::convert($results));
-    }
-
-    public static function throwException($code, $message = false)
+    public static function error($code, $errors)
     {
         return response()->jsonapi($code, ['errors' => [
-            'status' => $code,
-            'detail' => $message,
-          ],
-       ]);
+            'status' => $code, 
+            'detail' => $errors
+          ]
+        ]);
     }
+
+    public static function success($code, $results)
+    {
+        return response()->jsonapi($code, Transformer::convert($results));
+    }
+
+
 }

@@ -18,10 +18,10 @@ class JsonApiMiddleware
     public function handle($request, Closure $next)
     {
         if ($request->header('Accept')       != 'application/vnd.api+json') {
-            return ApiHelper::throwException(415, 'Unsupported Media Type');
+            return ApiHelper::error(415, 'Unsupported Media Type');
         }
         if ($request->header('Content-Type') != 'application/vnd.api+json') {
-            return ApiHelper::throwException(406, 'Not Acceptable');
+            return ApiHelper::error(406, 'Not Acceptable');
         }
 
         return $next($request);
