@@ -16,7 +16,7 @@ trait ControllerTrait
     {
         $this->_modal = new $this->modal();
         $this->request = $request;
-         
+
         ApiHelper::setModal(class_basename($this->_modal));
 
         // no aliases/facades/static..
@@ -26,6 +26,7 @@ trait ControllerTrait
     public function index(Request $request)
     {
         $_results = $this->helper->renderIndex();
+
         return ApiHelper::success($_results);
     }
 
