@@ -26,6 +26,23 @@ class Transformer
         ];
     }
 
+    private static function includes($content){
+        $include = Request::input('include');
+        $_results = [];
+        if (is_string($include)) {
+            $includeNames = explode(',', $include);
+            foreach ($includeNames as $relationship) {
+              if(is_object($content->$relationship)){
+                foreach($content->$relationship as $sub){
+                  $_results[]=self::render($sub);
+                }
+              }
+            }
+        }
+
+        return $_results;
+    }
+
     /**
      * Transforms the modals having transform method.
      *
@@ -33,22 +50,30 @@ class Transformer
      *
      * @return array
      */
-    public static function convert($content)
+    public static function convert($model)
     {
-        if (is_object($content) && self::isTransformable($content)) {
+        if (is_object($model) && self::isTransformable($model)) {
             $content = [
-              'data'  => self::render($content),
-              'links' => [
+              'data'  => self::render($model),
+              /* need to go into model 'links' => [
                   'self' => Request::url(),
                   // 'related' => .. so need a function
-              ],
+              ],*/
             ];
-        } elseif ($content instanceof LengthAwarePaginator) {
+
+            if($incs = self::includes($model)){
+              $content['included'] = [];
+              foreach($incs as $i => $include){
+                array_push($content['included'], $include);
+              }
+            }
+
+        } elseif ($model instanceof LengthAwarePaginator) {
             $content = array_merge(
               [
-                'data' => self::transformObjects($content->items()),
+                'data' => self::transformObjects($model->items()),
               ],
-              self::getPaginationMeta($content)
+              self::getPaginationMeta($model)
             );
         }
 
