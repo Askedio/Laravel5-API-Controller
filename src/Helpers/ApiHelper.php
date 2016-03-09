@@ -6,8 +6,6 @@ use Askedio\Laravel5ApiController\Transformers\Transformer;
 
 class ApiHelper
 {
-
-
     public static function error($errors)
     {
         return response()->jsonapi(200, ['errors' => $errors]);
