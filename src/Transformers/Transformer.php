@@ -26,17 +26,18 @@ class Transformer
         ];
     }
 
-    private static function includes($content){
+    private static function includes($content)
+    {
         $include = Request::input('include');
         $_results = [];
         if (is_string($include)) {
             $includeNames = explode(',', $include);
             foreach ($includeNames as $relationship) {
-              if(is_object($content->$relationship)){
-                foreach($content->$relationship as $sub){
-                  $_results[]=self::render($sub);
+                if (is_object($content->$relationship)) {
+                    foreach ($content->$relationship as $sub) {
+                        $_results[] = self::render($sub);
+                    }
                 }
-              }
             }
         }
 
@@ -61,13 +62,12 @@ class Transformer
               ],*/
             ];
 
-            if($incs = self::includes($model)){
-              $content['included'] = [];
-              foreach($incs as $i => $include){
-                array_push($content['included'], $include);
-              }
+            if ($incs = self::includes($model)) {
+                $content['included'] = [];
+                foreach ($incs as $i => $include) {
+                    array_push($content['included'], $include);
+                }
             }
-
         } elseif ($model instanceof LengthAwarePaginator) {
             $content = array_merge(
               [
