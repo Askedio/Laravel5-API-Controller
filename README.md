@@ -91,38 +91,32 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 
 # Usage
 * Laravels Resource Routes are being used.
-* Access the route like you've defined, ie: /api/admin/user/.
+* Access the route like you've defined, ie: /api/admin/user/[id].
 
 
 ##### POST [/]
 * accepts: 'fillable' data in your Model.
-* success: Returns the Models results.
-* validation failure: Returns errors[[field => '', error => '']]
+* validation failure: Returns 403
 * failure: Returns 500
 
 ##### GET [/id|/]
-* success: Returns the Models single item result or paginate() results.
 * failure: Returns 404
 
 ##### PATCH [/id]
 * accepts: 'fillable' data in your Model.
-* success: Returns the Models results.
-* validation failure: Returns errors[[field, error]]
 * failure: Returns 500
 
 ##### DELETE [/id]
-* success: Returns the Models results.
 * failure: Returns 500
 
-# Results
-Results are sent in an array.
-~~~
-// Errors:
-['success' => false, 'errors' => []]
+### JSON API methods can also be used.
 
-// No errors:
-['success' => true, 'results' => []];
 ~~~
+/api/admin/user/157?include=profiles&fields[user]=name,id&fields[profiles]=id,phone
+/api/admin/user?page=1&sort=id&limit=10
+/api/admin/user?page=1&sort=id&limit=10&sort=-id,name&include=profiles&fields[user]=name,id&fields[profiles]=id,phone
+~~~
+
 
 
 # Notices
