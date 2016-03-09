@@ -12,7 +12,7 @@ use Request;
  */
 class Transformer
 {
-    static private $fields;
+    private static $fields;
 
     private static function render($content)
     {
@@ -27,55 +27,61 @@ class Transformer
 
     private static function filter($content)
     {
-      if(!is_array(Request::input('fields'))) return $content->transform($content);
-
-      $_results = [];
-      $_key = strtolower(class_basename($content));
-      $_content = $content->transform($content);
-      if(is_array(self::$fields[$_key])){
-       foreach(self::$fields[$_key] as $filter){
-          if(isset($_content[$filter])) $_results[$filter] = $_content[$filter];
+        if (!is_array(Request::input('fields'))) {
+            return $content->transform($content);
         }
-      }
-      return $_results;
 
+        $_results = [];
+        $_key = strtolower(class_basename($content));
+        $_content = $content->transform($content);
+        if (is_array(self::$fields[$_key])) {
+            foreach (self::$fields[$_key] as $filter) {
+                if (isset($_content[$filter])) {
+                    $_results[$filter] = $_content[$filter];
+                }
+            }
+        }
+
+        return $_results;
     }
 
     public static function fields($model)
     {
-      if(is_array(Request::input('fields'))){
-        $_fields = array_filter(Request::input('fields'));
-        $_results = [];
-        foreach ($_fields as $type => &$members) {
-            $members = array_map('trim', explode(',', $members));
-            foreach ($members as $member) {
-              $_results[$type][] = $member;
+        if (is_array(Request::input('fields'))) {
+            $_fields = array_filter(Request::input('fields'));
+            $_results = [];
+            foreach ($_fields as $type => &$members) {
+                $members = array_map('trim', explode(',', $members));
+                foreach ($members as $member) {
+                    $_results[$type][] = $member;
+                }
             }
+
+            return $_results;
+        } else {
+            return $model;
         }
-        
-        return $_results;
-      } else return $model;
     }
 
     private static function includes($content)
     {
         $include = Request::input('include');
         $_results = [];
-        if (!is_string($include)) return false;
+        if (!is_string($include)) {
+            return false;
+        }
 
-            $includeNames = explode(',', $include);
-            foreach ($includeNames as $relationship) {
-                if (is_object($content->$relationship)) {
-                    foreach ($content->$relationship as $sub) {
-                        $_results[] = self::render($sub);
-                    }
+        $includeNames = explode(',', $include);
+        foreach ($includeNames as $relationship) {
+            if (is_object($content->$relationship)) {
+                foreach ($content->$relationship as $sub) {
+                    $_results[] = self::render($sub);
                 }
             }
-        
+        }
+
         return $_results;
     }
-
-
 
     /**
      * Transforms the modals having transform method.
@@ -97,13 +103,14 @@ class Transformer
               ],*/
             ];
 
-
-            if (Request::input('include') && $incs = self::includes($model) ) {
+            if (Request::input('include') && $incs = self::includes($model)) {
                 $content['relationships'] = [];
                 $content['included'] = [];
                 foreach ($incs as $i => $include) {
-                  if(!isset($content['relationships'][$include['type']])) $content['relationships'][$include['type']]['data'] = [];
-                    array_push($content['relationships'][$include['type']]['data'],  ['id' => $include['id'], 'type' => $include['type']]);
+                    if (!isset($content['relationships'][$include['type']])) {
+                        $content['relationships'][$include['type']]['data'] = [];
+                    }
+                    array_push($content['relationships'][$include['type']]['data'], ['id' => $include['id'], 'type' => $include['type']]);
                     array_push($content['included'], $include);
                 }
             }
@@ -114,7 +121,6 @@ class Transformer
               ],
               self::getPaginationMeta($model)
             );
-
         }
 
         return is_array($content) ? array_merge($content,
