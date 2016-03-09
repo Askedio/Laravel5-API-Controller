@@ -15,6 +15,20 @@ Some better examples are in the [wiki](https://github.com/Askedio/Laravel5-API-C
 ~~~
 composer require askedio/laravel5-api-controller:dev-master
 ~~~
+### Add to providers
+~~~
+    'providers' => [
+        Askedio\Laravel5ApiController\Providers\GenericServiceProvider::class,
+        ...
+~~~
+### Add to app\Http\Kernel.php
+If you want to force JSON API headers enable the middleware in your kernel:
+~~~
+        'api' => [
+            'throttle:60,1',
+            \Askedio\Laravel5ApiController\Http\Middleware\JsonApiMiddleware::class,
+        ],
+~~~
 
 ### Modal, ie: app\User.php
 ##### Add the Traits
