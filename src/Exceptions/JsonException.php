@@ -85,7 +85,7 @@ abstract class JsonException extends Exception
      */
     protected function build(array $args)
     {
-      /* TO-DO: I used a simple example, it needs validations/type checks before rendering since thigns may be optional now */
+        /* TO-DO: I used a simple example, it needs validations/type checks before rendering since thigns may be optional now */
         $this->id = array_shift($args);
 
         $error = config(sprintf('errors.%s', $this->id));

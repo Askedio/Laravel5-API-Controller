@@ -3,9 +3,8 @@
 namespace Askedio\Laravel5ApiController\Http\Middleware;
 
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
-use Askedio\Laravel5ApiController\Exceptions\UnsupportedMediaTypeException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
-use Askedio\Laravel5ApiController\Helpers\ApiHelper;
+use Askedio\Laravel5ApiController\Exceptions\UnsupportedMediaTypeException;
 use Closure;
 
 class JsonApiMiddleware
@@ -20,7 +19,6 @@ class JsonApiMiddleware
      */
     public function handle($request, Closure $next)
     {
-
         if ($request->isMethod('get')) {
             foreach ($request->all() as $var => $val) {
                 if (!in_array($var, config('jsonapi.allowed_get', [

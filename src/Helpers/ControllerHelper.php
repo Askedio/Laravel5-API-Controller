@@ -2,8 +2,8 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
-use Validator;
 use Request;
+use Validator;
 
 class ControllerHelper
 {
@@ -99,6 +99,4 @@ class ControllerHelper
 
         return $validator->fails() ? $_errors : false;
     }
-
-  
 }
