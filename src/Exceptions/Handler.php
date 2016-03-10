@@ -43,7 +43,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        //config('app.debug') || 
+        //config('app.debug') ||
         if (!$request->is(config('jsonapi.url', 'api/*'))) {
             return parent::render($request, $e);
         }
@@ -92,7 +92,10 @@ class Handler extends ExceptionHandler
             unset($data['id']);
         }
 
-        if(isset($source)) $data['source'] = $source;
+        if (isset($source)) {
+            $data['source'] = $source;
+        }
+
         return new JsonResponse(['errors' => $data], $status, [
           'Content-Type' => config('jsonapi.content-type', 'application/vnd.api+json'),
         ], true);
