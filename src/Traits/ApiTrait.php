@@ -67,7 +67,7 @@ trait ApiTrait
         }
         foreach ($_includes as $include) {
             if (!in_array($include, $_allowed)) {
-                  throw new BadRequestException('invalid_include', strtolower(class_basename($this)), $include);
+                throw new BadRequestException('invalid_include', strtolower(class_basename($this)), $include);
             }
         }
     }
@@ -89,7 +89,7 @@ trait ApiTrait
                 if (in_array($filter, $_columns)) {
                     $_results[$filter] = $_content[$filter];
                 } else {
-                  throw new BadRequestException('invalid_filter', $_key, $filter);
+                    throw new BadRequestException('invalid_filter', $_key, $filter);
                 }
             }
         } else {

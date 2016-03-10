@@ -12,7 +12,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 class Transformer
 {
-
     /**
      * @param $object
      *
@@ -42,6 +41,7 @@ class Transformer
 
             $_results = array_merge(['data' => $_data], $_include);
         }
+
         return $_results;
     }
 
@@ -66,8 +66,8 @@ class Transformer
                     array_push($_results['included'], $include);
                 }
             }
-
         }
+
         return $_results;
     }
 
@@ -109,7 +109,7 @@ class Transformer
     /**
      * @param $object
      *
-     * @return boolean
+     * @return bool
      */
     private static function isPaginator($object)
     {
@@ -160,9 +160,7 @@ class Transformer
         ];
     }
 
-
     /**
-     *
      * @return array
      */
     private static function jsonHeader()
