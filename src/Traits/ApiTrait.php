@@ -2,8 +2,8 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
-use Schema;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
+use Schema;
 
 trait ApiTrait
 {
@@ -41,8 +41,10 @@ trait ApiTrait
             $members = explode(',', $sort);
             if (!empty($members)) {
                 foreach ($members as $field) {
-                  if(!Schema::hasColumn($this->getTable(), ltrim($field, '-'))) throw new BadRequestException('bad_request');
-                  $query->orderBy(ltrim($field, '-'), ('-' === $field[0]) ? 'DESC' : 'ASC');
+                    if (!Schema::hasColumn($this->getTable(), ltrim($field, '-'))) {
+                        throw new BadRequestException('bad_request');
+                    }
+                    $query->orderBy(ltrim($field, '-'), ('-' === $field[0]) ? 'DESC' : 'ASC');
                 }
             }
         }

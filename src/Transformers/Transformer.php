@@ -2,10 +2,10 @@
 
 namespace Askedio\Laravel5ApiController\Transformers;
 
+use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Request;
-use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 
 /**
  * Class Transformer.
@@ -40,9 +40,13 @@ class Transformer
             foreach (self::$fields[$_key] as $filter) {
                 if (isset($_content[$filter])) {
                     $_results[$filter] = $_content[$filter];
-                } else throw new BadRequestException('bad_request');
+                } else {
+                    throw new BadRequestException('bad_request');
+                }
             }
-        } else throw new BadRequestException('bad_request');
+        } else {
+            throw new BadRequestException('bad_request');
+        }
 
         return $_results;
     }
@@ -58,6 +62,7 @@ class Transformer
                     $_results[$type][] = $member;
                 }
             }
+
             return $_results;
         } else {
             return $model;
