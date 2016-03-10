@@ -78,7 +78,7 @@ Relations can be added as normal, the modal name will be used as the 'include' v
 
    class UserController extends BaseController
    {
-       public $modal = '\App\User';
+       public $modal = \App\User::class;
    }
 ~~~
 
