@@ -23,10 +23,12 @@ class ApiHelper
     }
 
     public static function includes()
-    { 
+    {
         $include = Request::input('include');
         if (!is_string($include)) {
             return false;
-        } else return explode(',', $include);
+        } else {
+            return explode(',', $include);
+        }
     }
 }
