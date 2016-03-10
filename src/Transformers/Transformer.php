@@ -4,6 +4,7 @@ namespace Askedio\Laravel5ApiController\Transformers;
 
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Request;
 
 /**
@@ -66,23 +67,15 @@ class Transformer
 
     private static function includes($content)
     {
-        $include = Request::input('include');
-        $_results = [];
-        if (!is_string($include)) {
-            return false;
-        }
+      $_results = [];
 
-        $includeNames = explode(',', $include);
-        foreach ($includeNames as $relationship) {
+        foreach (ApiHelper::includes() as $relationship) {
+          
             if (is_object($content->$relationship)) {
                 foreach ($content->$relationship as $sub) {
                     $_results[] = self::render($sub);
                 }
             }
-        }
-
-        if (empty($_results)) {
-            throw new BadRequestException('bad_request');
         }
 
         return $_results;

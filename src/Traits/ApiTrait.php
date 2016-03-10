@@ -33,6 +33,7 @@ trait ApiTrait
      */
     public function scopesetSort($query, $sort)
     {
+      // throw exception if we find something that doesnt have a column or w/e.. gd its ltate
         if (!empty($sort) && is_string($sort)) {
             $members = explode(',', $sort);
             if (!empty($members)) {
@@ -49,4 +50,11 @@ trait ApiTrait
     {
         return isset($this->searchable);
     }
+
+    public function getIncludes()
+    {
+        return isset($this->includes) ? $this->includes : [];
+    }
+
+
 }

@@ -61,6 +61,9 @@ class Handler extends ExceptionHandler
      */
     private function handle($request, Exception $e)
     {
+      $data = ['Fatal exception'];
+      $status = 500;
+
         if ($e instanceof JsonException) {
             $data = $e->toArray();
             $status = $e->getStatus();
@@ -84,7 +87,7 @@ class Handler extends ExceptionHandler
             $status = 405;
         }
 
-        unset($data['id']);
+        if(isset($data['id'])) unset($data['id']);
 
         return new JsonResponse(['errors' => $data], $status, [
           'Content-Type' => config('jsonapi.content-type', 'application/vnd.api+json'),

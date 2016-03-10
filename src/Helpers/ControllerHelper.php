@@ -78,6 +78,21 @@ class ControllerHelper
         return $request;
     }
 
+
+/*
+TO-DO:
+needs results like
+
+    {
+      "code":   "225",
+      "source": { "pointer": "/data/attributes/password" },
+      "title": "Passwords must contain a letter, number, and punctuation character.",
+      "detail": "The password provided is missing a punctuation character."
+    },
+
+
+
+*/
     private function validate($action)
     {
         $validator = Validator::make($this->request->all(), $this->_modal->getRule($action));
