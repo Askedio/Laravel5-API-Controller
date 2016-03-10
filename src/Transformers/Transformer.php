@@ -2,9 +2,8 @@
 
 namespace Askedio\Laravel5ApiController\Transformers;
 
-use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Request;
 
 /**
@@ -67,10 +66,9 @@ class Transformer
 
     private static function includes($content)
     {
-      $_results = [];
+        $_results = [];
 
         foreach (ApiHelper::includes() as $relationship) {
-          
             if (is_object($content->$relationship)) {
                 foreach ($content->$relationship as $sub) {
                     $_results[] = self::render($sub);

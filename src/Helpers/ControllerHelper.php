@@ -78,7 +78,6 @@ class ControllerHelper
         return $request;
     }
 
-
 /*
 TO-DO:
 needs results like
