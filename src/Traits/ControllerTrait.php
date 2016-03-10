@@ -2,7 +2,6 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
-use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Askedio\Laravel5ApiController\Helpers\ControllerHelper;
 use Illuminate\Http\Request;
@@ -20,7 +19,6 @@ trait ControllerTrait
         $this->request = $request;
         $this->render = new ControllerHelper($request, $this->_modal);
     }
-
 
     public function index(Request $request)
     {

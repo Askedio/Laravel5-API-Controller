@@ -35,7 +35,7 @@ class ApiHelper
     public static function fields()
     {
         $_results = [];
-        $_fields  = Request::input('fields');
+        $_fields = Request::input('fields');
         if (is_array($_fields)) {
             $_fields = array_filter($_fields);
             foreach ($_fields as $type => &$members) {
@@ -44,10 +44,8 @@ class ApiHelper
                     $_results[$type][] = $member;
                 }
             }
-
         }
 
         return $_results;
     }
-
 }
