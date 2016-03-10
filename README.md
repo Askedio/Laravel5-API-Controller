@@ -11,6 +11,8 @@ Made for [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy) but can work 
 * [Laravel Demo](https://github.com/Askedio/Laravel-5-CRUD-Example)
 
 
+
+
 # Installation
 Some better examples are in the [wiki](https://github.com/Askedio/Laravel5-API-Controller/wiki).
 
@@ -18,12 +20,19 @@ Some better examples are in the [wiki](https://github.com/Askedio/Laravel5-API-C
 ~~~
 composer require askedio/laravel5-api-controller:dev-master
 ~~~
+
+
+
+
 ### Add to providers
 ~~~
     'providers' => [
         Askedio\Laravel5ApiController\Providers\GenericServiceProvider::class,
         ...
 ~~~
+
+
+
 
 ### Modal, ie: app\User.php
 Add the use statements to your Model to enable the Api and Search features.
@@ -39,6 +48,8 @@ You can set more details, like searching, includes, rules, primarykey and transf
 [All Modal Options](https://github.com/Askedio/Laravel5-API-Controller/wiki/Modals)
 
 
+
+
 ## Routes, ie: app/Http/routes.php
 Enable the jsonapi middleware on your route. 
 ~~~
@@ -48,6 +59,9 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 });
 ~~~
 You can also do [Version Control](https://github.com/Askedio/Laravel5-API-Controller/wiki/Version-Control)
+
+
+
 
 
 # Usage
@@ -60,15 +74,21 @@ You can also do [Version Control](https://github.com/Askedio/Laravel5-API-Contro
 * validation failure: Returns 403
 * failure: Returns 500
 
+
 ##### GET [/id|/]
 * failure: Returns 404
+
 
 ##### PATCH [/id]
 * accepts: 'fillable' data in your Model.
 * failure: Returns 500
 
+
 ##### DELETE [/id]
 * failure: Returns 500
+
+
+
 
 ### JSON API methods can also be used.
 
@@ -91,9 +111,12 @@ There is still some work to-do on the json api spec.
 
 
 
+
 # Similar Packages
 * https://github.com/nilportugues/laravel5-jsonapi
 * https://github.com/dingo/api
+
+
 
 
 
