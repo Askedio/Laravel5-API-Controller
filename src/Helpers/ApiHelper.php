@@ -2,17 +2,17 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
-use Askedio\Laravel5ApiController\Transformers\Transformer;
-use Askedio\Laravel5ApiController\Exceptions\NotFoundException;
 use Askedio\Laravel5ApiController\Exceptions\InternalServerErrorException;
 use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
+use Askedio\Laravel5ApiController\Exceptions\NotFoundException;
+use Askedio\Laravel5ApiController\Transformers\Transformer;
 use Request;
 
 class ApiHelper
 {
     public static function error($code, $errors)
     {
-      switch($code){
+        switch ($code) {
         case 404:
           throw new NotFoundException('not_found');
         break;

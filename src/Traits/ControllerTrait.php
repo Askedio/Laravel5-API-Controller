@@ -4,7 +4,6 @@ namespace Askedio\Laravel5ApiController\Traits;
 
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Askedio\Laravel5ApiController\Helpers\ControllerHelper;
-use Illuminate\Http\Request;
 
 trait ControllerTrait
 {
@@ -71,5 +70,4 @@ trait ControllerTrait
             return ApiHelper::error(403, $data['results']['errors']);
         }
     }
-
 }
