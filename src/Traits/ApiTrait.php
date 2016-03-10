@@ -37,15 +37,15 @@ trait ApiTrait
      */
     public function scopesetSort($query, $sort)
     {
-        // throw exception if we find something that doesnt have a column or w/e.. gd its ltate
         if (!empty($sort) && is_string($sort)) {
             $members = explode(',', $sort);
             if (!empty($members)) {
-                foreach ($members as $field) {
-                    if (!Schema::hasColumn($this->getTable(), ltrim($field, '-'))) {
+                $_columns = $this->columns();
+                foreach ($members as $column) {
+                    if (!in_array(ltrim($column, '-'), $_columns)) {
                         throw new BadRequestException('bad_request');
                     }
-                    $query->orderBy(ltrim($field, '-'), ('-' === $field[0]) ? 'DESC' : 'ASC');
+                    $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
                 }
             }
         }
@@ -71,4 +71,53 @@ trait ApiTrait
             }
         }
     }
+
+    public function scopefilterAndTransform($query)
+    {
+
+        $_results = [];
+        $_fields = ApiHelper::fields();
+        $_key = strtolower(class_basename($this));
+        $_columns = $this->columns();
+        $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
+
+        if (empty($_fields)) {
+            return $this;
+        }
+
+        if (isset($_fields[$_key])) {
+            foreach ($_fields[$_key] as $filter) {
+                if (in_array($filter, $_columns)) {
+                    $_results[$filter] = $_content[$filter];
+                } else {
+                    throw new BadRequestException('bad_request');
+                }
+            }
+        } else {
+            $_results = $_content;
+        }
+
+        return $_results;
+
+    }
+
+    private function columns()
+    {
+      return Schema::getColumnListing($this->getTable());
+    }
+
+
+    /**
+     * Checks whether the object is transformable or not.
+     *
+     * @param $item
+     *
+     * @return bool
+     */
+    private function isTransformable($item)
+    {
+        return is_object($item) && method_exists($item, 'transform');
+    }
+
+
 }

@@ -9,6 +9,7 @@ class ApiHelper
 {
     public static function error($code, $errors)
     {
+        /* TO-DO: duplicate code as exceptions now */
         return response()->jsonapi($code,
           ['errors' => [
             'status' => $code,
@@ -19,14 +20,14 @@ class ApiHelper
 
     public static function success($code, $results)
     {
-        return response()->jsonapi($code, Transformer::convert($results));
+        return response()->jsonapi($code, Transformer::render($results));
     }
 
     public static function includes()
     {
         $include = Request::input('include');
         if (!is_string($include)) {
-            return false;
+            return [];
         } else {
             return explode(',', $include);
         }
