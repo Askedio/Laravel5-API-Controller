@@ -3,19 +3,26 @@
 namespace Askedio\Laravel5ApiController\Helpers;
 
 use Askedio\Laravel5ApiController\Transformers\Transformer;
+use Askedio\Laravel5ApiController\Exceptions\NotFoundException;
+use Askedio\Laravel5ApiController\Exceptions\InternalServerErrorException;
+use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
 use Request;
 
 class ApiHelper
 {
     public static function error($code, $errors)
     {
-        /* TO-DO: duplicate code as exceptions now */
-        return response()->jsonapi($code,
-          ['errors' => [
-            'status' => $code,
-            'detail' => $errors,
-          ],
-        ]);
+      switch($code){
+        case 404:
+          throw new NotFoundException('not_found');
+        break;
+        case 500:
+          throw new InternalServerErrorException('internal_server_error');
+        break;
+        case 403:
+          throw new InvalidAttributeException('invalid_attribute', $code, $errors);
+        break;
+      }
     }
 
     public static function success($code, $results)
@@ -25,25 +32,15 @@ class ApiHelper
 
     public static function includes()
     {
-        $include = Request::input('include');
-        if (!is_string($include)) {
-            return [];
-        } else {
-            return explode(',', $include);
-        }
+        return Request::input('include') ? explode(',', Request::input('include')) : [];
     }
 
     public static function fields()
     {
         $_results = [];
-        $_fields = Request::input('fields');
-        if (is_array($_fields)) {
-            $_fields = array_filter($_fields);
-            foreach ($_fields as $type => &$members) {
-                $members = array_map('trim', explode(',', $members));
-                foreach ($members as $member) {
-                    $_results[$type][] = $member;
-                }
+        foreach (array_filter(Request::input('fields', [])) as $type => &$members) {
+            foreach (explode(',', $members) as $member) {
+                $_results[$type][] = $member;
             }
         }
 

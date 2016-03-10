@@ -2,12 +2,12 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
-class NotFoundException extends JsonException
+class InternalServerErrorException extends JsonException
 {
     /**
      * @var string
      */
-    protected $status = 404;
+    protected $status = 500;
 
     /**
      * @return void

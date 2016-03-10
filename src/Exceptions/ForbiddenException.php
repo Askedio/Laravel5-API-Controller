@@ -7,7 +7,7 @@ class ForbiddenException extends JsonException
     /**
      * @var string
      */
-    protected $status = '403';
+    protected $status = 403;
 
     /**
      * @return void

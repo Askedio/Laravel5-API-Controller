@@ -2,12 +2,12 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
-class NotFoundException extends JsonException
+class InvalidAttributeException extends JsonException
 {
     /**
      * @var string
      */
-    protected $status = 404;
+    protected $status = 403;
 
     /**
      * @return void
@@ -15,7 +15,7 @@ class NotFoundException extends JsonException
     public function __construct()
     {
         $message = $this->build(func_get_args());
-
+        $this->detail = func_get_args()[2];
         parent::__construct($message);
     }
 }

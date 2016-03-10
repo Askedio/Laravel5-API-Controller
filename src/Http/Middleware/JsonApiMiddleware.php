@@ -3,6 +3,8 @@
 namespace Askedio\Laravel5ApiController\Http\Middleware;
 
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
+use Askedio\Laravel5ApiController\Exceptions\UnsupportedMediaTypeException;
+use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Closure;
 
@@ -18,29 +20,28 @@ class JsonApiMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $_allowed = config('jsonapi.allowed_get', [
-  'include',
-  'fields',
-  'page',
-  'limit',
-  'sort',
- ]);
 
         if ($request->isMethod('get')) {
             foreach ($request->all() as $var => $val) {
-                if (!in_array($var, $_allowed)) {
+                if (!in_array($var, config('jsonapi.allowed_get', [
+                  'include',
+                  'fields',
+                  'page',
+                  'limit',
+                  'sort',
+                  'search',
+                 ]))) {
                     throw new BadRequestException('invalid_get', $var);
                 }
             }
         }
 
-      // to-do: switch to exceptions
         if ($request->header('Accept') != config('jsonapi.content-type', 'application/vnd.api+json')) {
-            return ApiHelper::error(406, 'Not Acceptable');
+            throw new NotAcceptableException('not-acceptable');
         }
 
         if ($request->header('Content-Type') != config('jsonapi.accept', 'application/vnd.api+json')) {
-            return ApiHelper::error(415, 'Unsupported Media Type');
+            throw new UnsupportedMediaTypeException('unsupported-media-type');
         }
 
         return $next($request);

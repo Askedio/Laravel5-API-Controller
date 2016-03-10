@@ -8,72 +8,68 @@ use Illuminate\Http\Request;
 
 trait ControllerTrait
 {
-    private $_modal;
-    private $request;
-    private $helper;
-    private $validation_error = 403;
+    private $results;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->_modal = new $this->modal();
-        $this->request = $request;
-        $this->render = new ControllerHelper($request, $this->_modal);
+        $this->results = new ControllerHelper(new $this->modal());
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        return $this->results([
+        return $this->render([
           'success' => 200,
           'error'   => 500,
-          'results' => $this->render->index(),
+          'results' => $this->results->index(),
         ]);
     }
 
     public function store()
     {
-        return $this->results([
+        return $this->render([
           'success' => 200,
           'error'   => 500,
-          'results' => $this->render->store(),
+          'results' => $this->results->store(),
         ]);
     }
 
     public function show($id)
     {
-        return $this->results([
+        return $this->render([
           'success' => 200,
           'error'   => 404,
-          'results' => $this->render->show($id),
+          'results' => $this->results->show($id),
         ]);
     }
 
     public function update($id)
     {
-        return $this->results([
+        return $this->render([
           'success' => 200,
           'error'   => 500,
-          'results' => $this->render->update($id),
+          'results' => $this->results->update($id),
         ]);
     }
 
     public function destroy($id)
     {
-        return $this->results([
+        return $this->render([
           'success' => 200,
           'error'   => 404,
           'data'    => $this->render->show($id),
-          'results' => $this->render->destroy($id),
+          'results' => $this->results->destroy($id),
         ]);
     }
 
-    private function results($data)
+    private function render($data)
     {
         if (!isset($data['results']['errors'])) {
             return $data['results']
               ? ApiHelper::success($data['success'], isset($data['data']) ? $data['data'] : $data['results'])
-              : ApiHelper::error($data['error'], isset($data['errors']) ? $data['errors'] : '');
+              : ApiHelper::error($data['error'], '');
         } else {
-            return ApiHelper::error($this->validation_error, $data['results']['errors']);
+            return ApiHelper::error(403, $data['results']['errors']);
         }
     }
+
 }

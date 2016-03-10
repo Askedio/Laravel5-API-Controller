@@ -7,7 +7,7 @@ class BadRequestException extends JsonException
     /**
      * @var string
      */
-    protected $status = '400';
+    protected $status = 400;
 
     /**
      * @return void

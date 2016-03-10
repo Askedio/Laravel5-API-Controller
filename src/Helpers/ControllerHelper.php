@@ -3,17 +3,18 @@
 namespace Askedio\Laravel5ApiController\Helpers;
 
 use Validator;
+use Request;
 
 class ControllerHelper
 {
     private $_modal;
     private $request;
 
-    public function __construct($request, $modal)
+    public function __construct($modal)
     {
         $this->_modal = $modal;
         $this->_modal->checkIncludes();
-        $this->request = $request;
+        $this->request = Request();
     }
 
     public function index()
@@ -71,7 +72,7 @@ class ControllerHelper
     private function cleanRequest()
     {
         $_allowed = $this->_modal->getFillable();
-        $request = $this->request->all();
+        $request = $this->request->json()->all();
 
         foreach ($request as $var => $val) {
             if (!in_array($var, $_allowed)) {
@@ -82,32 +83,22 @@ class ControllerHelper
         return $request;
     }
 
-    /*
-        TO-DO: json api spec results
-
-        {
-          "code":   "225",
-          "source": { "pointer": "/data/attributes/password" },
-          "title": "Passwords must contain a letter, number, and punctuation character.",
-          "detail": "The password provided is missing a punctuation character."
-        },
-
-
-
-    */
+    /* TO-DO: need to update to accept and validate json api spec array */
     private function validate($action)
     {
-        $validator = Validator::make($this->request->all(), $this->_modal->getRule($action));
+        $validator = Validator::make($this->request->json()->all(), $this->_modal->getRule($action));
         $_errors = [];
-
         $e = $validator->errors()->toArray();
         foreach ($validator->errors()->toArray() as $_field => $_err) {
             $_errors[] = [
-            'field' => $_field,
-            'error' => implode(' ', $_err),
+            'source' => ['pointer' => $_field],
+            'title'  => config('errors.invalid_attribute.title'),
+            'detail' => implode(' ', $_err),
           ];
         }
 
         return $validator->fails() ? $_errors : false;
     }
+
+  
 }
