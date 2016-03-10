@@ -34,53 +34,7 @@ class User extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\ApiTrait;
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
-~~~
-Add the validation rules [optional]
-~~~
-    protected $rules = [
-      'update' => [
-         ...
-      ],
-      'create' => [
-         ...
-      ],
-    ];
-~~~
-Add search rules defined from https://github.com/nicolaslopezj/searchable  [optional]
-~~~
-    protected $searchable = [
-        'columns' => [
-            'users.name' => 10,
-            'users.email' => 5,
-        ],
-    ];
-~~~
 
-Add the $id_field  [optional]
-~~~
-    protected $id_field = 'id';
-~~~
-Transform data [optional]
-~~~
-    public function transform(User $user) {
-        return [
-            'name' => $user->name,
-            'email' => $user->email,
-        ];
-    }
-~~~
-#### Relations
-Relations can be added as normal, the modal name will be used as the 'include' value.
-
-## Controller, ie: app\Http\Controllers\Api\UserController.php
-~~~
-   use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
-
-   class UserController extends BaseController
-   {
-       public $modal = \App\User::class;
-   }
-~~~
 
 ## Routes, ie: app/Http/routes.php
 The jsonapi middleware will deny requests without proper Accept and Content-Type.
