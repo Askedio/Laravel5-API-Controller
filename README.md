@@ -45,6 +45,7 @@ class User extends Authenticatable
     ...
 ~~~
 You can set more details, like searching, includes, rules, primarykey and transform in the Modal Options.
+
 [All Modal Options](https://github.com/Askedio/Laravel5-API-Controller/wiki/Modals)
 
 
