@@ -4,6 +4,7 @@ namespace Askedio\Laravel5ApiController\Traits;
 
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Askedio\Laravel5ApiController\Helpers\ControllerHelper;
+use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Illuminate\Http\Request;
 
 trait ControllerTrait
@@ -17,7 +18,17 @@ trait ControllerTrait
     {
         $this->_modal = new $this->modal();
         $this->request = $request;
-        $this->helper = new ControllerHelper($request, $this->_modal);
+        $this->render = new ControllerHelper($request, $this->_modal);
+       
+        $this->validateIncludes();
+    }
+
+    private function validateIncludes()
+    {
+        $allowed = $this->_modal->getIncludes();
+        foreach(ApiHelper::includes() as $include){
+          if(!in_array($include, $allowed)) throw new BadRequestException('bad_request');
+        }
     }
 
     public function index(Request $request)
@@ -25,7 +36,7 @@ trait ControllerTrait
         return $this->results([
           'success' => 200,
           'error'   => 500,
-          'results' => $this->helper->index(),
+          'results' => $this->render->index(),
         ]);
     }
 
@@ -34,7 +45,7 @@ trait ControllerTrait
         return $this->results([
           'success' => 200,
           'error'   => 500,
-          'results' => $this->helper->store(),
+          'results' => $this->render->store(),
         ]);
     }
 
@@ -43,7 +54,7 @@ trait ControllerTrait
         return $this->results([
           'success' => 200,
           'error'   => 404,
-          'results' => $this->helper->show($id),
+          'results' => $this->render->show($id),
         ]);
     }
 
@@ -52,7 +63,7 @@ trait ControllerTrait
         return $this->results([
           'success' => 200,
           'error'   => 500,
-          'results' => $this->helper->update($id),
+          'results' => $this->render->update($id),
         ]);
     }
 
@@ -61,8 +72,8 @@ trait ControllerTrait
         return $this->results([
           'success' => 200,
           'error'   => 404,
-          'data'    => $this->helper->show($id),
-          'results' => $this->helper->destroy($id),
+          'data'    => $this->render->show($id),
+          'results' => $this->render->destroy($id),
         ]);
     }
 

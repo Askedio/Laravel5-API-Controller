@@ -43,8 +43,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        //config('app.debug') ||
-        if (!$request->is(config('jsonapi.url', 'api/*'))) {
+        //
+        if (config('app.debug') ||!$request->is(config('jsonapi.url', 'api/*'))) {
             return parent::render($request, $e);
         }
 

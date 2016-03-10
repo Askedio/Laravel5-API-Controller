@@ -26,6 +26,7 @@ class ControllerHelper
         return $results->paginate(($this->request->input('limit') ?: '10'));
     }
 
+    /* TO-DO: need to update to accept and validate json api spec array */
     public function store()
     {
         if ($errors = $this->validate('create')) {
@@ -40,6 +41,7 @@ class ControllerHelper
         return $this->_modal->find($id);
     }
 
+    /* TO-DO: need to update to accept and validate json api spec array */
     public function update($id)
     {
         if ($errors = $this->validate('update')) {
@@ -64,6 +66,7 @@ class ControllerHelper
         return $_modal ? $_modal->delete() : false;
     }
 
+    /* TO-DO: need to update to accept and validate json api spec array */
     private function cleanRequest()
     {
         $_allowed = $this->_modal->getFillable();
@@ -78,20 +81,19 @@ class ControllerHelper
         return $request;
     }
 
-/*
-TO-DO:
-needs results like
+    /*
+        TO-DO: json api spec results
 
-    {
-      "code":   "225",
-      "source": { "pointer": "/data/attributes/password" },
-      "title": "Passwords must contain a letter, number, and punctuation character.",
-      "detail": "The password provided is missing a punctuation character."
-    },
-
+        {
+          "code":   "225",
+          "source": { "pointer": "/data/attributes/password" },
+          "title": "Passwords must contain a letter, number, and punctuation character.",
+          "detail": "The password provided is missing a punctuation character."
+        },
 
 
-*/
+
+    */
     private function validate($action)
     {
         $validator = Validator::make($this->request->all(), $this->_modal->getRule($action));
