@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Response;
-
+use Symfony\Component\HttpKernel\Exception\HttpException;
 class GenericServiceProvider extends ServiceProvider
 {
     /**
@@ -16,6 +16,10 @@ class GenericServiceProvider extends ServiceProvider
    */
   public function register()
   {
+      $this->app->singleton(
+        \Illuminate\Contracts\Debug\ExceptionHandler::class,
+        \Askedio\Laravel5ApiController\Exceptions\Handler::class
+      ); 
   }
 
   /**
@@ -25,6 +29,8 @@ class GenericServiceProvider extends ServiceProvider
    */
   public function boot(Router $router)
   {
+
+
       $router->middleware('jsonapi', \Askedio\Laravel5ApiController\Http\Middleware\JsonApiMiddleware::class);
 
       Response::macro('jsonapi', function ($code, $value) {

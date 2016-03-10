@@ -17,13 +17,14 @@ class JsonApiMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->header('Accept') != config('jsonapi.accept', 'application/vnd.api+json')) {
-            return ApiHelper::error(415, 'Unsupported Media Type');
-        }
-        if ($request->header('Content-Type') != config('jsonapi.content-type', 'application/vnd.api+json')) {
+
+        if ($request->header('Accept') != config('jsonapi.content-type', 'application/vnd.api+json')) {
             return ApiHelper::error(406, 'Not Acceptable');
         }
 
+        if ($request->header('Content-Type') != config('jsonapi.accept', 'application/vnd.api+json')) {
+            return ApiHelper::error(415, 'Unsupported Media Type');
+        }
         return $next($request);
     }
 }

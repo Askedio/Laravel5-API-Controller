@@ -4,6 +4,7 @@ namespace Askedio\Laravel5ApiController\Transformers;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Request;
+use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 
 /**
  * Class Transformer.
@@ -79,6 +80,8 @@ class Transformer
                 }
             }
         }
+
+        if(empty($_results)) throw new BadRequestException('bad_request');
 
         return $_results;
     }
