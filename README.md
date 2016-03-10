@@ -26,7 +26,7 @@ composer require askedio/laravel5-api-controller:dev-master
 ~~~
 
 ### Modal, ie: app\User.php
-Add the Traits
+Add the use statements to your Model to enable the Api and Search features.
 ~~~
 class User extends Authenticatable
 {
@@ -35,15 +35,19 @@ class User extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~
+You can set more details, like searching, includes, rules, primarykey and transform in the Modal Options.
+[All Modal Options](https://github.com/Askedio/Laravel5-API-Controller/wiki/Modals)
+
 
 ## Routes, ie: app/Http/routes.php
-The jsonapi middleware will deny requests without proper Accept and Content-Type.
+Enable the jsonapi middleware on your route. 
 ~~~
 Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 {
   Route::resource('admin/user', 'Api\UserController');
 });
 ~~~
+You can also do [Version Control](https://github.com/Askedio/Laravel5-API-Controller/wiki/Version-Control)
 
 
 # Usage
@@ -94,9 +98,11 @@ There is still some work to-do on the json api spec.
 
 
 # Comments
-This is package is open to code review and comments, please let me know if I have made mistakes, I love feedback.
+My goal is a plug-n-play json api for Laravel. You shouldn't need to configure much of anything to enable the api on your models but if you still want advanced features like relations, searching, etc, you get that too.
 
-You can reach me here or on twitter, @askedio.
+I am still working to include all of the json api spec features into this api.
+
+If you have any comments, opinions or can code review please reach me here or on twitter, @askedio.
 
 Thank you.
 
