@@ -68,28 +68,24 @@ class Handler extends ExceptionHandler
             $data = $e->toArray();
             $status = $e->getStatus();
             $source = $e->getSource();
-        } else 
-
-        if ($e instanceof NotFoundHttpException) {
+        } elseif ($e instanceof NotFoundHttpException) {
             $data = array_merge([
                 'id'     => 'not_found',
                 'status' => '404',
             ], config('errors.not_found'));
 
             $status = 404;
-        }else 
-
-        if ($e instanceof MethodNotAllowedHttpException) {
+        } elseif ($e instanceof MethodNotAllowedHttpException) {
             $data = array_merge([
                 'id'     => 'method_not_allowed',
                 'status' => '405',
             ], config('errors.method_not_allowed'));
 
             $status = 405;
-        }else {
-         // TO-DO: totally not proper 
-         $response =  parent::render($request, $e);
-         $data = [
+        } else {
+            // TO-DO: totally not proper
+         $response = parent::render($request, $e);
+            $data = [
            'status' => $response->getStatusCode(),
            'detail' => $e->getMessage(),
          ];

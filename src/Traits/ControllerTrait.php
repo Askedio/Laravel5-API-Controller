@@ -2,9 +2,9 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
+use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Askedio\Laravel5ApiController\Helpers\ControllerHelper;
-use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 
 trait ControllerTrait
 {
@@ -12,13 +12,11 @@ trait ControllerTrait
 
     public function __construct()
     {
-
-        if(isset($this->version) && ApiHelper::getVersion() != $this->version){
-          throw new NotAcceptableException('not-acceptable','/application/vnd.api.'.$this->version .'+json');
+        if (isset($this->version) && ApiHelper::getVersion() != $this->version) {
+            throw new NotAcceptableException('not-acceptable', '/application/vnd.api.'.$this->version.'+json');
         }
 
         $this->results = new ControllerHelper(new $this->modal());
-
     }
 
     public function index()
