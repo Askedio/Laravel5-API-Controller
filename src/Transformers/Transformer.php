@@ -14,7 +14,6 @@ use Request;
  */
 class Transformer
 {
-
     private static function render($content)
     {
         $id = $content->getId();
@@ -32,7 +31,7 @@ class Transformer
         $_fields = ApiHelper::fields();
         $_key = strtolower(class_basename($content));
         $_content = self::isTransformable($content) ? $content->transform($content) : $content;
-       
+
         if (empty($_fields)) {
             return $_content;
         }
@@ -46,12 +45,11 @@ class Transformer
                 }
             }
         } else {
-           $_results  = $content;
+            $_results = $content;
         }
 
         return $_results;
     }
-
 
     private static function includes($content)
     {
@@ -92,7 +90,6 @@ class Transformer
 
     public static function convert($model)
     {
-
         $_results = [
                  'jsonapi' => [
                    'version' => config('jsonapi.version', '1.0'),

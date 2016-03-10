@@ -3,8 +3,8 @@
 namespace Askedio\Laravel5ApiController\Traits;
 
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
-use Schema;
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
+use Schema;
 
 trait ApiTrait
 {
@@ -60,15 +60,15 @@ trait ApiTrait
 
     public function scopecheckIncludes()
     {
-        $_allowed = $this->includes ? : [];
+        $_allowed = $this->includes ?: [];
         $_includes = ApiHelper::includes();
-        if(empty($_includes) || empty($_allowed)) return false;
+        if (empty($_includes) || empty($_allowed)) {
+            return false;
+        }
         foreach ($_includes as $include) {
             if (!in_array($include, $_allowed)) {
                 throw new BadRequestException('bad_request');
             }
         }
-
-
     }
 }
