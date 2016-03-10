@@ -16,7 +16,7 @@ trait ControllerTrait
             throw new NotAcceptableException('not-acceptable', '/application/vnd.api.'.$this->version.'+json');
         }
 
-        $this->results = new ControllerHelper(new $this->modal());
+        $this->results = new ControllerHelper($this->modal);
     }
 
     public function index()

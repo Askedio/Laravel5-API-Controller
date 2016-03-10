@@ -7,21 +7,21 @@ use Validator;
 
 class ControllerHelper
 {
-    private $_modal;
+    private $modal;
     private $request;
 
     public function __construct($modal)
     {
-        $this->_modal = $modal;
-        $this->_modal->checkIncludes();
+        $this->modal = new $modal();
+        $this->modal->checkIncludes();
         $this->request = Request();
     }
 
     public function index()
     {
-        $results = $this->_modal->setSort($this->request->input('sort'));
+        $results = $this->modal->setSort($this->request->input('sort'));
 
-        if ($this->request->input('search') && $this->_modal->isSearchable()) {
+        if ($this->request->input('search') && $this->modal->isSearchable()) {
             $results->search($this->request->input('search'));
         }
 
@@ -34,13 +34,13 @@ class ControllerHelper
         if ($errors = $this->validate('create')) {
             return ['errors' => $errors];
         } else {
-            return $this->_modal->create($this->cleanRequest());
+            return $this->modal->create($this->cleanRequest());
         }
     }
 
     public function show($id)
     {
-        return $this->_modal->find($id);
+        return $this->modal->find($id);
     }
 
     /* TO-DO: need to update to accept and validate json api spec array */
@@ -49,7 +49,7 @@ class ControllerHelper
         if ($errors = $this->validate('update')) {
             return ['errors' => $errors];
         } else {
-            $_modal = $this->_modal->find($id);
+            $_modal = $this->modal->find($id);
 
             return $_modal
               ? (
@@ -63,7 +63,7 @@ class ControllerHelper
 
     public function destroy($id)
     {
-        $_modal = $this->_modal->find($id);
+        $_modal = $this->modal->find($id);
 
         return $_modal ? $_modal->delete() : false;
     }
@@ -71,7 +71,7 @@ class ControllerHelper
     /* TO-DO: need to update to accept and validate json api spec array */
     private function cleanRequest()
     {
-        $_allowed = $this->_modal->getFillable();
+        $_allowed = $this->modal->getFillable();
         $request = $this->request->json()->all();
 
         foreach ($request as $var => $val) {
@@ -86,7 +86,7 @@ class ControllerHelper
     /* TO-DO: need to update to accept and validate json api spec array */
     private function validate($action)
     {
-        $validator = Validator::make($this->request->json()->all(), $this->_modal->getRule($action));
+        $validator = Validator::make($this->request->json()->all(), $this->modal->getRule($action));
         $_errors = [];
         $e = $validator->errors()->toArray();
         foreach ($validator->errors()->toArray() as $_field => $_err) {

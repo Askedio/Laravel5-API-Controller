@@ -72,17 +72,18 @@ trait ApiTrait
         }
     }
 
-    public function scopefilterAndTransform($query)
+    public function scopefilterAndTransform()
     {
-        $_results = [];
         $_fields = ApiHelper::fields();
+        if (empty($_fields)) {
+            return $this;
+        }
+
+        $_results = [];
         $_key = strtolower(class_basename($this));
         $_columns = $this->columns();
         $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
 
-        if (empty($_fields)) {
-            return $this;
-        }
 
         if (isset($_fields[$_key])) {
             foreach ($_fields[$_key] as $filter) {

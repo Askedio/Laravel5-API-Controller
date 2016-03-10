@@ -33,8 +33,13 @@ class GenericServiceProvider extends ServiceProvider
 
       Response::macro('jsonapi', function ($code, $value) {
         return new JsonResponse($value, $code, [
-          'Content-Type' => config('jsonapi.content-type', 'application/vnd.api+json'),
+          'Content-Type' => config('jsonapi.content_type', 'application/vnd.api+json'),
         ], true);
       });
+
+      $this->publishes([
+        realpath(__DIR__.'/../config') => config_path(''),
+      ], 'config');
+
   }
 }

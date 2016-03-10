@@ -19,7 +19,7 @@ class Transformer
      */
     public static function render($object)
     {
-        return array_merge(self::objectOrPage($object), self::jsonHeader());
+        return array_merge(self::objectOrPage($object), self::jsonapi());
     }
 
     /**
@@ -163,12 +163,12 @@ class Transformer
     /**
      * @return array
      */
-    private static function jsonHeader()
+    private static function jsonapi()
     {
         return [
           'jsonapi' => [
-            'version'   => config('jsonapi.version', '1.0'),
-            'internal'  => ApiHelper::getVersion(),
+            'version'   => config('jsonapi.json_version', '1.0'),
+            'self'  => ApiHelper::getVersion(),
           ],
         ];
     }

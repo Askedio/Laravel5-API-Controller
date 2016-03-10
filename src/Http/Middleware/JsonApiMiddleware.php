@@ -10,6 +10,17 @@ use Closure;
 
 class JsonApiMiddleware
 {
+    private $request;
+
+    private $allowedGetVariables = [
+                  'include',
+                  'fields',
+                  'page',
+                  'limit',
+                  'sort',
+                  'search',
+                 ];
+
     /**
      * Filter requests based on Accept and Content-Type matches.
      *
@@ -20,23 +31,30 @@ class JsonApiMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if ($request->isMethod('get')) {
-            foreach ($request->all() as $var => $val) {
-                if (!in_array($var, config('jsonapi.allowed_get', [
-                  'include',
-                  'fields',
-                  'page',
-                  'limit',
-                  'sort',
-                  'search',
-                 ]))) {
-                    throw new BadRequestException('invalid_get', $var);
-                }
-            }
-        }
+        $this->request = $request;
+        $this->checkGetVars();
+        $this->checkAccept();
+        $this->checkContentType();
 
-        $pattern = '/application\/vnd\.api\.([\w\d\.]+)\+([\w]+)/';
-        if (!preg_match($pattern, $request->header('Accept'), $matches) && $request->header('Accept') != config('jsonapi.accept', 'application/vnd.api+json')) {
+        return $next($request);
+    }
+
+    private function checkGetVars()
+    {
+      if (!$this->request->isMethod('get')) return false;
+
+      $_check = array_except($this->request->all(), config('jsonapi.allowed_get', $this->allowedGetVariables));
+
+      if(!empty($_check)){
+        /* TO-DO: exception should render array of errors */
+        throw new BadRequestException('invalid_get', rtrim(implode(', ', array_keys($_check)),', '));
+      }
+    }
+
+    private function checkAccept()
+    {
+        if (!preg_match('/application\/vnd\.api\.([\w\d\.]+)\+([\w]+)/', $this->request->header('Accept'), $matches) 
+              && $this->request->header('Accept') != config('jsonapi.accept', 'application/vnd.api+json')) {
             if (config('jsonapi.strict', false)) {
                 throw new NotAcceptableException('not-acceptable');
             }
@@ -45,13 +63,15 @@ class JsonApiMiddleware
                 ApiHelper::setVersion($matches[1]);
             }
         }
+    }
 
-        if ($request->header('Content-Type') != config('jsonapi.accept', 'application/vnd.api+json')) {
+    private function checkContentType()
+    {
+        if ($this->request->header('Content-Type') != config('jsonapi.content_type', 'application/vnd.api+json')) {
             if (config('jsonapi.strict', false)) {
                 throw new UnsupportedMediaTypeException('unsupported-media-type');
             }
-        }
-
-        return $next($request);
+        } 
     }
+
 }
