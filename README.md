@@ -127,8 +127,8 @@ There is still some work to-do on the json api spec.
 * Data sent from the server is (from what I can tell) is JSON API spec.
 * Data sent to the server (right now) is a json array, not JSON API spec, but just {name: value}.
 * Headers are validated with the jsonapi middleware
-* Request variables are not (currently) validated.
-* Errors are sent in valid response but more needs to be done for form validation.
+* Request data is validated, put has a whitelist, values are based upon the modal.
+* Errors are being transitioned to exceptions, ones that are have proper error reporting with source.
 
 
 
