@@ -8,7 +8,7 @@ A really simple package that provides a JSON API for CRUD related tasks.
 Made for [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy) but can work with anything. 
 
 * [Live Demo](https://cruddy.io/app/) 
-* [Laravel Demo](https://github.com/Askedio/Laravel-5-CRUD-Example)
+* [Laravel 5.2 Example Package](https://github.com/Askedio/Laravel-5-CRUD-Example)
 
 
 
