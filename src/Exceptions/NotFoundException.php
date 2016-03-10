@@ -1,4 +1,6 @@
-<?php namespace Askedio\Laravel5ApiController\Exceptions;
+<?php
+
+namespace Askedio\Laravel5ApiController\Exceptions;
 
 class NotFoundException extends JsonException
 {

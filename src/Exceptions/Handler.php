@@ -1,28 +1,31 @@
-<?php namespace Askedio\Laravel5ApiController\Exceptions;
+<?php
+
+namespace Askedio\Laravel5ApiController\Exceptions;
 
 use Exception;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that should not be reported
+     * A list of the exception types that should not be reported.
      *
      * @var array
      */
     protected $dontReport = [
         HttpException::class,
-        JsonException::class
+        JsonException::class,
     ];
 
     /**
-     * Report or log an exception
+     * Report or log an exception.
      *
      * @param Exception $e
+     *
      * @return void
      */
     public function report(Exception $e)
@@ -31,16 +34,17 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception into an HTTP response
+     * Render an exception into an HTTP response.
      *
-     * @param Request $request
+     * @param Request   $request
      * @param Exception $e
+     *
      * @return Response
      */
     public function render($request, Exception $e)
     {
-//config('app.debug') ||
-        if ( !$request->is(config('jsonapi.url', 'api/*'))) {
+        //config('app.debug') ||
+        if (!$request->is(config('jsonapi.url', 'api/*'))) {
             return parent::render($request, $e);
         }
 
@@ -48,31 +52,33 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Convert the Exception into a JSON HTTP Response
+     * Convert the Exception into a JSON HTTP Response.
      *
-     * @param Request $request
+     * @param Request   $request
      * @param Exception $e
+     *
      * @return JSONResponse
      */
-    private function handle($request, Exception $e) {
-        if ($e instanceOf JsonException) {
-            $data   = $e->toArray();
+    private function handle($request, Exception $e)
+    {
+        if ($e instanceof JsonException) {
+            $data = $e->toArray();
             $status = $e->getStatus();
         }
 
-        if ($e instanceOf NotFoundHttpException) {
+        if ($e instanceof NotFoundHttpException) {
             $data = array_merge([
                 'id'     => 'not_found',
-                'status' => '404'
+                'status' => '404',
             ], config('errors.not_found'));
 
             $status = 404;
         }
 
-        if ($e instanceOf MethodNotAllowedHttpException) {
+        if ($e instanceof MethodNotAllowedHttpException) {
             $data = array_merge([
                 'id'     => 'method_not_allowed',
-                'status' => '405'
+                'status' => '405',
             ], config('errors.method_not_allowed'));
 
             $status = 405;
@@ -83,6 +89,5 @@ class Handler extends ExceptionHandler
         return new JsonResponse(['errors' => $data], $status, [
           'Content-Type' => config('jsonapi.content-type', 'application/vnd.api+json'),
         ], true);
-
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Askedio\Laravel5ApiController\Exceptions;
+<?php
+
+namespace Askedio\Laravel5ApiController\Exceptions;
 
 use Exception;
 
@@ -26,15 +28,16 @@ abstract class JsonException extends Exception
 
     /**
      * @param @string $message
+     *
      * @return void
      */
     public function __construct($message)
     {
-      parent::__construct($message);
+        parent::__construct($message);
     }
 
     /**
-     * Get the status
+     * Get the status.
      *
      * @return int
      */
@@ -44,7 +47,7 @@ abstract class JsonException extends Exception
     }
 
     /**
-     * Return the Exception as an array
+     * Return the Exception as an array.
      *
      * @return array
      */
@@ -54,14 +57,15 @@ abstract class JsonException extends Exception
             'id'     => $this->id,
             'status' => $this->status,
             'title'  => $this->title,
-            'detail' => $this->detail
+            'detail' => $this->detail,
         ];
     }
 
     /**
-     * Build the Exception
+     * Build the Exception.
      *
      * @param array $args
+     *
      * @return string
      */
     protected function build(array $args)
@@ -70,7 +74,7 @@ abstract class JsonException extends Exception
 
         $error = config(sprintf('errors.%s', $this->id));
 
-        $this->title  = $error['title'];
+        $this->title = $error['title'];
         $this->detail = vsprintf($error['detail'], $args);
 
         return $this->detail;
