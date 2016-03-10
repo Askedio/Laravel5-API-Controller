@@ -14,7 +14,6 @@ use Request;
  */
 class Transformer
 {
-    private static $fields;
 
     private static function render($content)
     {
@@ -29,15 +28,17 @@ class Transformer
 
     private static function filter($content)
     {
-        if (!is_array(Request::input('fields'))) {
-            return $content->transform($content);
-        }
-
         $_results = [];
+        $_fields = ApiHelper::fields();
         $_key = strtolower(class_basename($content));
         $_content = self::isTransformable($content) ? $content->transform($content) : $content;
-        if (isset(self::$fields[$_key])) {
-            foreach (self::$fields[$_key] as $filter) {
+       
+        if (empty($_fields)) {
+            return $_content;
+        }
+
+        if (isset($_fields[$_key])) {
+            foreach ($_fields[$_key] as $filter) {
                 if (isset($_content[$filter])) {
                     $_results[$filter] = $_content[$filter];
                 } else {
@@ -45,38 +46,22 @@ class Transformer
                 }
             }
         } else {
-            throw new BadRequestException('bad_request');
+           $_results  = $content;
         }
 
         return $_results;
     }
 
-    public static function fields($model)
-    {
-        if (is_array(Request::input('fields'))) {
-            $_fields = array_filter(Request::input('fields'));
-            $_results = [];
-            foreach ($_fields as $type => &$members) {
-                $members = array_map('trim', explode(',', $members));
-                foreach ($members as $member) {
-                    $_results[$type][] = $member;
-                }
-            }
-
-            return $_results;
-        } else {
-            return $model;
-        }
-    }
 
     private static function includes($content)
     {
         $_results = [];
+        $content->checkIncludes();
 
         foreach (ApiHelper::includes() as $relationship) {
             if (is_object($content->$relationship)) {
-                foreach ($content->$relationship as $sub) {
-                    $_results[] = self::render($sub);
+                foreach ($content->$relationship as $related) {
+                    $_results[] = self::render($related);
                 }
             }
         }
@@ -107,7 +92,6 @@ class Transformer
 
     public static function convert($model)
     {
-        self::$fields = self::fields($model);
 
         $_results = [
                  'jsonapi' => [

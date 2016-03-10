@@ -31,4 +31,23 @@ class ApiHelper
             return explode(',', $include);
         }
     }
+
+    public static function fields()
+    {
+        $_results = [];
+        $_fields  = Request::input('fields');
+        if (is_array($_fields)) {
+            $_fields = array_filter($_fields);
+            foreach ($_fields as $type => &$members) {
+                $members = array_map('trim', explode(',', $members));
+                foreach ($members as $member) {
+                    $_results[$type][] = $member;
+                }
+            }
+
+        }
+
+        return $_results;
+    }
+
 }

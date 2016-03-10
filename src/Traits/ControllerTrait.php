@@ -19,19 +19,8 @@ trait ControllerTrait
         $this->_modal = new $this->modal();
         $this->request = $request;
         $this->render = new ControllerHelper($request, $this->_modal);
-
-        $this->validateIncludes();
     }
 
-    private function validateIncludes()
-    {
-        $allowed = $this->_modal->getIncludes();
-        foreach (ApiHelper::includes() as $include) {
-            if (!in_array($include, $allowed)) {
-                throw new BadRequestException('bad_request');
-            }
-        }
-    }
 
     public function index(Request $request)
     {

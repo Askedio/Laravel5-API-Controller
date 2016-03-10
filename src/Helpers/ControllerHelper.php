@@ -11,7 +11,8 @@ class ControllerHelper
 
     public function __construct($request, $modal)
     {
-        $this->_modal = new $modal();
+        $this->_modal = $modal;
+        $this->_modal->checkIncludes();
         $this->request = $request;
     }
 
