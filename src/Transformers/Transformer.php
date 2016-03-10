@@ -2,7 +2,6 @@
 
 namespace Askedio\Laravel5ApiController\Transformers;
 
-use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -11,7 +10,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  *
  * Assists in filtering and transforming model
  */
-
 class Transformer
 {
     private static $object;
@@ -19,25 +17,26 @@ class Transformer
     public static function render($object)
     {
         self::$object = $object;
-        return array_merge(self::objectOrPage($object), self::jsonHeader());
 
+        return array_merge(self::objectOrPage($object), self::jsonHeader());
     }
 
-    private static function objectOrPage($object){
+    private static function objectOrPage($object)
+    {
         $_results = [];
         if (is_object($object)) {
             if (!self::isPaginator()) {
-                $_data     = self::item($object);
-                $_include  = self::includes($object);
-            } elseif(self::isPaginator()) {
-                $_data     = self::transformObjects($object->items());
-                $_include  = self::getPaginationMeta($object);
+                $_data = self::item($object);
+                $_include = self::includes($object);
+            } elseif (self::isPaginator()) {
+                $_data = self::transformObjects($object->items());
+                $_include = self::getPaginationMeta($object);
             }
 
             $_results = array_merge(['data' => $_data], $_include);
         }
-        return $_results;
 
+        return $_results;
     }
 
     private static function includes($object)
@@ -76,17 +75,7 @@ class Transformer
         return $_results;
     }
 
-
-
-
-
-
-
-
-
     /**
-     *
-     *
      * @param $object
      *
      * @return array
@@ -95,47 +84,27 @@ class Transformer
     {
         $_results = [];
         foreach ($object as $key => $item) {
-            $_results[$key] = array_merge(self::item($item), self::includes($item)) ;
+            $_results[$key] = array_merge(self::item($item), self::includes($item));
         }
 
         return $_results;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private static function isPaginator()
     {
-      return self::$object instanceof LengthAwarePaginator;
+        return self::$object instanceof LengthAwarePaginator;
     }
-
 
     private static function item($content)
     {
         $id = $content->getId();
+
         return [
           'type'       => strtolower(class_basename($content)),
           'id'         => $content->$$id,
           'attributes' => $content->filterAndTransform(),
         ];
     }
-
-
-
-
 
     /**
      * Gets the pagination meta data. Assumes that a paginator
@@ -165,9 +134,6 @@ class Transformer
         ];
     }
 
-
-
-
     private static function jsonHeader()
     {
         return [
@@ -176,10 +142,4 @@ class Transformer
           ],
         ];
     }
-
-
-
-
-
-
 }

@@ -74,7 +74,6 @@ trait ApiTrait
 
     public function scopefilterAndTransform($query)
     {
-
         $_results = [];
         $_fields = ApiHelper::fields();
         $_key = strtolower(class_basename($this));
@@ -98,14 +97,12 @@ trait ApiTrait
         }
 
         return $_results;
-
     }
 
     private function columns()
     {
-      return Schema::getColumnListing($this->getTable());
+        return Schema::getColumnListing($this->getTable());
     }
-
 
     /**
      * Checks whether the object is transformable or not.
@@ -118,6 +115,4 @@ trait ApiTrait
     {
         return is_object($item) && method_exists($item, 'transform');
     }
-
-
 }
