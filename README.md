@@ -34,7 +34,7 @@ class User extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\ApiTrait;
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
-
+~~~
 
 ## Routes, ie: app/Http/routes.php
 The jsonapi middleware will deny requests without proper Accept and Content-Type.
