@@ -68,7 +68,7 @@ class Handler extends ExceptionHandler
             $data = $e->toArray();
             $status = $e->getStatus();
             $source = $e->getSource();
-        }
+        } else 
 
         if ($e instanceof NotFoundHttpException) {
             $data = array_merge([
@@ -77,7 +77,7 @@ class Handler extends ExceptionHandler
             ], config('errors.not_found'));
 
             $status = 404;
-        }
+        }else 
 
         if ($e instanceof MethodNotAllowedHttpException) {
             $data = array_merge([
@@ -86,6 +86,13 @@ class Handler extends ExceptionHandler
             ], config('errors.method_not_allowed'));
 
             $status = 405;
+        }else {
+         // TO-DO: totally not proper 
+         $response =  parent::render($request, $e);
+         $data = [
+           'status' => $response->getStatusCode(),
+           'detail' => $e->getMessage(),
+         ];
         }
 
         if (isset($data['id'])) {

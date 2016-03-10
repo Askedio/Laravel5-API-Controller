@@ -5,7 +5,9 @@ namespace Askedio\Laravel5ApiController\Http\Middleware;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Exceptions\UnsupportedMediaTypeException;
+use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Closure;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class JsonApiMiddleware
 {
@@ -19,6 +21,7 @@ class JsonApiMiddleware
      */
     public function handle($request, Closure $next)
     {
+
         if ($request->isMethod('get')) {
             foreach ($request->all() as $var => $val) {
                 if (!in_array($var, config('jsonapi.allowed_get', [
@@ -34,12 +37,17 @@ class JsonApiMiddleware
             }
         }
 
-        if ($request->header('Accept') != config('jsonapi.content-type', 'application/vnd.api+json')) {
-            throw new NotAcceptableException('not-acceptable');
+
+
+        $pattern = '/application\/vnd\.api\.([\w\d\.]+)\+([\w]+)/';
+        if (!preg_match($pattern, $request->header('Accept'), $matches) && $request->header('Accept') != config('jsonapi.accept', 'application/vnd.api+json')) {
+            if(config('jsonapi.strict', false)) throw new NotAcceptableException('not-acceptable');
+        } else {
+          if(isset($matches[1])) ApiHelper::setVersion($matches[1]);
         }
 
         if ($request->header('Content-Type') != config('jsonapi.accept', 'application/vnd.api+json')) {
-            throw new UnsupportedMediaTypeException('unsupported-media-type');
+            if(config('jsonapi.strict', false))  throw new UnsupportedMediaTypeException('unsupported-media-type');
         }
 
         return $next($request);

@@ -10,7 +10,19 @@ use Request;
 
 class ApiHelper
 {
-    public static function error($code, $errors)
+    private static $version;
+
+    public static function getVersion()
+    {
+      return self::$version ? : config('jsonapi.version', 'v1');
+    }
+    
+    public static function setVersion($version)
+    {
+      self::$version = $version;
+    }
+
+    public static function error($code, $errors=false)
     {
         switch ($code) {
         case 404:
