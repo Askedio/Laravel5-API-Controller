@@ -24,7 +24,7 @@ composer require askedio/laravel5-api-controller:dev-master
 
 
 
-### Add to providers
+### Add to providers array in config/app.php
 ~~~
     'providers' => [
         Askedio\Laravel5ApiController\Providers\GenericServiceProvider::class,
@@ -34,7 +34,7 @@ composer require askedio/laravel5-api-controller:dev-master
 
 
 
-### Modal, ie: app\User.php
+### Modal, ie: app/User.php
 Add the use statements to your Model to enable the Api and Search features.
 ~~~
 class User extends Authenticatable
@@ -44,9 +44,7 @@ class User extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~
-You can set more details, like searching, includes, rules, primarykey and transform in the Modal Options.
-
-[All Modal Options](https://github.com/Askedio/Laravel5-API-Controller/wiki/Modals)
+You can set more details, like searching, includes, rules, primarykey and transform in the [Modal Options](https://github.com/Askedio/Laravel5-API-Controller/wiki/Modals).
 
 
 
@@ -59,9 +57,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
   Route::resource('admin/user', 'Api\UserController');
 });
 ~~~
-You can also do [Version Control](https://github.com/Askedio/Laravel5-API-Controller/wiki/Version-Control)
-
-
+* Provides configurable strict mode to do Accept and Content-type matching.
+* Provides [Version Control](https://github.com/Askedio/Laravel5-API-Controller/wiki/Version-Control)
 
 
 
