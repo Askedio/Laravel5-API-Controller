@@ -27,6 +27,11 @@ abstract class JsonException extends Exception
     protected $detail;
 
     /**
+     * @var string
+     */
+    protected $source;
+
+    /**
      * @param @string $message
      *
      * @return void
@@ -44,6 +49,16 @@ abstract class JsonException extends Exception
     public function getStatus()
     {
         return (int) $this->status;
+    }
+
+    /**
+     * Get the source.
+     *
+     * @return int
+     */
+    public function getSource()
+    {
+        return $this->source;
     }
 
     /**
@@ -76,6 +91,11 @@ abstract class JsonException extends Exception
 
         $this->title = $error['title'];
         $this->detail = vsprintf($error['detail'], $args);
+        // to-do: could be better but its been 14+ hours...
+        if(isset($error['source'])) $this->source = 
+          isset($args[1]) 
+             ? [ $args[0] => vsprintf($error['source'], $args[1])]
+             : ['parameter' => vsprintf($error['source'], $args)];
 
         return $this->detail;
     }

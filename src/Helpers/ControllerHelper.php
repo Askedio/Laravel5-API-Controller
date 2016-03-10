@@ -100,7 +100,6 @@ class ControllerHelper
         $validator = Validator::make($this->request->all(), $this->_modal->getRule($action));
         $_errors = [];
 
-        /* Clean up valiation, had issues with parsing in jquery */
         $e = $validator->errors()->toArray();
         foreach ($validator->errors()->toArray() as $_field => $_err) {
             $_errors[] = [

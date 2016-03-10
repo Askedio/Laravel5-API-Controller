@@ -12,37 +12,48 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 class Transformer
 {
-    private static $object;
 
+    /**
+     * @param $object
+     *
+     * @return array
+     */
     public static function render($object)
     {
-        self::$object = $object;
-
         return array_merge(self::objectOrPage($object), self::jsonHeader());
     }
 
+    /**
+     * @param $object
+     *
+     * @return array
+     */
     private static function objectOrPage($object)
     {
         $_results = [];
         if (is_object($object)) {
-            if (!self::isPaginator()) {
+            if (!self::isPaginator($object)) {
                 $_data = self::item($object);
                 $_include = self::includes($object);
-            } elseif (self::isPaginator()) {
+            } elseif (self::isPaginator($object)) {
                 $_data = self::transformObjects($object->items());
                 $_include = self::getPaginationMeta($object);
             }
 
             $_results = array_merge(['data' => $_data], $_include);
         }
-
         return $_results;
     }
 
+    /**
+     * @param $object
+     *
+     * @return array
+     */
     private static function includes($object)
     {
+        $_results = [];
         if (is_object($object)) {
-            $_results = [];
             $incs = self::getIncludes($object);
             if (!empty($incs)) {
                 $_results['relationships'] = [];
@@ -56,10 +67,15 @@ class Transformer
                 }
             }
 
-            return $_results;
         }
+        return $_results;
     }
 
+    /**
+     * @param $object
+     *
+     * @return array
+     */
     private static function getIncludes($object)
     {
         $_results = [];
@@ -90,19 +106,29 @@ class Transformer
         return $_results;
     }
 
-    private static function isPaginator()
+    /**
+     * @param $object
+     *
+     * @return boolean
+     */
+    private static function isPaginator($object)
     {
-        return self::$object instanceof LengthAwarePaginator;
+        return $object instanceof LengthAwarePaginator;
     }
 
-    private static function item($content)
+    /**
+     * @param $object
+     *
+     * @return array
+     */
+    private static function item($object)
     {
-        $id = $content->getId();
+        $id = $object->getId();
 
         return [
-          'type'       => strtolower(class_basename($content)),
-          'id'         => $content->$$id,
-          'attributes' => $content->filterAndTransform(),
+          'type'       => strtolower(class_basename($object)),
+          'id'         => $object->$$id,
+          'attributes' => $object->filterAndTransform(),
         ];
     }
 
@@ -134,6 +160,11 @@ class Transformer
         ];
     }
 
+
+    /**
+     *
+     * @return array
+     */
     private static function jsonHeader()
     {
         return [

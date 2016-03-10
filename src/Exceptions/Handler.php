@@ -43,8 +43,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        //
-        if (config('app.debug') || !$request->is(config('jsonapi.url', 'api/*'))) {
+        //config('app.debug') || 
+        if (!$request->is(config('jsonapi.url', 'api/*'))) {
             return parent::render($request, $e);
         }
 
@@ -67,6 +67,7 @@ class Handler extends ExceptionHandler
         if ($e instanceof JsonException) {
             $data = $e->toArray();
             $status = $e->getStatus();
+            $source = $e->getSource();
         }
 
         if ($e instanceof NotFoundHttpException) {
@@ -91,6 +92,7 @@ class Handler extends ExceptionHandler
             unset($data['id']);
         }
 
+        if(isset($source)) $data['source'] = $source;
         return new JsonResponse(['errors' => $data], $status, [
           'Content-Type' => config('jsonapi.content-type', 'application/vnd.api+json'),
         ], true);

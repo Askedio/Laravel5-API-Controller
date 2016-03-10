@@ -43,7 +43,7 @@ trait ApiTrait
                 $_columns = $this->columns();
                 foreach ($members as $column) {
                     if (!in_array(ltrim($column, '-'), $_columns)) {
-                        throw new BadRequestException('bad_request');
+                        throw new BadRequestException('invalid_sort', class_basename($this), ltrim($column, '-'));
                     }
                     $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
                 }
@@ -67,7 +67,7 @@ trait ApiTrait
         }
         foreach ($_includes as $include) {
             if (!in_array($include, $_allowed)) {
-                throw new BadRequestException('bad_request');
+                  throw new BadRequestException('invalid_include', strtolower(class_basename($this)), $include);
             }
         }
     }
@@ -89,7 +89,7 @@ trait ApiTrait
                 if (in_array($filter, $_columns)) {
                     $_results[$filter] = $_content[$filter];
                 } else {
-                    throw new BadRequestException('bad_request');
+                  throw new BadRequestException('invalid_filter', $_key, $filter);
                 }
             }
         } else {
