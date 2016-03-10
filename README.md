@@ -14,7 +14,7 @@ Made for [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy) but can work 
 
 
 # Installation
-Some better examples are in the [wiki](https://github.com/Askedio/Laravel5-API-Controller/wiki).
+Check the [wiki](https://github.com/Askedio/Laravel5-API-Controller/wiki) for more details.
 
 ### Install Package
 ~~~
