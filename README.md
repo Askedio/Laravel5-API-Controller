@@ -9,7 +9,7 @@ A really simple package that provides a CRUD JSON API for Modals and Controllers
 * [Laravel 5.2 Example Package](https://github.com/Askedio/Laravel-5-CRUD-Example)
 * You may also like [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy)
 
-![Example](http://imgur.com/EzCUqnN)
+![Example](http://i.imgur.com/EzCUqnN.png)
 
 
 # Installation
