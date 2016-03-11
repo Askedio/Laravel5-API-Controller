@@ -3,6 +3,7 @@
 namespace Askedio\Laravel5ApiController\Exceptions;
 
 use Askedio\Laravel5ApiController\Helpers\ApiException;
+use Askedio\Laravel5ApiController\Helpers\JsonResponse;
 use Exception;
 
 abstract class JsonException extends Exception
@@ -59,9 +60,9 @@ abstract class JsonException extends Exception
       if (!isset($args[0])) {
           return false;
       }
-        $_settings = $this->settings($args);
-        $this->error = ApiException::build($_settings);
-        $this->status = $_settings['code'];
+      $_settings    = $this->settings($args);
+      $this->error  = ApiException::build($_settings);
+      $this->status = $_settings['code'];
     }
 
     /**

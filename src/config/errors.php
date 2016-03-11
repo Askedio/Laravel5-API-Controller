@@ -34,25 +34,25 @@ return [
     'invalid_sort' => [
         'title'  => 'Invalid Query Parameter.',
         'detail' => 'The resource `%s` does not have an `%s` sorting option.',
-        'source' => ['pointer' => '%s'],
+        'source' => ['type' => 'parameter', 'value' => '%s.%s'],
     ],
 
     'invalid_filter' => [
         'title'  => 'Invalid Query Parameter.',
         'detail' => 'The resource `%s` does not have an `%s` filter option.',
-        'source' => ['type' => 'pointer', 'value' => '%s.%s'],
+        'source' => ['type' => 'parameter', 'value' => '%s.%s'],
     ],
 
     'invalid_include' => [
         'title'  => 'Invalid Query Parameter',
         'detail' => 'The resource `%s` does not have an `%s` relationship path.',
-        'source' => ['pointer' => '%s'],
+        'source' => ['type' => 'parameter', 'value' => '%s.%s'],
     ],
 
     'invalid_get' => [
         'title'  => 'Invalid Query Parameter',
         'detail' => '%s is not an allowed query parameter.',
-        'source' => ['pointer' => '%s'],
+        'source' => ['type' => 'parameter', 'value' => '%s'],
     ],
 
     'invalid_attribute' => [

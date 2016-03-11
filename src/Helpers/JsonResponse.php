@@ -19,6 +19,12 @@ class JsonResponse
         return response()->jsonapi($code, Transformer::render($results));
     }
 
+    public static function error($code, $results)
+    {
+        return response()->jsonapi($code, $results);
+    }
+
+
     /**
      * Render the output for the json api.
      *

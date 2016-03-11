@@ -28,6 +28,8 @@ class GenericServiceProvider extends ServiceProvider
       $this->mergeConfigFrom(
         __DIR__.'/../config/jsonapi.php', 'jsonapi'
     );
+
+  
   }
 
   /**
@@ -40,7 +42,7 @@ class GenericServiceProvider extends ServiceProvider
       $router->middleware('jsonapi', \Askedio\Laravel5ApiController\Http\Middleware\JsonApiMiddleware::class);
 
       Response::macro('jsonapi', function ($code, $value) {
-        return new JsonResponse($value, $code, [
+        return response()->json($value, $code, [
           'Content-Type' => config('jsonapi.content_type', 'application/vnd.api+json'),
         ], true);
       });

@@ -4,7 +4,7 @@ namespace Askedio\Laravel5ApiController\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\JsonResponse;
+use Askedio\Laravel5ApiController\Helpers\JsonResponse;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -85,11 +85,6 @@ class Handler extends ExceptionHandler
             }
         }
 
-        return new JsonResponse(
-          $data,
-          $code,
-          ['Content-Type' => config('jsonapi.content-type')],
-          true
-        );
+        return JsonResponse::error($code, $data);
     }
 }
