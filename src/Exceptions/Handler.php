@@ -2,9 +2,9 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
+use Askedio\Laravel5ApiController\Helpers\JsonResponse;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Askedio\Laravel5ApiController\Helpers\JsonResponse;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
