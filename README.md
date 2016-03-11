@@ -103,17 +103,17 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 
 
 ### Allowed Query Paramaters
-Global
-* include [comma delim list: profiles,addresses]
-* fields  [array=comma delim list: fields[profile]=id,name
+~~~
+#Global
+include: [comma delim list] ie: include=profiles,addresses
+fields:  [array=comma delim list] ie: fields[profile]=id,name
 
-
-Lists
-* page    [int]
-* limit   [int]
-* sort    [-]field
-* search  [string]
-
+# Lists
+page:    [int]
+limit:   [int]
+sort:    [-]field
+search:  [string]
+~~~
 
 
 
@@ -130,8 +130,8 @@ Supported:
 * Form Validation
 
 Not Supported:
-* json api spec for PATCH/PUT/POST input variaibles
-** Currently {var:val} is being used.
+*  PATCH/PUT/POST input variaibles, currently accepting {var:val}
+
 
 
 
