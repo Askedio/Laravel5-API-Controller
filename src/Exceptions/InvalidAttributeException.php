@@ -15,7 +15,7 @@ class InvalidAttributeException extends JsonException
     public function __construct()
     {
         $message = $this->build(func_get_args());
-        $this->detail = func_get_args()[2];
+
         parent::__construct($message);
     }
 }

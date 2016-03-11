@@ -13,7 +13,8 @@ trait ControllerTrait
     public function __construct()
     {
         if (isset($this->version) && ApiHelper::getVersion() != $this->version) {
-            throw new NotAcceptableException('not-acceptable', '/application/vnd.api.'.$this->version.'+json');
+            ApiHelper::setExceptionDetails('/application/vnd.api.'.$this->version.'+json');
+            throw new NotAcceptableException('not-acceptable');
         }
 
         $this->results = new ControllerHelper($this->modal);
@@ -60,7 +61,7 @@ trait ControllerTrait
         return $this->render([
           'success' => 200,
           'error'   => 404,
-          'data'    => $this->render->show($id),
+          'data'    => $this->results->show($id),
           'results' => $this->results->destroy($id),
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
+use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Exception;
 
 abstract class JsonException extends Exception
@@ -9,27 +10,12 @@ abstract class JsonException extends Exception
     /**
      * @var string
      */
-    protected $id;
+    protected $error;
 
     /**
-     * @var string
+     * @var int
      */
     protected $status;
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var string
-     */
-    protected $detail;
-
-    /**
-     * @var string
-     */
-    protected $source;
 
     /**
      * @param @string $message
@@ -42,64 +28,113 @@ abstract class JsonException extends Exception
     }
 
     /**
+     * Get the error.
+     *
+     * @return mixed
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    /**
      * Get the status.
      *
      * @return int
      */
-    public function getStatus()
+    public function getStatusCode()
     {
         return (int) $this->status;
     }
 
     /**
-     * Get the source.
+     * Build the Exception
      *
-     * @return int
-     */
-    public function getSource()
-    {
-        return $this->source;
-    }
-
-    /**
-     * Return the Exception as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return [
-            'id'     => $this->id,
-            'status' => $this->status,
-            'title'  => $this->title,
-            'detail' => $this->detail,
-        ];
-    }
-
-    /**
-     * Build the Exception.
-     *
-     * @param array $args
-     *
-     * @return string
+     * @return void
      */
     protected function build(array $args)
     {
-        /* TO-DO: I used a simple example, it needs validations/type checks before rendering since thigns may be optional now */
-        $this->id = array_shift($args);
 
-        $error = config(sprintf('errors.%s', $this->id));
+      // nothing to build if no type
+      if(!isset($args[0])) return false;
 
-        $this->title = $error['title'];
-        $this->detail = vsprintf($error['detail'], $args);
-        // to-do: could be better but its been 14+ hours...
-        if (isset($error['source'])) {
-            $this->source =
-          isset($args[1])
-             ? [$args[0] => vsprintf($error['source'], $args[1])]
-             : ['parameter' => vsprintf($error['source'], $args)];
-        }
+      $settings = $this->settings($args);
+      $_results = $this->details($settings);
 
-        return $this->detail;
+      $this->error = ApiHelper::renderJsonSpi(['errors' => $_results]);
+
+      $this->status = $settings['code'];
+
     }
+
+
+    /**
+     * Generate settings array
+     *
+     * @return array
+     */
+    private function settings($args)
+    {
+      $_base = [
+        'title' => '',
+        'detail' => '',
+        'code' => isset($args[1]) ? $args[1] : $this->status
+      ];
+
+      return array_merge($_base, config(sprintf('errors.%s', $args[0]), []));
+    }
+
+
+    /**
+     * Build the error results
+     *
+     * @return array
+     */
+    private function details($_template)
+    {
+
+      $_results = [];
+
+      $_details  = ApiHelper::getExceptionDetails();
+
+      // Pre-rendered errors
+      if(isset($_details['errors']) && is_array($_details['errors'])){
+        foreach($_details['errors'] as $detail){
+         $_results[] = $detail;
+        }
+      // Not pre-rendered errors, build from template
+      }else{
+        if(!is_array($_details)) $_details = [$_details];
+        if(!empty($_details)){
+          foreach($_details as $detail){
+           $_results[]= $this->item($_template, $detail);
+          }
+        }
+      }
+
+      return $_results;
+
+    }
+
+
+    /**
+     * Render the item.
+     *
+     * @return array
+     */
+    private function item($_template, $detail)
+    {
+
+          $_insert = $_template;
+          $_replace  = $_template['detail'];
+
+          $_insert['detail'] = vsprintf($_replace, $detail);
+          if(isset($_template['source'])){
+            $_insert['source'] = [];
+            $_insert['source'][$_template['source']['type']] = vsprintf($_template['source']['value'], $detail);
+          }
+          return $_insert;
+    }
+
+
 }

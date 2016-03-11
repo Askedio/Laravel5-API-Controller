@@ -6,8 +6,7 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -43,7 +42,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        //config('app.debug') ||
         if (!$request->is(config('jsonapi.url', 'api/*'))) {
             return parent::render($request, $e);
         }
@@ -61,46 +59,41 @@ class Handler extends ExceptionHandler
      */
     private function handle($request, Exception $e)
     {
-        $data = ['Fatal exception'];
-        $status = 500;
-
         if ($e instanceof JsonException) {
-            $data = $e->toArray();
-            $status = $e->getStatus();
-            $source = $e->getSource();
-        } elseif ($e instanceof NotFoundHttpException) {
-            $data = array_merge([
-                'id'     => 'not_found',
-                'status' => '404',
-            ], config('errors.not_found'));
+            $data = $e->getError();
+            $code = $e->getStatusCode();
 
-            $status = 404;
-        } elseif ($e instanceof MethodNotAllowedHttpException) {
-            $data = array_merge([
-                'id'     => 'method_not_allowed',
-                'status' => '405',
-            ], config('errors.method_not_allowed'));
-
-            $status = 405;
-        } else {
-            // TO-DO: totally not proper
-         $response = parent::render($request, $e);
+        } elseif($e instanceof HttpException) {
+            $code = $e->getStatusCode();
             $data = [
-           'status' => $response->getStatusCode(),
-           'detail' => $e->getMessage(),
-         ];
+             'status' => $e->getStatusCode(),
+             'detail' => $e->getMessage(),
+            ];
+            if(env('APP_DEBUG', false)) $data['source'] = [ 'line '. $e->getLine() => $e->getFile() ];
+            $data = ['errors' => $data];
+        } else {
+           if(!env('APP_DEBUG', false)){
+            $code = $e->getStatusCode();
+              $data = [
+               'status' => 500,
+               'detail' => 'Unknown Exception',
+              ];             
+            $data = ['errors' => $data];
+           } else {
+             return parent::render($request, $e);
+           }
         }
 
-        if (isset($data['id'])) {
-            unset($data['id']);
-        }
+        /*
+missing json array stuff
+-- need a function to generate json array output, another version of transform but not for models but array output
+        */
 
-        if (isset($source)) {
-            $data['source'] = $source;
-        }
-
-        return new JsonResponse(['errors' => $data], $status, [
-          'Content-Type' => config('jsonapi.content-type', 'application/vnd.api+json'),
-        ], true);
+        return new JsonResponse(
+          $data, 
+          $code, 
+          ['Content-Type' => config('jsonapi.content-type', 'application/vnd.api+json')],
+          true
+        );
     }
 }

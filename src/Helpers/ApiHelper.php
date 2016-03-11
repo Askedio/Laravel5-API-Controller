@@ -12,6 +12,18 @@ class ApiHelper
 {
     private static $version;
 
+    private static $exceptionDetails;
+
+    public static function setExceptionDetails($details)
+    {
+      self::$exceptionDetails = $details;
+    }
+
+    public static function getExceptionDetails()
+    {
+      return self::$exceptionDetails;
+    }
+
     public static function getVersion()
     {
         return self::$version ?: config('jsonapi.version', 'v1');
@@ -32,7 +44,8 @@ class ApiHelper
           throw new InternalServerErrorException('internal_server_error');
         break;
         case 403:
-          throw new InvalidAttributeException('invalid_attribute', $code, $errors);
+          ApiHelper::setExceptionDetails(['errors' => $errors]);
+          throw new InvalidAttributeException('invalid_attribute', $code);
         break;
       }
     }
@@ -58,4 +71,18 @@ class ApiHelper
 
         return $_results;
     }
+
+    /**
+     * @return array
+     */
+    public static function renderJsonSpi($data=[])
+    {
+        return array_merge($data, [
+          'jsonapi' => [
+            'version'   => config('jsonapi.json_version', '1.0'),
+            'self'      => ApiHelper::getVersion(),
+          ],
+        ]);
+    }
+
 }

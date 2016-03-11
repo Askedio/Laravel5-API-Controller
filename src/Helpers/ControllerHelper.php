@@ -73,7 +73,8 @@ class ControllerHelper
     {
         $_allowed = $this->modal->getFillable();
         $request = $this->request->json()->all();
-
+        
+        // TO-DO: laravel helper
         foreach ($request as $var => $val) {
             if (!in_array($var, $_allowed)) {
                 unset($request[$var]);
@@ -90,11 +91,12 @@ class ControllerHelper
         $_errors = [];
         $e = $validator->errors()->toArray();
         foreach ($validator->errors()->toArray() as $_field => $_err) {
-            $_errors[] = [
+            array_push($_errors, [
+            'code'   => 0,
             'source' => ['pointer' => $_field],
             'title'  => config('errors.invalid_attribute.title'),
             'detail' => implode(' ', $_err),
-          ];
+          ]);
         }
 
         return $validator->fails() ? $_errors : false;

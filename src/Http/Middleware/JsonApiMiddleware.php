@@ -8,6 +8,10 @@ use Askedio\Laravel5ApiController\Exceptions\UnsupportedMediaTypeException;
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Closure;
 
+ 
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
+
 class JsonApiMiddleware
 {
     private $request;
@@ -31,6 +35,7 @@ class JsonApiMiddleware
      */
     public function handle($request, Closure $next)
     {
+
         $this->request = $request;
         $this->checkGetVars();
         $this->checkAccept();
@@ -46,10 +51,9 @@ class JsonApiMiddleware
         }
 
         $_check = array_except($this->request->all(), config('jsonapi.allowed_get', $this->allowedGetVariables));
-
         if (!empty($_check)) {
             /* TO-DO: exception should render array of errors */
-        throw new BadRequestException('invalid_get', rtrim(implode(', ', array_keys($_check)), ', '));
+            throw new BadRequestException('invalid_get', rtrim(implode(', ', array_keys($_check)), ', '));
         }
     }
 

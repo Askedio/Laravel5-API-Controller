@@ -5,6 +5,7 @@ namespace Askedio\Laravel5ApiController\Traits;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
 use Schema;
+use Cache;
 
 trait ApiTrait
 {
@@ -43,7 +44,8 @@ trait ApiTrait
                 $_columns = $this->columns();
                 foreach ($members as $column) {
                     if (!in_array(ltrim($column, '-'), $_columns)) {
-                        throw new BadRequestException('invalid_sort', class_basename($this), ltrim($column, '-'));
+                        ApiHelper::setExceptionDetails([strtolower(class_basename($this)), ltrim($column, '-')]);
+                        throw new BadRequestException('invalid_sort');
                     }
                     $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
                 }
@@ -67,7 +69,8 @@ trait ApiTrait
         }
         foreach ($_includes as $include) {
             if (!in_array($include, $_allowed)) {
-                throw new BadRequestException('invalid_include', strtolower(class_basename($this)), $include);
+                ApiHelper::setExceptionDetails([strtolower(class_basename($this)), $include]);
+                throw new BadRequestException('invalid_include');
             }
         }
     }
@@ -80,6 +83,7 @@ trait ApiTrait
         }
 
         $_results = [];
+        $_errors  = [];
         $_key = strtolower(class_basename($this));
         $_columns = $this->columns();
         $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
@@ -89,8 +93,12 @@ trait ApiTrait
                 if (in_array($filter, $_columns)) {
                     $_results[$filter] = $_content[$filter];
                 } else {
-                    throw new BadRequestException('invalid_filter', $_key, $filter);
+                  array_push($_errors, [$_key, $filter]);
                 }
+            }
+            if(!empty($_errors)){
+              ApiHelper::setExceptionDetails($_errors);
+              throw new BadRequestException('invalid_filter');
             }
         } else {
             $_results = $_content;
@@ -101,7 +109,9 @@ trait ApiTrait
 
     private function columns()
     {
-        return Schema::getColumnListing($this->getTable());
+      return Cache::rememberForever('columns-'. $this->getTable(), function() {
+              return Schema::getColumnListing($this->getTable());
+      });
     }
 
     /**
