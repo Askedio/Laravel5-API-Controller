@@ -5,8 +5,8 @@ namespace Askedio\Laravel5ApiController\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -62,26 +62,27 @@ class Handler extends ExceptionHandler
         if ($e instanceof JsonException) {
             $data = $e->getError();
             $code = $e->getStatusCode();
-
-        } elseif($e instanceof HttpException) {
+        } elseif ($e instanceof HttpException) {
             $code = $e->getStatusCode();
             $data = [
              'status' => $e->getStatusCode(),
              'detail' => $e->getMessage(),
             ];
-            if(env('APP_DEBUG', false)) $data['source'] = [ 'line '. $e->getLine() => $e->getFile() ];
+            if (env('APP_DEBUG', false)) {
+                $data['source'] = ['line '.$e->getLine() => $e->getFile()];
+            }
             $data = ['errors' => $data];
         } else {
-           if(!env('APP_DEBUG', false)){
-            $code = $e->getStatusCode();
-              $data = [
+            if (!env('APP_DEBUG', false)) {
+                $code = $e->getStatusCode();
+                $data = [
                'status' => 500,
                'detail' => 'Unknown Exception',
-              ];             
-            $data = ['errors' => $data];
-           } else {
-             return parent::render($request, $e);
-           }
+              ];
+                $data = ['errors' => $data];
+            } else {
+                return parent::render($request, $e);
+            }
         }
 
         /*
@@ -90,8 +91,8 @@ missing json array stuff
         */
 
         return new JsonResponse(
-          $data, 
-          $code, 
+          $data,
+          $code,
           ['Content-Type' => config('jsonapi.content-type', 'application/vnd.api+json')],
           true
         );

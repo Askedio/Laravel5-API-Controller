@@ -4,8 +4,8 @@ namespace Askedio\Laravel5ApiController\Traits;
 
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Helpers\ApiHelper;
-use Schema;
 use Cache;
+use Schema;
 
 trait ApiTrait
 {
@@ -83,7 +83,7 @@ trait ApiTrait
         }
 
         $_results = [];
-        $_errors  = [];
+        $_errors = [];
         $_key = strtolower(class_basename($this));
         $_columns = $this->columns();
         $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
@@ -93,12 +93,12 @@ trait ApiTrait
                 if (in_array($filter, $_columns)) {
                     $_results[$filter] = $_content[$filter];
                 } else {
-                  array_push($_errors, [$_key, $filter]);
+                    array_push($_errors, [$_key, $filter]);
                 }
             }
-            if(!empty($_errors)){
-              ApiHelper::setExceptionDetails($_errors);
-              throw new BadRequestException('invalid_filter');
+            if (!empty($_errors)) {
+                ApiHelper::setExceptionDetails($_errors);
+                throw new BadRequestException('invalid_filter');
             }
         } else {
             $_results = $_content;
@@ -109,7 +109,7 @@ trait ApiTrait
 
     private function columns()
     {
-      return Cache::rememberForever('columns-'. $this->getTable(), function() {
+        return Cache::rememberForever('columns-'.$this->getTable(), function () {
               return Schema::getColumnListing($this->getTable());
       });
     }
