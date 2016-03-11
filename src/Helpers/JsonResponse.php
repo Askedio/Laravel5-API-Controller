@@ -4,7 +4,7 @@ namespace Askedio\Laravel5ApiController\Helpers;
 
 use Askedio\Laravel5ApiController\Transformers\Transformer;
 
-class JsonHelper
+class JsonResponse
 {
     /**
      * Successfull Event.

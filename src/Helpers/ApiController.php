@@ -5,7 +5,7 @@ namespace Askedio\Laravel5ApiController\Helpers;
 use Request;
 use Validator;
 
-class ControllerHelper
+class ApiController
 {
     /** @var object */
     private $model;

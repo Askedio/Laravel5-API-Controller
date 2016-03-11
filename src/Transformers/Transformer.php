@@ -3,7 +3,7 @@
 namespace Askedio\Laravel5ApiController\Transformers;
 
 use Askedio\Laravel5ApiController\Helpers\Api;
-use Askedio\Laravel5ApiController\Helpers\JsonHelper;
+use Askedio\Laravel5ApiController\Helpers\JsonResponse;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
@@ -20,7 +20,7 @@ class Transformer
      */
     public static function render($object)
     {
-        return JsonHelper::render(self::objectOrPage($object));
+        return JsonResponse::render(self::objectOrPage($object));
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
-use Askedio\Laravel5ApiController\Helpers\ExceptionHelper;
-use Askedio\Laravel5ApiController\Helpers\JsonHelper;
+use Askedio\Laravel5ApiController\Helpers\ApiException;
+use Askedio\Laravel5ApiController\Helpers\JsonResponse;
 use Exception;
 
 abstract class JsonException extends Exception
@@ -64,7 +64,7 @@ abstract class JsonException extends Exception
         $settings = $this->settings($args);
         $_results = $this->details($settings);
 
-        $this->error = JsonHelper::render(['errors' => $_results]);
+        $this->error = JsonResponse::render(['errors' => $_results]);
 
         $this->status = $settings['code'];
     }
@@ -94,7 +94,7 @@ abstract class JsonException extends Exception
     {
         $_results = [];
 
-        $_details = ExceptionHelper::getDetails();
+        $_details = ApiException::getDetails();
 
       /* Pre-rendered errors */
       if (isset($_details['errors']) && is_array($_details['errors'])) {
