@@ -26,8 +26,8 @@ composer require askedio/laravel5-api-controller:dev-master
 
 ### Add to providers array in config/app.php
 ~~~
-    'providers' => [
-        Askedio\Laravel5ApiController\Providers\GenericServiceProvider::class,
+'providers' => [
+    Askedio\Laravel5ApiController\Providers\GenericServiceProvider::class,
         ...
 ~~~
 
