@@ -28,7 +28,7 @@ return [
 
     'unsupported-media-type' => [
         'title'  => 'Unsupported Media Type',
-        'detail' => 'Content-Type was not'.config('jsonapi.content-type', 'application/vnd.api+json'),
+        'detail' => 'Content-Type was not'.config('jsonapi.content-type'),
     ],
 
     'invalid_sort' => [
@@ -40,7 +40,7 @@ return [
     'invalid_filter' => [
         'title'  => 'Invalid Query Parameter.',
         'detail' => 'The resource `%s` does not have an `%s` filter option.',
-        'source' => ['pointer' => '%s'],
+        'source' => ['type' => 'pointer', 'value' => '%s.%s'],
     ],
 
     'invalid_include' => [
@@ -58,6 +58,7 @@ return [
     'invalid_attribute' => [
         'title'  => 'Invalid Attribute',
         'detail' => '%s',
+        'source' => ['type' => 'pointer', 'value' => '%s'],
     ],
 
 ];

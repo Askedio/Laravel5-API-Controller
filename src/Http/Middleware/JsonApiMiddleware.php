@@ -12,15 +12,6 @@ class JsonApiMiddleware
 {
     private $request;
 
-    private $allowedGetVariables = [
-                  'include',
-                  'fields',
-                  'page',
-                  'limit',
-                  'sort',
-                  'search',
-                 ];
-
     /**
      * Filter requests based on Accept and Content-Type matches.
      *
@@ -45,7 +36,7 @@ class JsonApiMiddleware
             return false;
         }
 
-        $_check = array_except($this->request->all(), config('jsonapi.allowed_get', $this->allowedGetVariables));
+        $_check = array_except($this->request->all(), config('jsonapi.allowed_get'));
         if (!empty($_check)) {
             /* TO-DO: exception should render array of errors */
             throw new BadRequestException('invalid_get', rtrim(implode(', ', array_keys($_check)), ', '));
@@ -55,8 +46,8 @@ class JsonApiMiddleware
     private function checkAccept()
     {
         if (!preg_match('/application\/vnd\.api\.([\w\d\.]+)\+([\w]+)/', $this->request->header('Accept'), $matches)
-              && $this->request->header('Accept') != config('jsonapi.accept', 'application/vnd.api+json')) {
-            if (config('jsonapi.strict', false)) {
+              && $this->request->header('Accept') != config('jsonapi.accept')) {
+            if (config('jsonapi.strict')) {
                 throw new NotAcceptableException('not-acceptable');
             }
         } else {
@@ -68,8 +59,8 @@ class JsonApiMiddleware
 
     private function checkContentType()
     {
-        if ($this->request->header('Content-Type') != config('jsonapi.content_type', 'application/vnd.api+json')) {
-            if (config('jsonapi.strict', false)) {
+        if ($this->request->header('Content-Type') != config('jsonapi.content_type')) {
+            if (config('jsonapi.strict')) {
                 throw new UnsupportedMediaTypeException('unsupported-media-type');
             }
         }

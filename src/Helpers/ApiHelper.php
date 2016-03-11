@@ -26,7 +26,7 @@ class ApiHelper
 
     public static function getVersion()
     {
-        return self::$version ?: config('jsonapi.version', 'v1');
+        return self::$version ?: config('jsonapi.version');
     }
 
     public static function setVersion($version)

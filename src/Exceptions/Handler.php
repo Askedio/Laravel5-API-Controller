@@ -42,7 +42,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if (!$request->is(config('jsonapi.url', 'api/*'))) {
+        if (!$request->is(config('jsonapi.url'))) {
             return parent::render($request, $e);
         }
 
@@ -93,7 +93,7 @@ missing json array stuff
         return new JsonResponse(
           $data,
           $code,
-          ['Content-Type' => config('jsonapi.content-type', 'application/vnd.api+json')],
+          ['Content-Type' => config('jsonapi.content-type')],
           true
         );
     }
