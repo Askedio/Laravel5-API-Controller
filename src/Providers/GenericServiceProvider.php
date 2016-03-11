@@ -40,6 +40,5 @@ class GenericServiceProvider extends ServiceProvider
       $this->publishes([
         realpath(__DIR__.'/../config') => config_path(''),
       ], 'config');
-
   }
 }
