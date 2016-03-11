@@ -56,17 +56,13 @@ abstract class JsonException extends Exception
     protected function build(array $args)
     {
 
-      // nothing to build if no type
+      /* Nothing to build if no type. */
       if (!isset($args[0])) {
           return false;
       }
-
-        $settings = $this->settings($args);
-        $_results = $this->details($settings);
-
-        $this->error = JsonResponse::render(['errors' => $_results]);
-
-        $this->status = $settings['code'];
+      $_settings    = $this->settings($args);
+      $this->error  = ApiException::build($_settings);
+      $this->status = $_settings['code'];
     }
 
     /**
@@ -83,55 +79,5 @@ abstract class JsonException extends Exception
       ];
 
         return array_merge($_base, config(sprintf('errors.%s', $args[0]), []));
-    }
-
-    /**
-     * Build the error results.
-     *
-     * @return array
-     */
-    private function details($_template)
-    {
-        $_results = [];
-
-        $_details = ApiException::getDetails();
-
-      /* Pre-rendered errors */
-      if (isset($_details['errors']) && is_array($_details['errors'])) {
-          foreach ($_details['errors'] as $detail) {
-              $_results[] = $detail;
-          }
-      /* Not pre-rendered errors, build from template */
-      } else {
-          if (!is_array($_details)) {
-              $_details = [$_details];
-          }
-          if (!empty($_details)) {
-              foreach ($_details as $detail) {
-                  $_results[] = $this->item($_template, $detail);
-              }
-          }
-      }
-
-        return $_results;
-    }
-
-    /**
-     * Render the item.
-     *
-     * @return array
-     */
-    private function item($_template, $detail)
-    {
-        $_insert = $_template;
-        $_replace = $_template['detail'];
-
-        $_insert['detail'] = vsprintf($_replace, $detail);
-        if (isset($_template['source'])) {
-            $_insert['source'] = [];
-            $_insert['source'][$_template['source']['type']] = vsprintf($_template['source']['value'], $detail);
-        }
-
-        return $_insert;
     }
 }

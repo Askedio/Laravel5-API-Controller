@@ -2,142 +2,112 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
-use Request;
-use Validator;
+use Askedio\Laravel5ApiController\Exceptions\InternalServerErrorException;
+use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
+use Askedio\Laravel5ApiController\Exceptions\NotFoundException;
 
 class ApiException
 {
-    /** @var object */
-    private $model;
-
-    /** @var Illuminate\Http\Request */
-    private $request;
+    /** @var array */
+    private static $exceptionDetails;
 
     /**
-     * @param modelclass.. $model
-     */
-    public function __construct($model)
-    {
-        $this->model = new $model();
-        $this->model->checkIncludes();
-        $this->request = Request();
-    }
-
-    /**
-     * index.
+     * Store exception details.
      *
-     * @return pagination class..
+     * @param mixed $details
      */
-    public function index()
+    public static function setDetails($details)
     {
-        $results = $this->model->setSort($this->request->input('sort'));
-
-        if ($this->request->input('search') && $this->model->isSearchable()) {
-            $results->search($this->request->input('search'));
-        }
-
-        return $results->paginate(($this->request->input('limit') ?: '10'));
+        self::$exceptionDetails = $details;
     }
 
+
+
     /**
-     * Store.
+     * Render error codes.
      *
-     * @return Illuminate\Database\Eloquent\Model
-     */
-    public function store()
-    {
-        if ($errors = $this->validate('create')) {
-            return ['errors' => $errors];
-        } else {
-            return $this->model->create($this->cleanRequest());
-        }
-    }
-
-    /**
-     * Show.
+     * @param int   $code
+     * @param mixed $errors
      *
-     * @return Illuminate\Database\Eloquent\Model
+     * @return void
      */
-    public function show($id)
+    public static function render($code, $errors = false)
     {
-        return $this->model->find($id);
+        switch ($code) {
+        case 404:
+          throw new NotFoundException('not_found');
+        break;
+        case 500:
+          throw new InternalServerErrorException('internal_server_error');
+        break;
+        case 403:
+          self::setDetails(['errors' => $errors]);
+          throw new InvalidAttributeException('invalid_attribute', $code);
+        break;
+      }
     }
 
     /**
-     * Update.
+     * Build a JsonResponse of errors
      *
-     * @return Illuminate\Database\Eloquent\Model
-     */
-    public function update($id)
-    {
-        if ($errors = $this->validate('update')) {
-            return ['errors' => $errors];
-        } else {
-            $_model = $this->model->find($id);
-
-            return $_model
-              ? (
-                  $_model->update($this->cleanRequest())
-                  ? $_model
-                  : false
-                )
-              : false;
-        }
-    }
-
-    /**
-     * Destroy.
+     * @param  array $settings
      *
-     * @return Illuminate\Database\Eloquent\Model
+     * @return Askedio\Laravel5ApiController\Helpers\JsonResponse
      */
-    public function destroy($id)
+    public static function build($settings)
     {
-        $_model = $this->model->find($id);
-
-        return $_model ? $_model->delete() : false;
+      return JsonResponse::render(['errors' => self::details($settings)]);
     }
 
+
     /**
-     * Clean Request Fields.
+     * Build the error results.
      *
      * @return array
      */
-    private function cleanRequest()
+    public static function details($_template)
     {
-        $_allowed = $this->model->getFillable();
-        $request = $this->request->json()->all();
+        $_results = [];
 
-        // TO-DO: laravel helper
-        foreach ($request as $var => $val) {
-            if (!in_array($var, $_allowed)) {
-                unset($request[$var]);
-            }
-        }
+        $_details = self::$exceptionDetails;
 
-        return $request;
+      /* Pre-rendered errors */
+      if (isset($_details['errors']) && is_array($_details['errors'])) {
+          foreach ($_details['errors'] as $detail) {
+              $_results[] = $detail;
+          }
+      /* Not pre-rendered errors, build from template */
+      } else {
+          if (!is_array($_details)) {
+              $_details = [$_details];
+          }
+          if (!empty($_details)) {
+              foreach ($_details as $detail) {
+                  $_results[] = self::item($_template, $detail);
+              }
+          }
+      }
+
+        return $_results;
     }
 
     /**
-     * Validate Form.
-     *
-     * @param string $action
+     * Render the item.
      *
      * @return array
      */
-    private function validate($action)
+    private static function item($_template, $detail)
     {
-        $validator = Validator::make($this->request->json()->all(), $this->model->getRule($action));
-        $_errors = [];
-        $e = $validator->errors()->toArray();
-        foreach ($validator->errors()->toArray() as $_field => $_err) {
-            array_push($_errors, [
-            'code'   => 0,
-            'source' => ['pointer' => $_field],
-            'title'  => config('errors.invalid_attribute.title'),
-            'detail' => implode(' ', $_err),
-          ]);
+        $_insert = $_template;
+        $_replace = $_template['detail'];
+
+        $_insert['detail'] = vsprintf($_replace, $detail);
+        if (isset($_template['source'])) {
+            $_insert['source'] = [];
+            $_insert['source'][$_template['source']['type']] = vsprintf($_template['source']['value'], $detail);
         }
 
-        return $validator->fails() ? $_errors : false;
+        return $_insert;
     }
+
 }

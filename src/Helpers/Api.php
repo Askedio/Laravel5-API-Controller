@@ -49,7 +49,7 @@ class Api
     public static function fields()
     {
         $_results = [];
-        foreach (array_filter(Request::input('fields', [])) as $type => &$members) {
+        foreach (array_filter(Request::input('fields', [])) as $type => $members) {
             foreach (explode(',', $members) as $member) {
                 $_results[$type][] = $member;
             }
