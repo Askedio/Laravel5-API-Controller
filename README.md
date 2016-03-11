@@ -3,7 +3,7 @@
 
 
 # Laravel 5.2 API Controller
-A really simple package that provides a CRUD JSON API for Models and Controllers.
+A really simple package that provides a CRUD JSON API.
 
 * [Live Demo](https://cruddy.io/app/) 
 * [Laravel 5.2 Example Package](https://github.com/Askedio/Laravel-5-CRUD-Example)
