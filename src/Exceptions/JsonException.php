@@ -48,7 +48,7 @@ abstract class JsonException extends Exception
     }
 
     /**
-     * Build the Exception
+     * Build the Exception.
      *
      * @return void
      */
@@ -56,66 +56,64 @@ abstract class JsonException extends Exception
     {
 
       // nothing to build if no type
-      if(!isset($args[0])) return false;
+      if (!isset($args[0])) {
+          return false;
+      }
 
-      $settings = $this->settings($args);
-      $_results = $this->details($settings);
+        $settings = $this->settings($args);
+        $_results = $this->details($settings);
 
-      $this->error = ApiHelper::renderJsonSpi(['errors' => $_results]);
+        $this->error = ApiHelper::renderJsonSpi(['errors' => $_results]);
 
-      $this->status = $settings['code'];
-
+        $this->status = $settings['code'];
     }
 
-
     /**
-     * Generate settings array
+     * Generate settings array.
      *
      * @return array
      */
     private function settings($args)
     {
-      $_base = [
-        'title' => '',
+        $_base = [
+        'title'  => '',
         'detail' => '',
-        'code' => isset($args[1]) ? $args[1] : $this->status
+        'code'   => isset($args[1]) ? $args[1] : $this->status,
       ];
 
-      return array_merge($_base, config(sprintf('errors.%s', $args[0]), []));
+        return array_merge($_base, config(sprintf('errors.%s', $args[0]), []));
     }
 
-
     /**
-     * Build the error results
+     * Build the error results.
      *
      * @return array
      */
     private function details($_template)
     {
+        $_results = [];
 
-      $_results = [];
-
-      $_details  = ApiHelper::getExceptionDetails();
+        $_details = ApiHelper::getExceptionDetails();
 
       // Pre-rendered errors
-      if(isset($_details['errors']) && is_array($_details['errors'])){
-        foreach($_details['errors'] as $detail){
-         $_results[] = $detail;
-        }
-      // Not pre-rendered errors, build from template
-      }else{
-        if(!is_array($_details)) $_details = [$_details];
-        if(!empty($_details)){
-          foreach($_details as $detail){
-           $_results[]= $this->item($_template, $detail);
+      if (isset($_details['errors']) && is_array($_details['errors'])) {
+          foreach ($_details['errors'] as $detail) {
+              $_results[] = $detail;
           }
-        }
+      // Not pre-rendered errors, build from template
+      } else {
+          if (!is_array($_details)) {
+              $_details = [$_details];
+          }
+          if (!empty($_details)) {
+              foreach ($_details as $detail) {
+                  $_results[] = $this->item($_template, $detail);
+              }
+          }
       }
 
-      return $_results;
-
+        return $_results;
     }
-
 
     /**
      * Render the item.
@@ -124,17 +122,15 @@ abstract class JsonException extends Exception
      */
     private function item($_template, $detail)
     {
+        $_insert = $_template;
+        $_replace = $_template['detail'];
 
-          $_insert = $_template;
-          $_replace  = $_template['detail'];
-
-          $_insert['detail'] = vsprintf($_replace, $detail);
-          if(isset($_template['source'])){
+        $_insert['detail'] = vsprintf($_replace, $detail);
+        if (isset($_template['source'])) {
             $_insert['source'] = [];
             $_insert['source'][$_template['source']['type']] = vsprintf($_template['source']['value'], $detail);
-          }
-          return $_insert;
+        }
+
+        return $_insert;
     }
-
-
 }

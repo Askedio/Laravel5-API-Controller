@@ -73,7 +73,7 @@ class ControllerHelper
     {
         $_allowed = $this->modal->getFillable();
         $request = $this->request->json()->all();
-        
+
         // TO-DO: laravel helper
         foreach ($request as $var => $val) {
             if (!in_array($var, $_allowed)) {
