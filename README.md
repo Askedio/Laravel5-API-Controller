@@ -64,7 +64,7 @@ class UserController extends BaseController
 ~~~
 
 ### Routes: app/Http/routes.php
-Enable the jsonapi middleware on your route. 
+Create a prefixed group for your api and assign the api and jsonapi middlewares.
 ~~~
 Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 {
