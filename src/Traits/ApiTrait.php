@@ -61,7 +61,7 @@ trait ApiTrait
     /**
      * Return if Model has searchable flag.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSearchable()
     {

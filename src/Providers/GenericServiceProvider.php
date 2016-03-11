@@ -21,11 +21,11 @@ class GenericServiceProvider extends ServiceProvider
         \Askedio\Laravel5ApiController\Exceptions\Handler::class
       );
 
-    $this->mergeConfigFrom(
+      $this->mergeConfigFrom(
         __DIR__.'/../config/errors.php', 'errors'
     );
 
-    $this->mergeConfigFrom(
+      $this->mergeConfigFrom(
         __DIR__.'/../config/jsonapi.php', 'jsonapi'
     );
   }
@@ -45,9 +45,9 @@ class GenericServiceProvider extends ServiceProvider
         ], true);
       });
 
-    $this->publishes([
+      $this->publishes([
         __DIR__.'/config/jsonapi.php' => config_path('jsonapi.php'),
-        __DIR__.'/config/errors.php' => config_path('errors.php'),
+        __DIR__.'/config/errors.php'  => config_path('errors.php'),
     ]);
   }
 }

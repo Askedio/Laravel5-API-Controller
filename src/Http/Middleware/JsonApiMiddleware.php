@@ -31,7 +31,7 @@ class JsonApiMiddleware
     }
 
     /**
-     * Check GET input variaibles
+     * Check GET input variaibles.
      *
      * @return void
      */
@@ -49,10 +49,9 @@ class JsonApiMiddleware
     }
 
     /**
-     * Check Accept Header
+     * Check Accept Header.
      *
      * @return void
-     *
      */
     private function checkAccept()
     {
@@ -69,7 +68,7 @@ class JsonApiMiddleware
     }
 
     /**
-     * Check Content-Type Header
+     * Check Content-Type Header.
      *
      * @return void
      */
