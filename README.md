@@ -3,7 +3,7 @@
 
 
 # Laravel 5.2 API Controller
-A really simple package that provides a CRUD JSON API for Modals and Controllers.
+A really simple package that provides a CRUD JSON API for Models and Controllers.
 
 * [Live Demo](https://cruddy.io/app/) 
 * [Laravel 5.2 Example Package](https://github.com/Askedio/Laravel-5-CRUD-Example)
@@ -33,7 +33,7 @@ composer require askedio/laravel5-api-controller:dev-master
 
 
 
-### Modal, ie: app/User.php
+### Model, ie: app/User.php
 Add the use statements to your Model to enable the Api and Search features.
 ~~~
 class User extends Authenticatable
@@ -43,7 +43,7 @@ class User extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~
-You can set more details, like searching, includes, rules, primarykey and transform in the [Modal Options](https://github.com/Askedio/Laravel5-API-Controller/wiki/Modals).
+You can set more details, like searching, includes, rules, primarykey and transform in the [Model Options](https://github.com/Askedio/Laravel5-API-Controller/wiki/Models).
 
 
 
