@@ -5,7 +5,7 @@ namespace Askedio\Laravel5ApiController\Helpers;
 use Request;
 use Validator;
 
-class ApiController
+class ApiException
 {
     /** @var object */
     private $model;
