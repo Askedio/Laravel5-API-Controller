@@ -130,7 +130,8 @@ Supported:
 * Form Validation
 
 Not Supported:
-*  PATCH/PUT/POST input variaibles, currently accepting {var:val}
+* PUT: I am using PATCH instead.
+* PATCH/POST input variaibles: Currently accepting {var:val}
 
 
 
