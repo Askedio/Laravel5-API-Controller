@@ -7,7 +7,6 @@ use Validator;
 
 class ControllerHelper
 {
-
     /** @var object */
     private $model;
 
@@ -25,7 +24,7 @@ class ControllerHelper
     }
 
     /**
-     * index
+     * index.
      *
      * @return pagination class..
      */
@@ -40,9 +39,8 @@ class ControllerHelper
         return $results->paginate(($this->request->input('limit') ?: '10'));
     }
 
-
     /**
-     * Store
+     * Store.
      *
      * @return Illuminate\Database\Eloquent\Model
      */
@@ -56,7 +54,7 @@ class ControllerHelper
     }
 
     /**
-     * Show
+     * Show.
      *
      * @return Illuminate\Database\Eloquent\Model
      */
@@ -66,7 +64,7 @@ class ControllerHelper
     }
 
     /**
-     * Update
+     * Update.
      *
      * @return Illuminate\Database\Eloquent\Model
      */
@@ -88,7 +86,7 @@ class ControllerHelper
     }
 
     /**
-     * Destroy
+     * Destroy.
      *
      * @return Illuminate\Database\Eloquent\Model
      */
@@ -99,9 +97,9 @@ class ControllerHelper
         return $_model ? $_model->delete() : false;
     }
 
-
     /**
-     * Clean Request Fields
+     * Clean Request Fields.
+     *
      * @return array
      */
     private function cleanRequest()
@@ -119,11 +117,10 @@ class ControllerHelper
         return $request;
     }
 
-
     /**
-     * Validate Form
+     * Validate Form.
      *
-     * @param  string $action
+     * @param string $action
      *
      * @return array
      */

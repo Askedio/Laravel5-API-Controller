@@ -10,7 +10,6 @@ use Request;
 
 class ApiHelper
 {
-
     /** @var string */
     private static $version;
 
@@ -18,7 +17,7 @@ class ApiHelper
     private static $exceptionDetails;
 
     /**
-     * Store exception details
+     * Store exception details.
      *
      * @param mixed $details
      */
@@ -28,7 +27,7 @@ class ApiHelper
     }
 
     /**
-     * Get Exception details
+     * Get Exception details.
      *
      * @return mixed
      */
@@ -38,7 +37,7 @@ class ApiHelper
     }
 
     /**
-     * Get API version
+     * Get API version.
      *
      * @return string
      */
@@ -48,7 +47,7 @@ class ApiHelper
     }
 
     /**
-     * Set version
+     * Set version.
      *
      * @param string $version
      *
@@ -60,10 +59,10 @@ class ApiHelper
     }
 
     /**
-     * Render error codes
+     * Render error codes.
      *
-     * @param  int $code
-     * @param  mixed $errors
+     * @param int   $code
+     * @param mixed $errors
      *
      * @return void
      */
@@ -84,9 +83,10 @@ class ApiHelper
     }
 
     /**
-     * Successfull Event
-     * @param  int $code
-     * @param  mixed $results
+     * Successfull Event.
+     *
+     * @param int   $code
+     * @param mixed $results
      *
      * @return Illuminate\Http\Response
      */
@@ -96,7 +96,7 @@ class ApiHelper
     }
 
     /**
-     * List of included options from input
+     * List of included options from input.
      *
      * @return Illuminate\Http\Request
      */
@@ -106,7 +106,7 @@ class ApiHelper
     }
 
     /**
-     * List of fields from input
+     * List of fields from input.
      *
      * @return array
      */
@@ -123,7 +123,7 @@ class ApiHelper
     }
 
     /**
-     * Render the output for the json api
+     * Render the output for the json api.
      *
      * @return array
      */
