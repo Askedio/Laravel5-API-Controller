@@ -4,8 +4,8 @@ namespace Askedio\Laravel5ApiController\Traits;
 
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Helpers\Api;
-use Askedio\Laravel5ApiController\Helpers\ExceptionHelper;
 use Askedio\Laravel5ApiController\Helpers\ControllerHelper;
+use Askedio\Laravel5ApiController\Helpers\ExceptionHelper;
 use Askedio\Laravel5ApiController\Helpers\JsonHelper;
 
 trait ControllerTrait
