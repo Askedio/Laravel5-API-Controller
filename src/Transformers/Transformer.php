@@ -168,7 +168,7 @@ class Transformer
         return [
           'jsonapi' => [
             'version'   => config('jsonapi.json_version', '1.0'),
-            'self'  => ApiHelper::getVersion(),
+            'self'      => ApiHelper::getVersion(),
           ],
         ];
     }

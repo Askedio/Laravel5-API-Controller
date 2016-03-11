@@ -84,7 +84,6 @@ trait ApiTrait
         $_columns = $this->columns();
         $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
 
-
         if (isset($_fields[$_key])) {
             foreach ($_fields[$_key] as $filter) {
                 if (in_array($filter, $_columns)) {
