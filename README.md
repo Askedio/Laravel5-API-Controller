@@ -88,13 +88,17 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 
 
 
-### JSON API methods can also be used.
+### Allowed Query Paramaters
+Global
+* include [comma delim list: profiles,addresses]
+* fields  [array=comma delim list: fields[profile]=id,name
+Lists
+* page    [int]
+* limit   [int]
+* sort    [-]field
+* search  [string]
 
-~~~
-/api/admin/user/157?include=profiles&fields[user]=name,id&fields[profiles]=id,phone
-/api/admin/user?page=1&sort=id&limit=10
-/api/admin/user?page=1&sort=id&limit=10&sort=-id,name&include=profiles&fields[user]=name,id&fields[profiles]=id,phone
-~~~
+
 
 
 # JSON API Spec
