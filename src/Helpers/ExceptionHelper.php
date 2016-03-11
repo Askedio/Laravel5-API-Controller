@@ -6,7 +6,6 @@ use Askedio\Laravel5ApiController\Exceptions\InternalServerErrorException;
 use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
 use Askedio\Laravel5ApiController\Exceptions\NotFoundException;
 
-
 class ExceptionHelper
 {
     /** @var array */
@@ -55,5 +54,4 @@ class ExceptionHelper
         break;
       }
     }
-
 }

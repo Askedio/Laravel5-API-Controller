@@ -57,6 +57,4 @@ class Api
 
         return $_results;
     }
-
-
 }
