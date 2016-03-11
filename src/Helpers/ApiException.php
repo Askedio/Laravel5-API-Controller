@@ -21,8 +21,6 @@ class ApiException
         self::$exceptionDetails = $details;
     }
 
-
-
     /**
      * Render error codes.
      *
@@ -48,17 +46,16 @@ class ApiException
     }
 
     /**
-     * Build a JsonResponse of errors
+     * Build a JsonResponse of errors.
      *
-     * @param  array $settings
+     * @param array $settings
      *
      * @return Askedio\Laravel5ApiController\Helpers\JsonResponse
      */
     public static function build($settings)
     {
-      return JsonResponse::render(['errors' => self::details($settings)]);
+        return JsonResponse::render(['errors' => self::details($settings)]);
     }
-
 
     /**
      * Build the error results.
@@ -98,8 +95,10 @@ class ApiException
      */
     private static function item($_template, $detail)
     {
-        if(empty($detail)) return $_template;
-        
+        if (empty($detail)) {
+            return $_template;
+        }
+
         $_insert = $_template;
         $_replace = $_template['detail'];
 
@@ -111,5 +110,4 @@ class ApiException
 
         return $_insert;
     }
-
 }

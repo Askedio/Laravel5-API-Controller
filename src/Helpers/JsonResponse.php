@@ -24,7 +24,6 @@ class JsonResponse
         return response()->jsonapi($code, $results);
     }
 
-
     /**
      * Render the output for the json api.
      *
