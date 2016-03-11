@@ -1,15 +1,14 @@
-[![Build Status](https://img.shields.io/travis/Askedio/Laravel5-API-Controller/master.svg?style=flat-square)](https://travis-ci.org/Askedio/Laravel5-API-Controller)
-[![StyleCI](https://styleci.io/repos/52752552/shield)](https://styleci.io/repos/52752552)
-
-
-# Laravel 5.2 API Controller
-A really simple package that provides a CRUD JSON API.
+![laravel-cruddy](http://i.imgur.com/TmEh1m6.jpgg)
+A really simple package that provides a CRUD JSON API for your Laravel 5 application. 
 
 * [Live Demo](https://cruddy.io/app/) 
 * [Laravel 5.2 Example Package](https://github.com/Askedio/Laravel-5-CRUD-Example)
 * Plays well with [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy)
+ 
 
-![Example](http://i.imgur.com/EzCUqnN.png)
+
+[![Build Status](https://img.shields.io/travis/Askedio/Laravel5-API-Controller/master.svg?style=flat-square)](https://travis-ci.org/Askedio/Laravel5-API-Controller)
+[![StyleCI](https://styleci.io/repos/52752552/shield)](https://styleci.io/repos/52752552)
 
 
 # Installation
