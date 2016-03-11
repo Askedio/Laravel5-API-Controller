@@ -23,7 +23,7 @@ composer require askedio/laravel5-api-controller:dev-master
 
 
 
-### Add to providers array in config/app.php
+### Add to Providers: config/app.php
 ~~~
 'providers' => [
     Askedio\Laravel5ApiController\Providers\GenericServiceProvider::class,
@@ -33,7 +33,7 @@ composer require askedio/laravel5-api-controller:dev-master
 
 
 
-### Model, ie: app/User.php
+### Model: app/User.php
 Add the use statements to your Model to enable the Api and Search features.
 ~~~
 class User extends Authenticatable
@@ -45,10 +45,25 @@ class User extends Authenticatable
 ~~~
 You can set more details, like searching, includes, rules, primarykey and transform in the [Model Options](https://github.com/Askedio/Laravel5-API-Controller/wiki/Models).
 
+### Controller: app/Http/Controllers/Api/UserController.php
+Create a custom controller for your API.
+~~~
+<?php
 
+namespace App\Http\Controllers\Api;
 
+use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
+class UserController extends BaseController
+{
+    public $modal = \App\User::class;
 
-## Routes, ie: app/Http/routes.php
+    /* Optional */
+    public $version = 'v1';
+
+}
+~~~
+
+### Routes: app/Http/routes.php
 Enable the jsonapi middleware on your route. 
 ~~~
 Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
