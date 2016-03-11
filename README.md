@@ -147,7 +147,7 @@ My goal is a plug-n-play json api for Laravel. You shouldn't need to configure m
 
 I am still working to include all of the json api spec features into this api.
 
-If you have any comments, opinions or can code review please reach me here or on twitter, @askedio.
+If you have any comments, opinions or can code review please reach me here or on twitter, [@asked_io](https://twitter.com/asked_io).
 
 Thank you.
 
