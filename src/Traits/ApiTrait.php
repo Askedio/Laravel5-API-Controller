@@ -2,8 +2,8 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
-use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
-use Askedio\Laravel5ApiController\Helpers\ApiHelper;
+use Askedio\Laravel5ApiController\Helpers\ExceptionHelper;
+use Askedio\Laravel5ApiController\Helpers\Api;
 use Cache;
 use Schema;
 
@@ -47,7 +47,7 @@ trait ApiTrait
                 $_columns = $this->columns();
                 foreach ($members as $column) {
                     if (!in_array(ltrim($column, '-'), $_columns)) {
-                        ApiHelper::setExceptionDetails([strtolower(class_basename($this)), ltrim($column, '-')]);
+                        ExceptionHelper::setDetails([strtolower(class_basename($this)), ltrim($column, '-')]);
                         throw new BadRequestException('invalid_sort');
                     }
                     $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
@@ -76,13 +76,13 @@ trait ApiTrait
     public function scopecheckIncludes()
     {
         $_allowed = $this->includes ?: [];
-        $_includes = ApiHelper::includes();
+        $_includes = Api::includes();
         if (empty($_includes) || empty($_allowed)) {
             return false;
         }
         foreach ($_includes as $include) {
             if (!in_array($include, $_allowed)) {
-                ApiHelper::setExceptionDetails([strtolower(class_basename($this)), $include]);
+                ExceptionHelper::setDetails([strtolower(class_basename($this)), $include]);
                 throw new BadRequestException('invalid_include');
             }
         }
@@ -95,7 +95,7 @@ trait ApiTrait
      */
     public function scopefilterAndTransform()
     {
-        $_fields = ApiHelper::fields();
+        $_fields = Api::fields();
         if (empty($_fields)) {
             return $this;
         }
@@ -115,7 +115,7 @@ trait ApiTrait
                 }
             }
             if (!empty($_errors)) {
-                ApiHelper::setExceptionDetails($_errors);
+                ExceptionHelper::setDetails($_errors);
                 throw new BadRequestException('invalid_filter');
             }
         } else {

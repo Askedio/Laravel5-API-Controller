@@ -5,7 +5,7 @@ namespace Askedio\Laravel5ApiController\Http\Middleware;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Exceptions\UnsupportedMediaTypeException;
-use Askedio\Laravel5ApiController\Helpers\ApiHelper;
+use Askedio\Laravel5ApiController\Helpers\Api;
 use Closure;
 
 class JsonApiMiddleware
@@ -62,7 +62,7 @@ class JsonApiMiddleware
             }
         } else {
             if (isset($matches[1])) {
-                ApiHelper::setVersion($matches[1]);
+                Api::setVersion($matches[1]);
             }
         }
     }

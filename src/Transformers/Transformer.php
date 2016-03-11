@@ -2,7 +2,8 @@
 
 namespace Askedio\Laravel5ApiController\Transformers;
 
-use Askedio\Laravel5ApiController\Helpers\ApiHelper;
+use Askedio\Laravel5ApiController\Helpers\Api;
+use Askedio\Laravel5ApiController\Helpers\JsonHelper;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
@@ -19,7 +20,7 @@ class Transformer
      */
     public static function render($object)
     {
-        return ApiHelper::renderJsonSpi(self::objectOrPage($object));
+        return JsonHelper::render(self::objectOrPage($object));
     }
 
     /**
@@ -80,7 +81,7 @@ class Transformer
     {
         $_results = [];
 
-        foreach (ApiHelper::includes() as $include) {
+        foreach (Api::includes() as $include) {
             if (is_object($object->$include)) {
                 foreach ($object->$include as $included) {
                     $_results[] = self::item($included);

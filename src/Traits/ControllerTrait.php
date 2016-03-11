@@ -3,8 +3,10 @@
 namespace Askedio\Laravel5ApiController\Traits;
 
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
-use Askedio\Laravel5ApiController\Helpers\ApiHelper;
+use Askedio\Laravel5ApiController\Helpers\Api;
+use Askedio\Laravel5ApiController\Helpers\ExceptionHelper;
 use Askedio\Laravel5ApiController\Helpers\ControllerHelper;
+use Askedio\Laravel5ApiController\Helpers\JsonHelper;
 
 trait ControllerTrait
 {
@@ -13,12 +15,12 @@ trait ControllerTrait
 
     public function __construct()
     {
-        if (isset($this->version) && ApiHelper::getVersion() != $this->version) {
-            ApiHelper::setExceptionDetails('/application/vnd.api.'.$this->version.'+json');
+        if (isset($this->version) && Api::getVersion() != $this->version) {
+            ExceptionHelper::setDetails('/application/vnd.api.'.$this->version.'+json');
             throw new NotAcceptableException('not-acceptable');
         }
 
-        $this->results = new ControllerHelper($this->modal);
+        $this->results = new ControllerHelper($this->model);
     }
 
     public function index()
@@ -71,10 +73,10 @@ trait ControllerTrait
     {
         if (!isset($data['results']['errors'])) {
             return $data['results']
-              ? ApiHelper::success($data['success'], isset($data['data']) ? $data['data'] : $data['results'])
-              : ApiHelper::error($data['error']);
+              ? JsonHelper::success($data['success'], isset($data['data']) ? $data['data'] : $data['results'])
+              : ExceptionHelper::render($data['error']);
         } else {
-            return ApiHelper::error(403, $data['results']['errors']);
+            return ExceptionHelper::render(403, $data['results']['errors']);
         }
     }
 }
