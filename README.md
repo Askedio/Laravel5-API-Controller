@@ -92,6 +92,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 Global
 * include [comma delim list: profiles,addresses]
 * fields  [array=comma delim list: fields[profile]=id,name
+
+
 Lists
 * page    [int]
 * limit   [int]
