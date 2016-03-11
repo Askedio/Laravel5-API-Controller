@@ -8,6 +8,7 @@ use Askedio\Laravel5ApiController\Helpers\ControllerHelper;
 
 trait ControllerTrait
 {
+    /** @var $results */
     private $results;
 
     public function __construct()

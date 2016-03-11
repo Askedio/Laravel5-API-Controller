@@ -30,6 +30,11 @@ class JsonApiMiddleware
         return $next($request);
     }
 
+    /**
+     * Check GET input variaibles
+     *
+     * @return void
+     */
     private function checkGetVars()
     {
         if (!$this->request->isMethod('get')) {
@@ -43,6 +48,12 @@ class JsonApiMiddleware
         }
     }
 
+    /**
+     * Check Accept Header
+     *
+     * @return void
+     *
+     */
     private function checkAccept()
     {
         if (!preg_match('/application\/vnd\.api\.([\w\d\.]+)\+([\w]+)/', $this->request->header('Accept'), $matches)
@@ -57,6 +68,11 @@ class JsonApiMiddleware
         }
     }
 
+    /**
+     * Check Content-Type Header
+     *
+     * @return void
+     */
     private function checkContentType()
     {
         if ($this->request->header('Content-Type') != config('jsonapi.content_type')) {

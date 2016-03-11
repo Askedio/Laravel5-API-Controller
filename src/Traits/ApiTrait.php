@@ -34,6 +34,9 @@ trait ApiTrait
     /**
      * Set order/sort as per json spec.
      *
+     * @param string $query
+     * @param string $sort
+     *
      * @return object
      */
     public function scopesetSort($query, $sort)
@@ -55,11 +58,21 @@ trait ApiTrait
         return $query;
     }
 
+    /**
+     * Return if Model has searchable flag.
+     *
+     * @return boolean
+     */
     public function isSearchable()
     {
         return isset($this->searchable);
     }
 
+    /**
+     * Check if includes get variable is valid.
+     *
+     * @return void
+     */
     public function scopecheckIncludes()
     {
         $_allowed = $this->includes ?: [];
@@ -75,6 +88,11 @@ trait ApiTrait
         }
     }
 
+    /**
+     * Filter results based on filter get variable and transform them if enabled.
+     *
+     * @return array
+     */
     public function scopefilterAndTransform()
     {
         $_fields = ApiHelper::fields();
@@ -107,6 +125,11 @@ trait ApiTrait
         return $_results;
     }
 
+    /**
+     * List of columns related to this Model, Cached.
+     *
+     * @return array
+     */
     private function columns()
     {
         return Cache::rememberForever('columns-'.$this->getTable(), function () {

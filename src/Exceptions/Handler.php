@@ -85,11 +85,6 @@ class Handler extends ExceptionHandler
             }
         }
 
-        /*
-missing json array stuff
--- need a function to generate json array output, another version of transform but not for models but array output
-        */
-
         return new JsonResponse(
           $data,
           $code,

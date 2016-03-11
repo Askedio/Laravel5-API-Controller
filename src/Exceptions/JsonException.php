@@ -95,12 +95,12 @@ abstract class JsonException extends Exception
 
         $_details = ApiHelper::getExceptionDetails();
 
-      // Pre-rendered errors
+      /* Pre-rendered errors */
       if (isset($_details['errors']) && is_array($_details['errors'])) {
           foreach ($_details['errors'] as $detail) {
               $_results[] = $detail;
           }
-      // Not pre-rendered errors, build from template
+      /* Not pre-rendered errors, build from template */
       } else {
           if (!is_array($_details)) {
               $_details = [$_details];
