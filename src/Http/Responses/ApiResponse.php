@@ -1,8 +1,11 @@
 <?php
 
-namespace Askedio\Laravel5ApiController\Helpers;
+namespace Askedio\Laravel5ApiController\Http\Responses;
 
-class JsonResponse
+use Response;
+use Api;
+
+class ApiResponse extends Response
 {
     /**
      * Render json api output.
@@ -14,7 +17,7 @@ class JsonResponse
      */
     public static function render($code, $results)
     {
-        return response()->jsonapi($code, self::build($results));
+        return self::jsonapi($code, self::build($results));
     }
 
     /**

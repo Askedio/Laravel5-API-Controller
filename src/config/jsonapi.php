@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'strict'       => true,
+    'strict'       => false,
     'version'      => 'v1',
     'json_version' => '1.0',
     'url'          => 'api/*',

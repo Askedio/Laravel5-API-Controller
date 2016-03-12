@@ -1,6 +1,6 @@
 <?php
 
-namespace Askedio\Laravel5ApiController\Helpers;
+namespace Askedio\Laravel5ApiController\Exceptions;
 
 class ApiException
 {
@@ -18,11 +18,11 @@ class ApiException
     }
 
     /**
-     * Build a JsonResponse of errors.
+     * A bit pointless now..
      *
      * @param array $settings
      *
-     * @return Askedio\Laravel5ApiController\Helpers\JsonResponse
+     * @return array
      */
     public static function build($settings)
     {

@@ -2,7 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
-use Askedio\Laravel5ApiController\Helpers\JsonResponse;
+use ApiResponse;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
@@ -16,7 +16,6 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        HttpException::class,
         JsonException::class,
     ];
 
@@ -55,13 +54,15 @@ class Handler extends ExceptionHandler
      * @param Request   $request
      * @param Exception $e
      *
-     * @return JSONResponse
+     * @return ApiResponse
      */
     private function handle($request, Exception $e)
     {
+        /* custom exception class */
         if ($e instanceof JsonException) {
             $data = $e->getError();
             $code = $e->getStatusCode();
+        /* translate HttpExceptions to json api style */
         } elseif ($e instanceof HttpException) {
             $code = $e->getStatusCode();
             $data = [
@@ -72,9 +73,11 @@ class Handler extends ExceptionHandler
                 $data['source'] = ['line '.$e->getLine() => $e->getFile()];
             }
             $data = ['errors' => $data];
+        /* not an exception we manage so generic error or if debug, the real exception */
         } else {
             if (!env('APP_DEBUG', false)) {
-                $code = $e->getStatusCode();
+              // TO-DO: needs to check if function exists.
+                //$code = $e->getStatusCode();
                 $data = [
                'status' => 500,
                'detail' => 'Unknown Exception',
@@ -85,6 +88,6 @@ class Handler extends ExceptionHandler
             }
         }
 
-        return JsonResponse::render($code, ['errors' => $data]);
+        return ApiResponse::render($code, ['errors' => $data]);
     }
 }

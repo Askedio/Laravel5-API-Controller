@@ -1,10 +1,10 @@
 <?php
 
-namespace Askedio\Laravel5ApiController\Helpers;
+namespace Askedio\Laravel5ApiController\Facades;
 
 use Request;
 
-class Api
+class Api 
 {
     /** @var string */
     private static $version;

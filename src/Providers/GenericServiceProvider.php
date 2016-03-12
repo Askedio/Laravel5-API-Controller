@@ -27,6 +27,13 @@ class GenericServiceProvider extends ServiceProvider
       $this->mergeConfigFrom(
         __DIR__.'/../config/jsonapi.php', 'jsonapi'
     );
+
+    $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+    $loader->alias('Api', \Askedio\Laravel5ApiController\Facades\Api::class);
+    $loader->alias('ApiException', \Askedio\Laravel5ApiController\Exceptions\ApiException::class);
+    $loader->alias('ApiResponse', \Askedio\Laravel5ApiController\Http\Responses\ApiResponse::class);
+
+
   }
 
   /**
