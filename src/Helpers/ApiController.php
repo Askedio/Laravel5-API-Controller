@@ -13,6 +13,7 @@ class ApiController
     /** @var Illuminate\Http\Request */
     private $request;
 
+
     /**
      * @param modelclass.. $model
      */
@@ -20,8 +21,8 @@ class ApiController
     {
         $this->model = new $model();
         $this->model->checkIncludes();
-        $this->request = Request();
     }
+
 
     /**
      * index.
@@ -30,13 +31,13 @@ class ApiController
      */
     public function index()
     {
-        $results = $this->model->setSort($this->request->input('sort'));
+        $results = $this->model->setSort(Request::input('sort'));
 
-        if ($this->request->input('search') && $this->model->isSearchable()) {
-            $results->search($this->request->input('search'));
+        if (Request::input('search') && $this->model->isSearchable()) {
+            $results->search(Request::input('search'));
         }
 
-        return $results->paginate(($this->request->input('limit') ?: '10'));
+        return $results->paginate((Request::input('limit') ?: '10'));
     }
 
     /**
@@ -105,7 +106,7 @@ class ApiController
     private function cleanRequest()
     {
         $_allowed = $this->model->getFillable();
-        $request = $this->request->json()->all();
+        $request = Request::json()->all();
 
         // TO-DO: laravel helper
         foreach ($request as $var => $val) {
@@ -126,12 +127,13 @@ class ApiController
      */
     private function validate($action)
     {
-        $validator = Validator::make($this->request->json()->all(), $this->model->getRule($action));
+        $validator = Validator::make(Request::json()->all(), $this->model->getRule($action));
         $_errors = [];
         $e = $validator->errors()->toArray();
         foreach ($validator->errors()->toArray() as $_field => $_err) {
             array_push($_errors, [
-            'code'   => 0,
+            // TO-DO: detect errors for a valid json api code
+            //'code'   => 0,
             'source' => ['pointer' => $_field],
             'title'  => config('errors.invalid_attribute.title'),
             'detail' => implode(' ', $_err),

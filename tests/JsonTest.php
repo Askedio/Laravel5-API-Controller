@@ -25,6 +25,7 @@ class JsonTest extends ApiCase
 
     public function testUpdate()
     {
+
         $this->createUser();
         $this->json('PATCH', '/api/user/1', [
           'name' => 'testupdate',
