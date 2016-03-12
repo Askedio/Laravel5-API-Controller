@@ -5,4 +5,3 @@ linting: true
 enabled:
   - strict
   - unalign_double_arrow
-  - short_array_syntax
