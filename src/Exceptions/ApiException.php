@@ -33,6 +33,7 @@ class ApiException extends JsonException
           foreach ($_details['errors'] as $detail) {
               $_results[] = $detail;
           }
+
           return $_results;
       }
 
@@ -40,13 +41,14 @@ class ApiException extends JsonException
       if (!is_array($_details)) {
           $_details = [$_details];
       }
-      
-      if (!empty($_details)) {
-          foreach ($_details as $detail) {
-              $_results[] = self::item($_template, $detail);
-          }
-      }
-      return $_results;
+
+        if (!empty($_details)) {
+            foreach ($_details as $detail) {
+                $_results[] = self::item($_template, $detail);
+            }
+        }
+
+        return $_results;
     }
 
     /**

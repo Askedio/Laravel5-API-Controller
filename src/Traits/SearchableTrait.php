@@ -177,9 +177,10 @@ trait SearchableTrait
     {
         if ($groupBy = $this->getGroupBy()) {
             $query->groupBy($groupBy);
+
             return $query;
         }
-        
+
         $driver = $this->getDatabaseDriver();
 
         if ($driver == 'sqlsrv') {
@@ -199,7 +200,6 @@ trait SearchableTrait
                 }
             }, $joins);
         }
-
     }
 
     /**
