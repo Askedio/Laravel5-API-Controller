@@ -1,29 +1,38 @@
+![laravel-cruddy](http://i.imgur.com/TmEh1m6.jpgg)
+A really simple package that provides a CRUD JSON API for your Laravel 5 application.
+
 [![Build Status](https://img.shields.io/travis/Askedio/Laravel5-API-Controller/master.svg?style=flat-square)](https://travis-ci.org/Askedio/Laravel5-API-Controller)
 [![StyleCI](https://styleci.io/repos/52752552/shield)](https://styleci.io/repos/52752552)
 
+* [Live Demo](https://cruddy.io/app/) 
+* [Laravel 5.2 Example Package](https://github.com/Askedio/Laravel-5-CRUD-Example)
+* Plays well with [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy)
 
-# Laravel 5.2 API Controller
-A really simple package that provides an API for CRUD related tasks based on Modals and Resource Controllers.
-
-Made for [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy) but can work with anything. [Live Demo](https://cruddy.io/app/)
 
 
 # Installation
-Some better examples are in the [wiki](https://github.com/Askedio/Laravel5-API-Controller/wiki).
+Read the [wiki](https://github.com/Askedio/Laravel5-API-Controller/wiki) for more details.
 
 ### Install Package
 ~~~
 composer require askedio/laravel5-api-controller:dev-master
 ~~~
-### Add to providers
+
+
+
+
+### Add to Providers: config/app.php
 ~~~
-    'providers' => [
-        Askedio\Laravel5ApiController\Providers\GenericServiceProvider::class,
+'providers' => [
+    Askedio\Laravel5ApiController\Providers\GenericServiceProvider::class,
         ...
 ~~~
 
-### Modal, ie: app\User.php
-##### Add the Traits
+
+
+
+### Model: app/User.php
+Add the use statements to your Model to enable the Api and Search features.
 ~~~
 class User extends Authenticatable
 {
@@ -32,112 +41,113 @@ class User extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~
-##### Add the validation rules
+You can set more details, like searching, includes, rules, primarykey and transform in the [Model Options](https://github.com/Askedio/Laravel5-API-Controller/wiki/Models).
+
+### Controller: app/Http/Controllers/Api/UserController.php
+Create a custom controller for your API.
 ~~~
-    protected $rules = [
-      'update' => [
-         ...
-      ],
-      'create' => [
-         ...
-      ],
-    ];
-~~~
-##### Add search rules defined from https://github.com/nicolaslopezj/searchable 
-~~~
-    protected $searchable = [
-        'columns' => [
-            'users.name' => 10,
-            'users.email' => 5,
-        ],
-    ];
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
+class UserController extends BaseController
+{
+    public $modal = \App\User::class;
+
+    /* Optional */
+    public $version = 'v1';
+
+}
 ~~~
 
-##### Add the $id_field 
-~~~
-    protected $id_field = 'id';
-~~~
-##### If you want to transform any data..
-~~~
-    public function transform(User $user) {
-        return [
-            'name' => $user->name,
-            'email' => $user->email,
-        ];
-    }
-~~~
-
-
-## Controller, ie: app\Http\Controllers\Api\UserController.php
-~~~
-   use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
-
-   class UserController extends BaseController
-   {
-       public $modal = '\App\User';
-   }
-~~~
-
-## Routes, ie: app/Http/routes.php
-The jsonapi middleware will deny requests without proper Accept and Content-Type.
+### Routes: app/Http/routes.php
+Create a prefixed group for your api and assign the api and jsonapi middlewares.
 ~~~
 Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 {
   Route::resource('admin/user', 'Api\UserController');
 });
 ~~~
+* Provides configurable strict mode to do Accept and Content-type matching.
+* Provides [Version Control](https://github.com/Askedio/Laravel5-API-Controller/wiki/Version-Control)
+
 
 
 # Usage
 * Laravels Resource Routes are being used.
-* Access the route like you've defined, ie: /api/admin/user/.
-* Perform RESTful acts on the Resource Controller
+* Access the route like you've defined, ie: /api/admin/user/[id].
+
 
 ##### POST [/]
 * accepts: 'fillable' data in your Model.
-* success: Returns the Models results.
-* validation failure: Returns errors[[field => '', error => '']]
+* validation failure: Returns 403
 * failure: Returns 500
 
+
 ##### GET [/id|/]
-* success: Returns the Models single item result or paginate() results.
 * failure: Returns 404
+
 
 ##### PATCH [/id]
 * accepts: 'fillable' data in your Model.
-* success: Returns the Models results.
-* validation failure: Returns errors[[field, error]]
 * failure: Returns 500
+
 
 ##### DELETE [/id]
-* success: Returns the Models results.
 * failure: Returns 500
 
-# Results
-Results are sent in an array.
+
+
+
+### Allowed Query Paramaters
 ~~~
-// Errors:
-['success' => false, 'errors' => []]
+#Global
+include: [comma delim list] ie: include=profiles,addresses
+fields:  [array=comma delim list] ie: fields[profile]=id,name
 
-// No errors:
-['success' => true, 'results' => []];
+# Lists
+page:    [int]
+limit:   [int]
+sort:    [-]field
+search:  [string]
 ~~~
 
 
-# Notices
-I've been looking at couple other similar packages:
+
+# JSON API Spec
+Supported:
+* Content-type validation
+* Accept validation
+* Variable validation
+* Responses & Errors
+* Includes
+* Fields
+* Pagination
+* Sorting
+* Form Validation
+
+Not Supported:
+* PUT: I am using PATCH instead.
+* PATCH/POST input variaibles: Currently accepting {var:val}
+
+
+
+
+# Similar Packages
 * https://github.com/nilportugues/laravel5-jsonapi
 * https://github.com/dingo/api
 
-Nilportugues' package is pretty close to what I was after minus create and search. 
 
-Dingo is overly complicated, I wanted something simple. It took me ~2mins to unit test and live test this package, Ding or even Nils package seem like they require a bit more integration, so more time.
 
-Both packages offer 'better' support for the JSON API format where I am simply giving you Laravels output. I am not overly concered about this but it would be nice to implement in the future.
+
 
 # Comments
-This is package is open to code review and comments, please let me know if I have made mistakes, I love feedback.
+My goal is a plug-n-play json api for Laravel. You shouldn't need to configure much of anything to enable the api on your models but if you still want advanced features like relations, searching, etc, you get that too.
 
-You can reach me here or on twitter, @askedio.
+I am still working to include all of the json api spec features into this api.
+
+If you have any comments, opinions or can code review please reach me here or on twitter, [@asked_io](https://twitter.com/asked_io). You can also follow me on my website, [asked.io](https://asked.io).
 
 Thank you.
+

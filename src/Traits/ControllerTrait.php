@@ -2,78 +2,81 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
-use Askedio\Laravel5ApiController\Helpers\ApiHelper;
-use Askedio\Laravel5ApiController\Helpers\ControllerHelper;
-use Illuminate\Http\Request;
+use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
+use Askedio\Laravel5ApiController\Helpers\Api;
+use Askedio\Laravel5ApiController\Helpers\ApiController;
+use Askedio\Laravel5ApiController\Helpers\ApiException;
+use Askedio\Laravel5ApiController\Helpers\JsonResponse;
 
 trait ControllerTrait
 {
-    private $_modal;
-    private $request;
-    private $helper;
-    private $validation_error = 403;
+    /** @var $results */
+    private $results;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->_modal = new $this->modal();
-        $this->request = $request;
-        $this->helper = new ControllerHelper($request, $this->_modal);
+        if (isset($this->version) && Api::getVersion() != $this->version) {
+            ApiException::setDetails('/application/vnd.api.'.$this->version.'+json');
+            throw new NotAcceptableException('not-acceptable');
+        }
+
+        $this->results = new ApiController($this->model);
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        return $this->results([
+        return $this->render([
           'success' => 200,
           'error'   => 500,
-          'results' => $this->helper->index(),
+          'results' => $this->results->index(),
         ]);
     }
 
     public function store()
     {
-        return $this->results([
+        return $this->render([
           'success' => 200,
           'error'   => 500,
-          'results' => $this->helper->store(),
+          'results' => $this->results->store(),
         ]);
     }
 
     public function show($id)
     {
-        return $this->results([
+        return $this->render([
           'success' => 200,
           'error'   => 404,
-          'results' => $this->helper->show($id),
+          'results' => $this->results->show($id),
         ]);
     }
 
     public function update($id)
     {
-        return $this->results([
+        return $this->render([
           'success' => 200,
           'error'   => 500,
-          'results' => $this->helper->update($id),
+          'results' => $this->results->update($id),
         ]);
     }
 
     public function destroy($id)
     {
-        return $this->results([
+        return $this->render([
           'success' => 200,
           'error'   => 404,
-          'data'    => $this->helper->show($id),
-          'results' => $this->helper->destroy($id),
+          'data'    => $this->results->show($id),
+          'results' => $this->results->destroy($id),
         ]);
     }
 
-    private function results($data)
+    private function render($data)
     {
         if (!isset($data['results']['errors'])) {
             return $data['results']
-              ? ApiHelper::success($data['success'], isset($data['data']) ? $data['data'] : $data['results'])
-              : ApiHelper::error($data['error'], isset($data['errors']) ? $data['errors'] : '');
+              ? JsonResponse::success($data['success'], isset($data['data']) ? $data['data'] : $data['results'])
+              : ApiException::render($data['error']);
         } else {
-            return ApiHelper::error($this->validation_error, $data['results']['errors']);
+            return ApiException::render(403, $data['results']['errors']);
         }
     }
 }

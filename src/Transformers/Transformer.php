@@ -2,93 +2,61 @@
 
 namespace Askedio\Laravel5ApiController\Transformers;
 
+use Askedio\Laravel5ApiController\Helpers\Api;
+use Askedio\Laravel5ApiController\Helpers\JsonResponse;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Request;
 
 /**
  * Class Transformer.
  *
- * Assists in transforming models
+ * Assists in filtering and transforming model
  */
 class Transformer
 {
-    private static $fields;
-
-    private static function render($content)
+    /**
+     * @param $object
+     *
+     * @return array
+     */
+    public static function render($object)
     {
-        $id = $content->getId();
-
-        return [
-          'type'       => strtolower(class_basename($content)),
-          'id'         => $content->$$id,
-          'attributes' => self::filter($content),
-        ];
+        return JsonResponse::render(self::objectOrPage($object));
     }
 
-    private static function filter($content)
+    /**
+     * @param $object
+     *
+     * @return array
+     */
+    private static function objectOrPage($object)
     {
-        if (!is_array(Request::input('fields'))) {
-            return $content->transform($content);
-        }
-
         $_results = [];
-        $_key = strtolower(class_basename($content));
-        $_content = self::isTransformable($content) ? $content->transform($content) : $content;
-        if (is_array(self::$fields[$_key])) {
-            foreach (self::$fields[$_key] as $filter) {
-                if (isset($_content[$filter])) {
-                    $_results[$filter] = $_content[$filter];
-                }
+        if (is_object($object)) {
+            if (!self::isPaginator($object)) {
+                $_data = self::item($object);
+                $_include = self::includes($object);
+            } elseif (self::isPaginator($object)) {
+                $_data = self::transformObjects($object->items());
+                $_include = self::getPaginationMeta($object);
             }
+
+            $_results = array_merge(['data' => $_data], $_include);
         }
 
         return $_results;
     }
 
-    public static function fields($model)
+    /**
+     * @param $object
+     *
+     * @return array
+     */
+    private static function includes($object)
     {
-        if (is_array(Request::input('fields'))) {
-            $_fields = array_filter(Request::input('fields'));
-            $_results = [];
-            foreach ($_fields as $type => &$members) {
-                $members = array_map('trim', explode(',', $members));
-                foreach ($members as $member) {
-                    $_results[$type][] = $member;
-                }
-            }
-
-            return $_results;
-        } else {
-            return $model;
-        }
-    }
-
-    private static function includes($content)
-    {
-        $include = Request::input('include');
         $_results = [];
-        if (!is_string($include)) {
-            return false;
-        }
-
-        $includeNames = explode(',', $include);
-        foreach ($includeNames as $relationship) {
-            if (is_object($content->$relationship)) {
-                foreach ($content->$relationship as $sub) {
-                    $_results[] = self::render($sub);
-                }
-            }
-        }
-
-        return $_results;
-    }
-
-    private static function gen($model)
-    {
-        if (is_object($model)) {
-            $_results = [];
-
-            if (Request::input('include') && $incs = self::includes($model)) {
+        if (is_object($object)) {
+            $incs = self::getIncludes($object);
+            if (!empty($incs)) {
                 $_results['relationships'] = [];
                 $_results['included'] = [];
                 foreach ($incs as $i => $include) {
@@ -99,38 +67,25 @@ class Transformer
                     array_push($_results['included'], $include);
                 }
             }
-
-            return $_results;
         }
+
+        return $_results;
     }
 
-    public static function convert($model)
+    /**
+     * @param $object
+     *
+     * @return array
+     */
+    private static function getIncludes($object)
     {
-        self::$fields = self::fields($model);
+        $_results = [];
 
-        $_results = [
-                 'jsonapi' => [
-                   'version' => config('jsonapi.version', '1.0'),
-                 ],
-               ];
-
-        if (is_object($model)) {
-            if (!$model instanceof LengthAwarePaginator) {
-                $_results = array_merge(
-                [
-                  'data'  => self::render($model),
-                ],
-                self::gen($model),
-                $_results
-              );
-            } elseif ($model instanceof LengthAwarePaginator) {
-                $_results = array_merge(
-               [
-                  'data' => self::transformObjects($model->items()),
-                ],
-                self::getPaginationMeta($model),
-                $_results
-              );
+        foreach (Api::includes() as $include) {
+            if (is_object($object->$include)) {
+                foreach ($object->$include as $included) {
+                    $_results[] = self::item($included);
+                }
             }
         }
 
@@ -138,32 +93,44 @@ class Transformer
     }
 
     /**
-     * Transforms an array of objects using the objects transform method.
-     *
-     * @param $toTransform
+     * @param $object
      *
      * @return array
      */
-    private static function transformObjects($toTransform)
+    private static function transformObjects($object)
     {
-        $transformed = [];
-        foreach ($toTransform as $key => $item) {
-            $transformed[$key] = self::isTransformable($item) ? array_merge(self::render($item), self::gen($item)) : $item;
+        $_results = [];
+        foreach ($object as $key => $item) {
+            $_results[$key] = array_merge(self::item($item), self::includes($item));
         }
 
-        return $transformed;
+        return $_results;
     }
 
     /**
-     * Checks whether the object is transformable or not.
-     *
-     * @param $item
+     * @param $object
      *
      * @return bool
      */
-    private static function isTransformable($item)
+    private static function isPaginator($object)
     {
-        return is_object($item) && method_exists($item, 'transform');
+        return $object instanceof LengthAwarePaginator;
+    }
+
+    /**
+     * @param $object
+     *
+     * @return array
+     */
+    private static function item($object)
+    {
+        $id = $object->getId();
+
+        return [
+          'type'       => strtolower(class_basename($object)),
+          'id'         => $object->$$id,
+          'attributes' => $object->filterAndTransform(),
+        ];
     }
 
     /**
