@@ -84,7 +84,7 @@ class Handler extends ExceptionHandler
         /* not an exception we manage so generic error or if debug, the real exception */
         if (!env('APP_DEBUG', false)) {
             // TO-DO: needs to check if function exists.
-            $code = 500;//$exception->getStatusCode();
+            $code = 500; //$exception->getStatusCode();
             $data = [
              'status' => 500,
              'detail' => 'Unknown Exception',
