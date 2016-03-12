@@ -7,20 +7,6 @@ use Response;
 
 class ApiResponse extends Response
 {
-    /**
-     * Change Content-Type for jsonapi response macro.
-     *
-     * @param int    $code
-     * @param string $value
-     *
-     * @return Illuminate\Http\Response
-     */
-    public static function macro($code, $value)
-    {
-        return self::json($value, $code, [
-          'Content-Type' => config('jsonapi.content_type'),
-        ], true);
-    }
 
     /**
      * Render json api output.
@@ -30,9 +16,11 @@ class ApiResponse extends Response
      *
      * @return Illuminate\Http\Response
      */
-    public static function render($code, $results)
+    public function jsonapi($code, $results)
     {
-        return self::jsonapi($code, self::build($results));
+      return response()->json($this->jsonapiData($results), $code, [
+        'Content-Type' => config('jsonapi.content_type'),
+      ], true);
     }
 
     /**
@@ -40,7 +28,7 @@ class ApiResponse extends Response
      *
      * @return array
      */
-    public static function build($data = [])
+    public function jsonapiData($data = [])
     {
         return array_merge($data, [
           'jsonapi' => [

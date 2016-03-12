@@ -37,8 +37,9 @@ class GenericServiceProvider extends ServiceProvider
   {
       $router->middleware('jsonapi', \Askedio\Laravel5ApiController\Http\Middleware\JsonApiMiddleware::class);
 
-      response()->macro('jsonapi', function ($code, $value) {
-          return \Askedio\Laravel5ApiController\Http\Responses\ApiResponse::macro($code, $value);
+      response()->macro('jsonresults', function ($code, $value) {
+          $apiResponse = new \Askedio\Laravel5ApiController\Http\Responses\ApiResponse();
+          return $apiResponse->jsonapi($code, $value);
       });
 
       $this->publishes([

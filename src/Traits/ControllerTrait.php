@@ -76,7 +76,7 @@ trait ControllerTrait
             if ($data['results']) {
                 $_results = isset($data['data']) ? $data['data'] : $data['results'];
 
-                return ApiResponse::render($data['success'], Transformer::render($_results));
+                return response()->jsonresults($data['success'], Transformer::render($_results));
             }
 
             $exception = new InvalidAttributeException('invalid_attribute', $data['error']);

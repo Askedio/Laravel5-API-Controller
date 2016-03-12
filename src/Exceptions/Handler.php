@@ -70,7 +70,7 @@ class Handler extends ExceptionHandler
                 $data['source'] = ['line '.$exception->getLine() => $exception->getFile()];
             }
 
-            return ApiResponse::render($code, ['errors' => $data]);
+            return response()->jsonresults($code, ['errors' => $data]);
         }
 
         /* custom exception class */
@@ -78,7 +78,7 @@ class Handler extends ExceptionHandler
             $data = $exception->getError();
             $code = $exception->getStatusCode();
 
-            return ApiResponse::render($code, ['errors' => $data]);
+            return response()->jsonresults($code, ['errors' => $data]);
         }
 
         /* not an exception we manage so generic error or if debug, the real exception */
@@ -90,7 +90,7 @@ class Handler extends ExceptionHandler
              'detail' => 'Unknown Exception',
             ];
 
-            return ApiResponse::render($code, ['errors' => $data]);
+            return response()->jsonresults($code, ['errors' => $data]);
         }
 
         return parent::render($request, $exception);
