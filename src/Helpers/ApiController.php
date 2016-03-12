@@ -47,7 +47,6 @@ class ApiController
         }
 
         return $this->model->create($this->cleanRequest());
-
     }
 
     /**
@@ -80,7 +79,6 @@ class ApiController
               : false
             )
           : false;
-
     }
 
     /**

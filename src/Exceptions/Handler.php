@@ -77,6 +77,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof JsonException) {
             $data = $exception->getError();
             $code = $exception->getStatusCode();
+
             return ApiResponse::render($code, ['errors' => $data]);
         }
 
@@ -93,6 +94,5 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $exception);
-
     }
 }

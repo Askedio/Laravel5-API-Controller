@@ -115,7 +115,6 @@ trait SearchableTrait
         }
 
         return DB::connection()->getSchemaBuilder()->getColumnListing($this->table);
-        
     }
 
     /**
