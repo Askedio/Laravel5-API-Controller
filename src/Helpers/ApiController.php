@@ -13,7 +13,6 @@ class ApiController
     /** @var Illuminate\Http\Request */
     private $request;
 
-
     /**
      * @param modelclass.. $model
      */
@@ -22,7 +21,6 @@ class ApiController
         $this->model = new $model();
         $this->model->checkIncludes();
     }
-
 
     /**
      * index.
