@@ -4,6 +4,7 @@ namespace Askedio\Laravel5ApiController\Helpers;
 
 use Askedio\Laravel5ApiController\Transformers\Transformer;
 
+/* TO-DO: probably better off extending the JsonResponse class to add our wrappers? or do something else cause wtf is success vs error, transformer vs no - so same fkn thing... */
 class JsonResponse
 {
     /**
