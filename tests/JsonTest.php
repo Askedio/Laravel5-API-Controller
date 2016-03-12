@@ -7,7 +7,6 @@ class JsonTest extends ApiCase
     /** @var string */
     public $baseUrl = 'http://localhost';
 
-
     /** @var string */
     private $read = '{"data":{"type":"user","id":50,"attributes":{"id":50,"name":"uyooewew","email":"uy@asd.copm","created_at":"2016-03-10 17:40:46","updated_at":"2016-03-11 20:45:18"}},"jsonapi":{"version":"1.0","self":"v1"}}';
 
@@ -97,7 +96,6 @@ class JsonTest extends ApiCase
     // unsupported-media-type
     // not-acceptable
     // not_found
-
 
     private function createUser()
     {
