@@ -15,6 +15,7 @@ class ApiException extends JsonException
     public function withDetails($details)
     {
         $this->exceptionDetails = $details;
+
         return $this;
     }
 

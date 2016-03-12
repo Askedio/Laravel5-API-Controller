@@ -2,7 +2,6 @@
 
 namespace Askedio\Laravel5ApiController\Providers;
 
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,8 +26,6 @@ class GenericServiceProvider extends ServiceProvider
       $this->mergeConfigFrom(
         __DIR__.'/../config/jsonapi.php', 'jsonapi'
     );
-
-    
   }
 
   /**
