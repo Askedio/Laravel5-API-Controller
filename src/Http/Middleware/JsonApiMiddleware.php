@@ -37,25 +37,24 @@ class JsonApiMiddleware
      */
     private function checkGetVars()
     {
-        if (!$this->request->isMethod('get')) {
-            return false;
-        }
+        if(!$this->request->isMethod('get')) return false;
 
         $_check = array_except($this->request->all(), config('jsonapi.allowed_get'));
-        if (!empty($_check)) {
-            $_errors = [];
+        if (empty($_check)) return false;
 
-            foreach (array_keys($_check) as $_field) {
-                array_push($_errors, [
-                'code'   => 0,
-                'source' => ['pointer' => $_field],
-                'title'  => config('errors.invalid_get.title'),
-              ]);
-            }
+        $_errors = [];
 
-            $exception = new BadRequestException('invalid_get');
-            throw $exception->withDetails(['errors' => $_errors]);
+        foreach (array_keys($_check) as $_field) {
+            array_push($_errors, [
+            'code'   => 0,
+            'source' => ['pointer' => $_field],
+            'title'  => config('errors.invalid_get.title'),
+          ]);
         }
+
+        $exception = new BadRequestException('invalid_get');
+        throw $exception->withDetails(['errors' => $_errors]);
+
     }
 
     /**
@@ -65,17 +64,14 @@ class JsonApiMiddleware
      */
     private function checkAccept()
     {
-        if (!preg_match('/application\/vnd\.api\.([\w\d\.]+)\+([\w]+)/', $this->request->header('Accept'), $matches)
-              && $this->request->header('Accept') != config('jsonapi.accept')) {
-            if (config('jsonapi.strict')) {
-                $exception = new NotAcceptableException('not-acceptable');
-                throw $exception->withDetails(config('jsonapi.accept'));
-            }
-        }
+        $matches = preg_match('/application\/vnd\.api\.([\w\d\.]+)\+([\w]+)/', $this->request->header('Accept'), $matches);
 
-        if (isset($matches[1])) {
-            app('api')->setVersion($matches[1]);
-        }
+        app('api')->setVersion(isset($matches[1]) ? $matches[1] : config('jsonapi.version'));
+
+        if ($matches || $this->request->header('Accept') == config('jsonapi.accept') || !config('jsonapi.strict')) return;
+
+        $exception = new NotAcceptableException('not-acceptable');
+        throw $exception->withDetails(config('jsonapi.accept'));
     }
 
     /**
@@ -85,11 +81,11 @@ class JsonApiMiddleware
      */
     private function checkContentType()
     {
-        if ($this->request->header('Content-Type') != config('jsonapi.content_type')) {
-            if (config('jsonapi.strict')) {
-                $exception = new UnsupportedMediaTypeException('unsupported-media-type');
-                throw $exception->withDetails(config('jsonapi.content_type'));
-            }
-        }
+      if($this->request->header('Content-Type') == config('jsonapi.content_type') || !config('jsonapi.strict')) return;
+
+      $exception = new UnsupportedMediaTypeException('unsupported-media-type');
+      throw $exception->withDetails(config('jsonapi.content_type'));
+
+
     }
 }

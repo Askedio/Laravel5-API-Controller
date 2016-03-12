@@ -72,6 +72,27 @@ class JsonTest extends ApiCase
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
 
+    public function testBadContentType()
+    {
+        $this->json('GET', '/api/user/', [], ['Content-Type' => 'test']);
+        $response = $this->response;
+        $this->assertEquals(415, $response->getStatusCode());
+    }
+
+    public function testBadContentAccept()
+    {
+        $this->json('GET', '/api/user/', [], ['Accept' => 'test']);
+        $response = $this->response;
+        $this->assertEquals(406, $response->getStatusCode());
+    }
+
+    public function testVersionContentType()
+    {
+        $this->json('GET', '/api/user/', [], ['Accept' => 'application/vnd.api.v1+json']);
+        $response = $this->response;
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     /*
 
     TO-DO: no include var = no error,

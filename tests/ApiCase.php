@@ -15,7 +15,7 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
 
     public function json($method, $uri, array $data = [], array $headers = [])
     {
-        $headers = array_merge($headers, ['Content-Type' => config('jsonapi.content_type'), 'Accept' => config('jsonapi.accept')]);
+        $headers = array_merge($headers, array_merge(['Content-Type' => config('jsonapi.content_type'), 'Accept' => config('jsonapi.accept')], $headers));
 
         return parent::json($method, $uri, $data, $headers);
     }
