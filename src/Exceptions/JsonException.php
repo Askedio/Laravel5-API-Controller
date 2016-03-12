@@ -17,16 +17,6 @@ abstract class JsonException extends Exception
     protected $status;
 
     /**
-     * @param @string $message
-     *
-     * @return void
-     */
-    public function __construct($message)
-    {
-        parent::__construct($message);
-    }
-
-    /**
      * Get the error.
      *
      * @return mixed
@@ -60,7 +50,7 @@ abstract class JsonException extends Exception
       }
 
         $_settings = $this->settings($args);
-        $this->error = $_settings;
+        $this->error = ApiException::getDetails($_settings);
         $this->status = $_settings['code'];
     }
 

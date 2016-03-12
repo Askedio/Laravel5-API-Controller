@@ -2,7 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
-class ApiException
+class ApiException extends JsonException
 {
     /** @var array */
     private static $exceptionDetails;
@@ -18,23 +18,11 @@ class ApiException
     }
 
     /**
-     * A bit pointless now..
-     *
-     * @param array $settings
-     *
-     * @return array
-     */
-    public static function build($settings)
-    {
-        return self::details($settings);
-    }
-
-    /**
      * Build the error results.
      *
      * @return array
      */
-    public static function details($_template)
+    public static function getDetails($_template)
     {
         $_results = [];
 
