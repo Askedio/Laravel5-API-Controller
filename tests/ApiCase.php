@@ -14,11 +14,11 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
     //ui
 
     public function json($method, $uri, array $data = [], array $headers = [])
-      {
-          $headers = array_merge($headers, ['Content-Type' => config('jsonapi.content_type'), 'Accept' => config('jsonapi.accept')]);
-          return parent::json($method, $uri, $data, $headers);
-      }
+    {
+        $headers = array_merge($headers, ['Content-Type' => config('jsonapi.content_type'), 'Accept' => config('jsonapi.accept')]);
 
+        return parent::json($method, $uri, $data, $headers);
+    }
 
     /**
      * Setup DB before each test.
@@ -91,11 +91,10 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
         $app->make('Illuminate\Foundation\Http\Kernel', [$app, $this->getRouter()])->bootstrap();
     }
 
-    
     /**
-     * Return an array of keys for json validation
+     * Return an array of keys for json validation.
      *
-     * @param  array $array
+     * @param array $array
      *
      * @return array
      */
@@ -104,21 +103,22 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
         $results = [];
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-              $results = array_merge($results,  [$key => array_merge(array_keys($value),$this->arrayKeys($value))]);
+                $results = array_merge($results, [$key => array_merge(array_keys($value), $this->arrayKeys($value))]);
             }
         }
+
         return $results;
     }
 
     /**
-     * Get Keys from a json array
+     * Get Keys from a json array.
      *
-     * @param  string $var
+     * @param string $var
      *
      * @return array
      */
     public function getKeys($var)
     {
-      return $this->arrayKeys(json_decode($var, true));
+        return $this->arrayKeys(json_decode($var, true));
     }
 }

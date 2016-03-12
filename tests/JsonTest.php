@@ -2,7 +2,6 @@
 
 namespace Askedio\Tests;
 
-
 class JsonTest extends ApiCase
 {
     /** @var string */
@@ -13,9 +12,6 @@ class JsonTest extends ApiCase
 
     /** @var string */
     private $list = '{"data":[],"meta":{"total":0,"currentPage":1,"perPage":"10","hasMorePages":false,"hasPages":false},"links":{"self":"http:\/\/localhost\/api\/user?page=1","first":"http:\/\/localhost\/api\/user?page=1","last":"http:\/\/localhost\/api\/user?page=1","next":null,"prev":null},"jsonapi":{"version":"1.0","self":"v1"}}';
-
-  
-
 
     public function testRead()
     {
@@ -57,13 +53,13 @@ class JsonTest extends ApiCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
         $this->seeJsonStructure($this->getKeys($this->list));
-  }
+    }
 
     private function createUser()
     {
         $this->json('POST', '/api/user', [
           'name'     => 'test',
           'email'    => 'test@test.com',
-          'password' => bcrypt('password')]);
+          'password' => bcrypt('password'), ]);
     }
 }
