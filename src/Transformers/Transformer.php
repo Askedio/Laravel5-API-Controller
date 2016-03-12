@@ -127,7 +127,7 @@ class Transformer
 
         return [
           'type'       => strtolower(class_basename($object)),
-          'id'         => $object->$$pimaryId,
+          'id'         => $object->$pimaryId,
           'attributes' => $object->filterAndTransform(),
         ];
     }
