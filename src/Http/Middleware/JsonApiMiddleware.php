@@ -88,8 +88,8 @@ class JsonApiMiddleware
     {
         if ($this->request->header('Content-Type') != config('jsonapi.content_type')) {
             if (config('jsonapi.strict')) {
-              ApiException::setDetails(config('jsonapi.content_type'));
-              throw new UnsupportedMediaTypeException('unsupported-media-type');
+                ApiException::setDetails(config('jsonapi.content_type'));
+                throw new UnsupportedMediaTypeException('unsupported-media-type');
             }
         }
     }
