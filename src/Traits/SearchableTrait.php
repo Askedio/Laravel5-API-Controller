@@ -34,9 +34,9 @@ trait SearchableTrait
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSearch(Builder $q, $search, $threshold = null, $entireText = false)
+    public function scopeSearch(Builder $qry, $search, $threshold = null, $entireText = false)
     {
-        return $this->scopeSearchRestricted($q, $search, null, $threshold, $entireText);
+        return $this->scopeSearchRestricted($qry, $search, null, $threshold, $entireText);
     }
 
     public function scopeSearchRestricted(Builder $qry, $search, $restriction, $threshold = null, $entireText = false)
@@ -61,7 +61,7 @@ trait SearchableTrait
             $queries = $this->getSearchQueriesForColumn($query, $column, $relevance, $words);
 
             if ($entireText === true) {
-                $queries[] = $this->getSearchQuery($query, $column, $relevance, [$search], 30, '', '%');
+                $queries[] = $this->getSearchQuery($column, $relevance, [$search], 30, '', '%');
             }
 
             foreach ($queries as $select) {
@@ -86,9 +86,9 @@ trait SearchableTrait
             $query = $restriction($query);
         }
 
-        $this->mergeQueries($query, $q);
+        $this->mergeQueries($query, $qry);
 
-        return $q;
+        return $qry;
     }
 
     /**
@@ -190,7 +190,7 @@ trait SearchableTrait
 
             $joins = array_keys(($this->getJoins()));
 
-            foreach ($this->getColumns() as $column => $relevance) {
+            foreach (array_keys($this->getColumns()) as $column) {
                 array_map(function ($join) use ($column, $query) {
                     if (Str::contains($column, $join)) {
                         $query->groupBy($column);
@@ -245,9 +245,9 @@ trait SearchableTrait
     {
         $queries = [];
 
-        $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 15);
-        $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 5, '', '%');
-        $queries[] = $this->getSearchQuery($query, $column, $relevance, $words, 1, '%', '%');
+        $queries[] = $this->getSearchQuery($column, $relevance, $words, 15);
+        $queries[] = $this->getSearchQuery($column, $relevance, $words, 5, '', '%');
+        $queries[] = $this->getSearchQuery($column, $relevance, $words, 1, '%', '%');
 
         return $queries;
     }
@@ -266,7 +266,7 @@ trait SearchableTrait
      *
      * @return string
      */
-    protected function getSearchQuery(Builder $query, $column, $relevance, array $words, $relevance_multiplier, $pre_word = '', $post_word = '')
+    protected function getSearchQuery($column, $relevance, array $words, $relevance_multiplier, $pre_word = '', $post_word = '')
     {
         $like_comparator = $this->getDatabaseDriver() == 'pgsql' ? 'ILIKE' : 'LIKE';
         $cases = [];

@@ -46,7 +46,7 @@ class JsonApiMiddleware
         if (!empty($_check)) {
             $_errors = [];
 
-            foreach ($_check as $_field => $_val) {
+            foreach (array_keys($_check) as $_field) {
                 array_push($_errors, [
                 'code'   => 0,
                 'source' => ['pointer' => $_field],

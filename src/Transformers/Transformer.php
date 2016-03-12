@@ -58,7 +58,7 @@ class Transformer
             if (!empty($incs)) {
                 $_results['relationships'] = [];
                 $_results['included'] = [];
-                foreach ($incs as $i => $include) {
+                foreach (array_values($incs) as $include) {
                     if (!isset($_results['relationships'][$include['type']])) {
                         $_results['relationships'][$include['type']]['data'] = [];
                     }

@@ -104,7 +104,7 @@ class ApiController
         $request = Request::json()->all();
 
         // TO-DO: laravel helper
-        foreach ($request as $var => $val) {
+        foreach (array_keys($request) as $var) {
             if (!in_array($var, $_allowed)) {
                 unset($request[$var]);
             }
