@@ -2,9 +2,9 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
-use Askedio\Laravel5ApiController\Facades\Api;
 use Askedio\Laravel5ApiController\Exceptions\ApiException;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
+use Askedio\Laravel5ApiController\Facades\Api;
 use Cache;
 use Schema;
 
