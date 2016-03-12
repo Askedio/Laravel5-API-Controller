@@ -6,7 +6,6 @@ use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Helpers\Api;
 use Askedio\Laravel5ApiController\Helpers\ApiController;
-use Askedio\Laravel5ApiController\Http\Responses\ApiResponse;
 use Askedio\Laravel5ApiController\Transformers\Transformer;
 
 trait ControllerTrait

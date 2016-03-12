@@ -39,6 +39,7 @@ class GenericServiceProvider extends ServiceProvider
 
       response()->macro('jsonresults', function ($code, $value) {
           $apiResponse = new \Askedio\Laravel5ApiController\Http\Responses\ApiResponse();
+
           return $apiResponse->jsonapi($code, $value);
       });
 
