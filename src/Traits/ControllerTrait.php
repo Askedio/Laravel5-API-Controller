@@ -82,9 +82,8 @@ trait ControllerTrait
 
             ApiException::setDetails(['errors' => $data['error']]);
             throw new InvalidAttributeException('invalid_attribute', $data['error']);
-
         }
-        
+
         ApiException::setDetails(['errors' => $data['results']['errors']]);
         throw new InvalidAttributeException('invalid_attribute', 403);
     }
