@@ -58,12 +58,9 @@ class Handler extends ExceptionHandler
      */
     private function handle($request, Exception $exception)
     {
-        /* custom exception class */
-        if ($exception instanceof JsonException) {
-            $data = $exception->getError();
-            $code = $exception->getStatusCode();
+
         /* translate HttpExceptions to json api style */
-        } elseif ($exception instanceof HttpException) {
+        if ($exception instanceof HttpException) {
             $code = $exception->getStatusCode();
             $data = [
              'status' => $exception->getStatusCode(),
@@ -72,22 +69,30 @@ class Handler extends ExceptionHandler
             if (env('APP_DEBUG', false)) {
                 $data['source'] = ['line '.$exception->getLine() => $exception->getFile()];
             }
-            $data = ['errors' => $data];
-        /* not an exception we manage so generic error or if debug, the real exception */
-        } else {
-            if (!env('APP_DEBUG', false)) {
-                // TO-DO: needs to check if function exists.
-                //$code = $exception->getStatusCode();
-                $data = [
-               'status' => 500,
-               'detail' => 'Unknown Exception',
-              ];
-                $data = ['errors' => $data];
-            } else {
-                return parent::render($request, $exception);
-            }
+
+            return ApiResponse::render($code, ['errors' => $data]);
         }
 
-        return ApiResponse::render($code, ['errors' => $data]);
+        /* custom exception class */
+        if ($exception instanceof JsonException) {
+            $data = $exception->getError();
+            $code = $exception->getStatusCode();
+            return ApiResponse::render($code, ['errors' => $data]);
+        }
+
+        /* not an exception we manage so generic error or if debug, the real exception */
+        if (!env('APP_DEBUG', false)) {
+            // TO-DO: needs to check if function exists.
+            //$code = $exception->getStatusCode();
+            $data = [
+             'status' => 500,
+             'detail' => 'Unknown Exception',
+            ];
+
+            return ApiResponse::render($code, ['errors' => $data]);
+        }
+
+        return parent::render($request, $exception);
+
     }
 }

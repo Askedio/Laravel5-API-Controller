@@ -78,13 +78,14 @@ trait ControllerTrait
                 $_results = isset($data['data']) ? $data['data'] : $data['results'];
 
                 return ApiResponse::render($data['success'], Transformer::render($_results));
-            } else {
-                ApiException::setDetails(['errors' => $data['error']]);
-                throw new InvalidAttributeException('invalid_attribute', $data['error']);
             }
-        } else {
-            ApiException::setDetails(['errors' => $data['results']['errors']]);
-            throw new InvalidAttributeException('invalid_attribute', 403);
+
+            ApiException::setDetails(['errors' => $data['error']]);
+            throw new InvalidAttributeException('invalid_attribute', $data['error']);
+
         }
+        
+        ApiException::setDetails(['errors' => $data['results']['errors']]);
+        throw new InvalidAttributeException('invalid_attribute', 403);
     }
 }

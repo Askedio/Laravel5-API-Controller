@@ -111,7 +111,8 @@ trait ApiTrait
             foreach ($_fields[$_key] as $filter) {
                 if (in_array($filter, $_columns)) {
                     $_results[$filter] = $_content[$filter];
-                } else {
+                }
+                if (!in_array($filter, $_columns)) {
                     array_push($_errors, [$_key, $filter]);
                 }
             }

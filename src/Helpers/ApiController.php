@@ -44,9 +44,10 @@ class ApiController
     {
         if ($errors = $this->validate('create')) {
             return ['errors' => $errors];
-        } else {
-            return $this->model->create($this->cleanRequest());
         }
+
+        return $this->model->create($this->cleanRequest());
+
     }
 
     /**
@@ -54,9 +55,9 @@ class ApiController
      *
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function show($id)
+    public function show($_id)
     {
-        return $this->model->find($id);
+        return $this->model->find($_id);
     }
 
     /**
@@ -68,17 +69,18 @@ class ApiController
     {
         if ($errors = $this->validate('update')) {
             return ['errors' => $errors];
-        } else {
-            $_model = $this->model->find($_id);
-
-            return $_model
-              ? (
-                  $_model->update($this->cleanRequest())
-                  ? $_model
-                  : false
-                )
-              : false;
         }
+
+        $_model = $this->model->find($_id);
+
+        return $_model
+          ? (
+              $_model->update($this->cleanRequest())
+              ? $_model
+              : false
+            )
+          : false;
+
     }
 
     /**
