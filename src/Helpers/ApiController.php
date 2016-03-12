@@ -10,9 +10,6 @@ class ApiController
     /** @var object */
     private $model;
 
-    /** @var Illuminate\Http\Request */
-    private $request;
-
     /**
      * @param modelclass.. $model
      */
@@ -127,7 +124,6 @@ class ApiController
     {
         $validator = Validator::make(Request::json()->all(), $this->model->getRule($action));
         $_errors = [];
-        $e = $validator->errors()->toArray();
         foreach ($validator->errors()->toArray() as $_field => $_err) {
             array_push($_errors, [
             // TO-DO: detect errors for a valid json api code

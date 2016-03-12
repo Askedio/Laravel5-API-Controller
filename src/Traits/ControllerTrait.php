@@ -2,9 +2,9 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
-use Api;
-use ApiException;
-use ApiResponse;
+use Askedio\Laravel5ApiController\Facades\Api;
+use Askedio\Laravel5ApiController\Exceptions\ApiException;
+use Askedio\Laravel5ApiController\Http\Responses\ApiResponse;
 use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Helpers\ApiController;

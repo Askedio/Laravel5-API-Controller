@@ -2,7 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Http\Responses;
 
-use Api;
+use Askedio\Laravel5ApiController\Facades\Api;
 use Response;
 
 class ApiResponse extends Response

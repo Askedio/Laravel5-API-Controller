@@ -2,7 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Transformers;
 
-use Api;
+use Askedio\Laravel5ApiController\Facades\Api;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**

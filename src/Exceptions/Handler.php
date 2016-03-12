@@ -2,7 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
-use ApiResponse;
+use Askedio\Laravel5ApiController\Http\Responses\ApiResponse;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
