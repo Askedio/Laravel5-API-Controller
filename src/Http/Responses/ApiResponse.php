@@ -32,7 +32,7 @@ class ApiResponse extends Response
         return array_merge($data, [
           'jsonapi' => [
             'version'   => config('jsonapi.json_version', '1.0'),
-            'self'      => Api::getVersion(),
+            'self'      => app('api')->getVersion(),
           ],
         ]);
     }

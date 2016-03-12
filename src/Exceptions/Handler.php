@@ -70,7 +70,7 @@ class Handler extends ExceptionHandler
                 $data['source'] = ['line '.$exception->getLine() => $exception->getFile()];
             }
 
-            return response()->jsonresults($code, ['errors' => $data]);
+            return response()->jsonapi($code, ['errors' => $data]);
         }
 
         /* custom exception class */
@@ -78,19 +78,19 @@ class Handler extends ExceptionHandler
             $data = $exception->getError();
             $code = $exception->getStatusCode();
 
-            return response()->jsonresults($code, ['errors' => $data]);
+            return response()->jsonapi($code, ['errors' => $data]);
         }
 
         /* not an exception we manage so generic error or if debug, the real exception */
         if (!env('APP_DEBUG', false)) {
             // TO-DO: needs to check if function exists.
-            //$code = $exception->getStatusCode();
+            $code = 500;//$exception->getStatusCode();
             $data = [
              'status' => 500,
              'detail' => 'Unknown Exception',
             ];
 
-            return response()->jsonresults($code, ['errors' => $data]);
+            return response()->jsonapi($code, ['errors' => $data]);
         }
 
         return parent::render($request, $exception);

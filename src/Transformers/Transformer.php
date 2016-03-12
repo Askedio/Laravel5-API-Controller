@@ -80,7 +80,7 @@ class Transformer
     {
         $_results = [];
 
-        foreach (Api::includes() as $include) {
+        foreach (app('api')->includes() as $include) {
             if (is_object($object->$include)) {
                 foreach ($object->$include as $included) {
                     $_results[] = self::item($included);

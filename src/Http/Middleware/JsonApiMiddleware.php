@@ -74,7 +74,7 @@ class JsonApiMiddleware
         }
 
         if (isset($matches[1])) {
-            Api::setVersion($matches[1]);
+            app('api')->setVersion($matches[1]);
         }
     }
 

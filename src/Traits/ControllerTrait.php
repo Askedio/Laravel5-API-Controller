@@ -15,7 +15,7 @@ trait ControllerTrait
 
     public function __construct()
     {
-        if (isset($this->version) && Api::getVersion() != $this->version) {
+        if (isset($this->version) && app('api')->getVersion() != $this->version) {
             $exception = new NotAcceptableException('not-acceptable');
             throw $exception->withDetails('/application/vnd.api.'.$this->version.'+json');
         }
@@ -75,7 +75,7 @@ trait ControllerTrait
             if ($data['results']) {
                 $_results = isset($data['data']) ? $data['data'] : $data['results'];
 
-                return response()->jsonresults($data['success'], Transformer::render($_results));
+                return response()->jsonapi($data['success'], Transformer::render($_results));
             }
 
             $exception = new InvalidAttributeException('invalid_attribute', $data['error']);

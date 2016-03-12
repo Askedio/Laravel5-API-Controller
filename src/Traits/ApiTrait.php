@@ -4,7 +4,6 @@ namespace Askedio\Laravel5ApiController\Traits;
 
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Helpers\Api;
-use Cache;
 use Schema;
 
 trait ApiTrait
@@ -76,7 +75,7 @@ trait ApiTrait
     public function scopecheckIncludes()
     {
         $_allowed = $this->includes ?: [];
-        $_includes = Api::includes();
+        $_includes = app('api')->includes();
         if (empty($_includes) || empty($_allowed)) {
             return false;
         }
@@ -95,7 +94,7 @@ trait ApiTrait
      */
     public function scopefilterAndTransform()
     {
-        $_fields = Api::fields();
+        $_fields = app('api')->fields();
         if (empty($_fields)) {
             return $this;
         }
@@ -135,7 +134,7 @@ trait ApiTrait
      */
     private function columns()
     {
-        return Cache::rememberForever('columns-'.$this->getTable(), function () {
+        return app('cache')->rememberForever('columns-'.$this->getTable(), function () {
               return Schema::getColumnListing($this->getTable());
       });
     }

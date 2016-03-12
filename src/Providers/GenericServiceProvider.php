@@ -19,6 +19,10 @@ class GenericServiceProvider extends ServiceProvider
         \Askedio\Laravel5ApiController\Exceptions\Handler::class
       );
 
+      $this->app->singleton('api', function ($app) {
+        return new \Askedio\Laravel5ApiController\Helpers\Api();
+      });
+
       $this->mergeConfigFrom(
         __DIR__.'/../config/errors.php', 'errors'
     );
@@ -37,11 +41,13 @@ class GenericServiceProvider extends ServiceProvider
   {
       $router->middleware('jsonapi', \Askedio\Laravel5ApiController\Http\Middleware\JsonApiMiddleware::class);
 
-      response()->macro('jsonresults', function ($code, $value) {
+      response()->macro('jsonapi', function ($code, $value) {
           $apiResponse = new \Askedio\Laravel5ApiController\Http\Responses\ApiResponse();
 
           return $apiResponse->jsonapi($code, $value);
       });
+
+
 
       $this->publishes([
         __DIR__.'/../config/jsonapi.php' => config_path('jsonapi.php'),
