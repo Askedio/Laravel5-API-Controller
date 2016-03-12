@@ -2,8 +2,8 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
-use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
+use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Helpers\Api;
 use Askedio\Laravel5ApiController\Helpers\ApiController;
 use Askedio\Laravel5ApiController\Helpers\ApiException;
@@ -74,12 +74,13 @@ trait ControllerTrait
     private function render($data)
     {
         if (!isset($data['results']['errors'])) {
-            if($data['results']){
-              $_results = isset($data['data']) ? $data['data'] : $data['results'];
-              return JsonResponse::render($data['success'], Transformer::render($_results));
+            if ($data['results']) {
+                $_results = isset($data['data']) ? $data['data'] : $data['results'];
+
+                return JsonResponse::render($data['success'], Transformer::render($_results));
             } else {
-              ApiException::setDetails(['errors' => $data['error']]);
-              throw new InvalidAttributeException('invalid_attribute', $data['error']);
+                ApiException::setDetails(['errors' => $data['error']]);
+                throw new InvalidAttributeException('invalid_attribute', $data['error']);
             }
         } else {
             ApiException::setDetails(['errors' => $data['results']['errors']]);
