@@ -96,6 +96,8 @@ class JsonTest extends ApiCase
     // unsupported-media-type
     // not-acceptable
     // not_found
+    //
+    // test search
 
     private function createUser()
     {
