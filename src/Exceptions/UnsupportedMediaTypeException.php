@@ -2,7 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
-class UnsupportedMediaTypeException extends JsonException
+class UnsupportedMediaTypeException extends ApiException
 {
     /**
      * @var string

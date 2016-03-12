@@ -2,7 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
-class InvalidAttributeException extends JsonException
+class InvalidAttributeException extends ApiException
 {
     /**
      * @var string

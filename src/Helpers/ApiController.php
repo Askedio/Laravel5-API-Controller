@@ -2,9 +2,6 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
-use Request;
-use Validator;
-
 class ApiController
 {
     /** @var object */
@@ -26,13 +23,13 @@ class ApiController
      */
     public function index()
     {
-        $results = $this->model->setSort(Request::input('sort'));
+        $results = $this->model->setSort(request()->input('sort'));
 
-        if (Request::input('search') && $this->model->isSearchable()) {
-            $results->search(Request::input('search'));
+        if (request()->input('search') && $this->model->isSearchable()) {
+            $results->search(request()->input('search'));
         }
 
-        return $results->paginate((Request::input('limit') ?: '10'));
+        return $results->paginate((request()->input('limit') ?: '10'));
     }
 
     /**
@@ -101,7 +98,7 @@ class ApiController
     private function cleanRequest()
     {
         $_allowed = $this->model->getFillable();
-        $request = Request::json()->all();
+        $request = request()->json()->all();
 
         // TO-DO: laravel helper
         foreach (array_keys($request) as $var) {
@@ -122,7 +119,7 @@ class ApiController
      */
     private function validate($action)
     {
-        $validator = Validator::make(Request::json()->all(), $this->model->getRule($action));
+        $validator = validator()->make(request()->json()->all(), $this->model->getRule($action));
         $_errors = [];
         foreach ($validator->errors()->toArray() as $_field => $_err) {
             array_push($_errors, [

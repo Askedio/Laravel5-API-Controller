@@ -50,7 +50,7 @@ abstract class JsonException extends Exception
       }
 
         $_settings = $this->settings($args);
-        $this->error = ApiException::getDetails($_settings);
+        $this->error = $this->getDetails($_settings);
         $this->status = $_settings['code'];
     }
 

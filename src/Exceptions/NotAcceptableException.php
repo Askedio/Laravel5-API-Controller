@@ -2,7 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
-class NotAcceptableException extends JsonException
+class NotAcceptableException extends ApiException
 {
     /**
      * @var string

@@ -1,8 +1,7 @@
 <?php
 
-namespace Askedio\Laravel5ApiController\Facades;
+namespace Askedio\Laravel5ApiController\Helpers;
 
-use Request;
 
 class Api
 {
@@ -38,7 +37,7 @@ class Api
      */
     public static function includes()
     {
-        return Request::input('include') ? explode(',', Request::input('include')) : [];
+        return request()->input('include') ? explode(',', request()->input('include')) : [];
     }
 
     /**
@@ -49,7 +48,7 @@ class Api
     public static function fields()
     {
         $_results = [];
-        foreach (array_filter(Request::input('fields', [])) as $type => $members) {
+        foreach (array_filter(request()->input('fields', [])) as $type => $members) {
             foreach (explode(',', $members) as $member) {
                 $_results[$type][] = $member;
             }

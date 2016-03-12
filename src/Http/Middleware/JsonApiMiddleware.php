@@ -6,7 +6,7 @@ use Askedio\Laravel5ApiController\Exceptions\ApiException;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Exceptions\UnsupportedMediaTypeException;
-use Askedio\Laravel5ApiController\Facades\Api;
+use Askedio\Laravel5ApiController\Helpers\Api;
 use Closure;
 
 class JsonApiMiddleware
@@ -54,8 +54,8 @@ class JsonApiMiddleware
               ]);
             }
 
-            ApiException::setDetails(['errors' => $_errors]);
-            throw new BadRequestException('invalid_get');
+            $exception = new BadRequestException('invalid_get');
+            throw $exception->withDetails(['errors' => $_errors]);
         }
     }
 
@@ -69,8 +69,8 @@ class JsonApiMiddleware
         if (!preg_match('/application\/vnd\.api\.([\w\d\.]+)\+([\w]+)/', $this->request->header('Accept'), $matches)
               && $this->request->header('Accept') != config('jsonapi.accept')) {
             if (config('jsonapi.strict')) {
-                ApiException::setDetails(config('jsonapi.accept'));
-                throw new NotAcceptableException('not-acceptable');
+                $exception = new NotAcceptableException('not-acceptable');
+                throw $exception->withDetails(config('jsonapi.accept'));
             }
         }
 
@@ -88,8 +88,8 @@ class JsonApiMiddleware
     {
         if ($this->request->header('Content-Type') != config('jsonapi.content_type')) {
             if (config('jsonapi.strict')) {
-                ApiException::setDetails(config('jsonapi.content_type'));
-                throw new UnsupportedMediaTypeException('unsupported-media-type');
+                $exception = new UnsupportedMediaTypeException('unsupported-media-type');
+                throw $exception->withDetails(config('jsonapi.content_type'));
             }
         }
     }

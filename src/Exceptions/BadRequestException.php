@@ -2,7 +2,7 @@
 
 namespace Askedio\Laravel5ApiController\Exceptions;
 
-class BadRequestException extends JsonException
+class BadRequestException extends ApiException
 {
     /**
      * @var string

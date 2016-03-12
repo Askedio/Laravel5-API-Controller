@@ -5,16 +5,17 @@ namespace Askedio\Laravel5ApiController\Exceptions;
 class ApiException extends JsonException
 {
     /** @var array */
-    private static $exceptionDetails;
+    private $exceptionDetails;
 
     /**
      * Store exception details.
      *
      * @param mixed $details
      */
-    public static function setDetails($details)
+    public function withDetails($details)
     {
-        self::$exceptionDetails = $details;
+        $this->exceptionDetails = $details;
+        return $this;
     }
 
     /**
@@ -22,11 +23,11 @@ class ApiException extends JsonException
      *
      * @return array
      */
-    public static function getDetails($_template)
+    public function getDetails($_template)
     {
         $_results = [];
 
-        $_details = self::$exceptionDetails;
+        $_details = $this->exceptionDetails;
 
       /* Pre-rendered errors */
       if (isset($_details['errors']) && is_array($_details['errors'])) {
@@ -44,7 +45,7 @@ class ApiException extends JsonException
 
         if (!empty($_details)) {
             foreach ($_details as $detail) {
-                $_results[] = self::item($_template, $detail);
+                $_results[] = $this->item($_template, $detail);
             }
         }
 
@@ -56,7 +57,7 @@ class ApiException extends JsonException
      *
      * @return array
      */
-    private static function item($_template, $detail)
+    private function item($_template, $detail)
     {
         if (empty($detail)) {
             return $_template;

@@ -98,9 +98,9 @@ trait SearchableTrait
      */
     protected function getDatabaseDriver()
     {
-        $key = $this->connection ?: Config::get('database.default');
+        $key = $this->connection ?: config('database.default');
 
-        return Config::get('database.connections.'.$key.'.driver');
+        return config('database.connections.'.$key.'.driver');
     }
 
     /**
@@ -183,11 +183,7 @@ trait SearchableTrait
 
         $driver = $this->getDatabaseDriver();
 
-        if ($driver == 'sqlsrv') {
-            $columns = $this->getTableColumns();
-        } else {
-            $columns = $this->getTable().'.'.$this->primaryKey;
-        }
+        $columns = $driver == 'sqlsrv' ? $this->getTableColumns() : $this->getTable().'.'.$this->primaryKey;
 
         $query->groupBy($columns);
 

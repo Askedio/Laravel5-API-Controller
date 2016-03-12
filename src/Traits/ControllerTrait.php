@@ -5,7 +5,7 @@ namespace Askedio\Laravel5ApiController\Traits;
 use Askedio\Laravel5ApiController\Exceptions\ApiException;
 use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
-use Askedio\Laravel5ApiController\Facades\Api;
+use Askedio\Laravel5ApiController\Helpers\Api;
 use Askedio\Laravel5ApiController\Helpers\ApiController;
 use Askedio\Laravel5ApiController\Http\Responses\ApiResponse;
 use Askedio\Laravel5ApiController\Transformers\Transformer;
@@ -18,8 +18,8 @@ trait ControllerTrait
     public function __construct()
     {
         if (isset($this->version) && Api::getVersion() != $this->version) {
-            ApiException::setDetails('/application/vnd.api.'.$this->version.'+json');
-            throw new NotAcceptableException('not-acceptable');
+            $exception = new NotAcceptableException('not-acceptable');
+            throw $exception->withDetails('/application/vnd.api.'.$this->version.'+json');
         }
 
         $this->results = new ApiController($this->model);
@@ -80,11 +80,11 @@ trait ControllerTrait
                 return ApiResponse::render($data['success'], Transformer::render($_results));
             }
 
-            ApiException::setDetails(['errors' => $data['error']]);
-            throw new InvalidAttributeException('invalid_attribute', $data['error']);
+            $exception = new InvalidAttributeException('invalid_attribute', $data['error']);
+            throw $exception->withDetails(['errors' => $data['error']]);
         }
 
-        ApiException::setDetails(['errors' => $data['results']['errors']]);
-        throw new InvalidAttributeException('invalid_attribute', 403);
+        $exception = new InvalidAttributeException('invalid_attribute', 403);
+        throw $exception->withDetails(['errors' => $data['results']['errors']]);
     }
 }

@@ -4,7 +4,7 @@ namespace Askedio\Laravel5ApiController\Traits;
 
 use Askedio\Laravel5ApiController\Exceptions\ApiException;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
-use Askedio\Laravel5ApiController\Facades\Api;
+use Askedio\Laravel5ApiController\Helpers\Api;
 use Cache;
 use Schema;
 
@@ -48,8 +48,8 @@ trait ApiTrait
                 $_columns = $this->columns();
                 foreach ($members as $column) {
                     if (!in_array(ltrim($column, '-'), $_columns)) {
-                        ApiException::setDetails([strtolower(class_basename($this)), ltrim($column, '-')]);
-                        throw new BadRequestException('invalid_sort');
+                        $exception = new BadRequestException('invalid_sort');
+                        throw $exception->withDetails([strtolower(class_basename($this)), ltrim($column, '-')]);
                     }
                     $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
                 }
@@ -83,8 +83,8 @@ trait ApiTrait
         }
         foreach ($_includes as $include) {
             if (!in_array($include, $_allowed)) {
-                ApiException::setDetails([strtolower(class_basename($this)), $include]);
-                throw new BadRequestException('invalid_include');
+                $exception = new BadRequestException('invalid_include');
+                throw $exception->withDetails([strtolower(class_basename($this)), $include]);
             }
         }
     }
@@ -117,8 +117,8 @@ trait ApiTrait
                 }
             }
             if (!empty($_errors)) {
-                ApiException::setDetails($_errors);
-                throw new BadRequestException('invalid_filter');
+                $exception = new BadRequestException('invalid_filter');
+                throw $exception->withDetails($_errors);
             }
 
             return $_results;
