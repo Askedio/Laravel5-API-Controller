@@ -7,13 +7,11 @@ use Response;
 
 class ApiResponse extends Response
 {
-
-
     /**
-     * Change Content-Type for jsonapi response macro
+     * Change Content-Type for jsonapi response macro.
      *
-     * @param  int $code
-     * @param  string $value
+     * @param int    $code
+     * @param string $value
      *
      * @return Illuminate\Http\Response
      */
@@ -23,7 +21,6 @@ class ApiResponse extends Response
           'Content-Type' => config('jsonapi.content_type'),
         ], true);
     }
-
 
     /**
      * Render json api output.
