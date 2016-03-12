@@ -5,16 +5,16 @@ namespace Askedio\Laravel5ApiController\Helpers;
 class Api
 {
     /** @var string */
-    private static $version;
+    private $version;
 
     /**
      * Get API version.
      *
      * @return string
      */
-    public static function getVersion()
+    public function getVersion()
     {
-        return self::$version ?: config('jsonapi.version');
+        return $this->version ?: config('jsonapi.version');
     }
 
     /**
@@ -24,9 +24,9 @@ class Api
      *
      * @return void
      */
-    public static function setVersion($version)
+    public function setVersion($version)
     {
-        self::$version = $version;
+        $this->version = $version;
     }
 
     /**
@@ -34,7 +34,7 @@ class Api
      *
      * @return Illuminate\Http\Request
      */
-    public static function includes()
+    public function includes()
     {
         return request()->input('include') ? explode(',', request()->input('include')) : [];
     }
@@ -44,7 +44,7 @@ class Api
      *
      * @return array
      */
-    public static function fields()
+    public function fields()
     {
         $_results = [];
         foreach (array_filter(request()->input('fields', [])) as $type => $members) {

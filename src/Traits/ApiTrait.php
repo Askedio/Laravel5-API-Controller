@@ -4,7 +4,7 @@ namespace Askedio\Laravel5ApiController\Traits;
 
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Helpers\Api;
-use Schema;
+use DB;
 
 trait ApiTrait
 {
@@ -135,7 +135,7 @@ trait ApiTrait
     private function columns()
     {
         return app('cache')->rememberForever('columns-'.$this->getTable(), function () {
-              return Schema::getColumnListing($this->getTable());
+              return DB::connection()->getSchemaBuilder()->getColumnListing($this->getTable());
       });
     }
 

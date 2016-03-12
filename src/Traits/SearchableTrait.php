@@ -191,7 +191,7 @@ trait SearchableTrait
 
         foreach (array_keys($this->getColumns()) as $column) {
             array_map(function ($join) use ($column, $query) {
-                if (Str::contains($column, $join)) {
+                if (str_contains($column, $join)) {
                     $query->groupBy($column);
                 }
             }, $joins);

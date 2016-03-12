@@ -20,16 +20,16 @@ class GenericServiceProvider extends ServiceProvider
       );
 
       $this->app->singleton('api', function () {
-        return new \Askedio\Laravel5ApiController\Helpers\Api();
+        return new \Askedio\Laravel5ApiController\Helpers\Api;
       });
 
       $this->mergeConfigFrom(
         __DIR__.'/../config/errors.php', 'errors'
-    );
+     );
 
       $this->mergeConfigFrom(
         __DIR__.'/../config/jsonapi.php', 'jsonapi'
-    );
+      );
   }
 
   /**
@@ -42,7 +42,7 @@ class GenericServiceProvider extends ServiceProvider
       $router->middleware('jsonapi', \Askedio\Laravel5ApiController\Http\Middleware\JsonApiMiddleware::class);
 
       response()->macro('jsonapi', function ($code, $value) {
-          $apiResponse = new \Askedio\Laravel5ApiController\Http\Responses\ApiResponse();
+          $apiResponse = new \Askedio\Laravel5ApiController\Http\Responses\ApiResponse;
 
           return $apiResponse->jsonapi($code, $value);
       });
