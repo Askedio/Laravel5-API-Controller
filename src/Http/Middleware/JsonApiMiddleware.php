@@ -2,11 +2,11 @@
 
 namespace Askedio\Laravel5ApiController\Http\Middleware;
 
+use Api;
+use ApiException;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Exceptions\UnsupportedMediaTypeException;
-use Api;
-use ApiException;
 use Closure;
 
 class JsonApiMiddleware

@@ -2,13 +2,12 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
+use Api;
+use ApiException;
+use ApiResponse;
 use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
-use Api;
 use Askedio\Laravel5ApiController\Helpers\ApiController;
-use ApiException;
-
-use ApiResponse;
 use Askedio\Laravel5ApiController\Transformers\Transformer;
 
 trait ControllerTrait
