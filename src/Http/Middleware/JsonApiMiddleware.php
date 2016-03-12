@@ -69,6 +69,7 @@ class JsonApiMiddleware
         if (!preg_match('/application\/vnd\.api\.([\w\d\.]+)\+([\w]+)/', $this->request->header('Accept'), $matches)
               && $this->request->header('Accept') != config('jsonapi.accept')) {
             if (config('jsonapi.strict')) {
+                ApiException::setDetails(config('jsonapi.accept'));
                 throw new NotAcceptableException('not-acceptable');
             }
         } else {
@@ -87,7 +88,8 @@ class JsonApiMiddleware
     {
         if ($this->request->header('Content-Type') != config('jsonapi.content_type')) {
             if (config('jsonapi.strict')) {
-                throw new UnsupportedMediaTypeException('unsupported-media-type');
+              ApiException::setDetails(config('jsonapi.content_type'));
+              throw new UnsupportedMediaTypeException('unsupported-media-type');
             }
         }
     }

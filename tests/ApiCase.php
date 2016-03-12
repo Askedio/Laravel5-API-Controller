@@ -10,7 +10,15 @@ use Illuminate\Routing\Router;
 
 class ApiCase extends \Illuminate\Foundation\Testing\TestCase
 {
-    use WithoutMiddleware;
+    //use WithoutMiddleware;
+    //ui
+
+    public function json($method, $uri, array $data = [], array $headers = [])
+      {
+          $headers = array_merge($headers, ['Content-Type' => config('jsonapi.content_type'), 'Accept' => config('jsonapi.accept')]);
+          return parent::json($method, $uri, $data, $headers);
+      }
+
 
     /**
      * Setup DB before each test.
@@ -58,6 +66,7 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
         $app = require __DIR__.'/../vendor/laravel/laravel/bootstrap/app.php';
 
         $this->setUpHttpKernel($app);
+        $app->register(\Askedio\Laravel5ApiController\Providers\GenericServiceProvider::class);
         $app->register(\Askedio\Tests\App\Providers\RouteServiceProvider::class);
 
         return $app;
@@ -82,31 +91,34 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
         $app->make('Illuminate\Foundation\Http\Kernel', [$app, $this->getRouter()])->bootstrap();
     }
 
+    
     /**
-     * This is required for \Symfony\Bridge\PsrHttpMessage\Factory to work.
-     * This comes as a trade-off of building the underlying package as framework-agnostic.
+     * Return an array of keys for json validation
      *
-     * @param string $method
-     * @param string $uri
-     * @param array  $parameters
-     * @param array  $cookies
-     * @param array  $files
-     * @param array  $server
-     * @param string $content
+     * @param  array $array
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
+    public function arrayKeys($array)
     {
-        $_SERVER['SERVER_NAME'] = parse_url($uri, PHP_URL_HOST);
-        $_SERVER['REQUEST_URI'] = str_replace([parse_url($uri, PHP_URL_HOST), parse_url($uri, PHP_URL_SCHEME).'://'], '', $uri);
-        $_SERVER['REQUEST_METHOD'] = strtoupper($method);
-        $_SERVER['QUERY_STRING'] = parse_url($uri, PHP_URL_QUERY);
-        $_SERVER['PATH_INFO'] = str_replace('?'.$_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']);
-        $_SERVER['CONTENT_TYPE'] = 'application/json';
-        $_SERVER['argv'] = explode('&', $_SERVER['QUERY_STRING']);
-        parse_str($_SERVER['QUERY_STRING'], $_GET);
+        $results = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+              $results = array_merge($results,  [$key => array_merge(array_keys($value),$this->arrayKeys($value))]);
+            }
+        }
+        return $results;
+    }
 
-        return parent::call($method, $uri, $parameters, $cookies, $files, $server, $content);
+    /**
+     * Get Keys from a json array
+     *
+     * @param  string $var
+     *
+     * @return array
+     */
+    public function getKeys($var)
+    {
+      return $this->arrayKeys(json_decode($var, true));
     }
 }
