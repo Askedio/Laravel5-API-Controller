@@ -12,12 +12,12 @@ before_script:
 script:
   - php vendor/bin/phpunit
 
+ after_script:
+  - php vendor/bin/codacycoverage clover build/logs/clover.xml
+
 matrix:
      allow_failures:
          - php: "hhvm"
 branches:
   only:
     - master
-
- after_script:
-  - php vendor/bin/codacycoverage clover build/logs/clover.xml
