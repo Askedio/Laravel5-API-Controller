@@ -46,7 +46,7 @@ trait SearchableTrait
         $this->makeJoins($query);
 
         if (!$search) {
-            return $q;
+            return $qry;
         }
 
         $search = mb_strtolower(trim($search));
@@ -58,7 +58,7 @@ trait SearchableTrait
 
         foreach ($this->getColumns() as $column => $relevance) {
             $relevance_count += $relevance;
-            $queries = $this->getSearchQueriesForColumn($query, $column, $relevance, $words);
+            $queries = $this->getSearchQueriesForColumn($column, $relevance, $words);
 
             if ($entireText === true) {
                 $queries[] = $this->getSearchQuery($column, $relevance, [$search], 30, '', '%');
@@ -241,7 +241,7 @@ trait SearchableTrait
      *
      * @return array
      */
-    protected function getSearchQueriesForColumn(Builder $query, $column, $relevance, array $words)
+    protected function getSearchQueriesForColumn($column, $relevance, array $words)
     {
         $queries = [];
 
