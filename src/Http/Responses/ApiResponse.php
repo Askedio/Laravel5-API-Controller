@@ -7,7 +7,6 @@ use Response;
 
 class ApiResponse extends Response
 {
-
     /**
      * Render json api output.
      *
@@ -18,7 +17,7 @@ class ApiResponse extends Response
      */
     public function jsonapi($code, $results)
     {
-      return response()->json($this->jsonapiData($results), $code, [
+        return response()->json($this->jsonapiData($results), $code, [
         'Content-Type' => config('jsonapi.content_type'),
       ], true);
     }
