@@ -7,7 +7,7 @@ php:
 before_script:
   - curl -sS https://getcomposer.org/installer | php -- --filename=composer
   - chmod +x composer
-  - composer install
+  - composer install -n
 
 script:
   - php vendor/bin/phpunit
