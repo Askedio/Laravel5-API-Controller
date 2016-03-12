@@ -12,7 +12,7 @@ before_script:
 script:
   - php vendor/bin/phpunit
 
- after_script:
+after_script:
   - php vendor/bin/codacycoverage clover build/logs/clover.xml
 
 matrix:
