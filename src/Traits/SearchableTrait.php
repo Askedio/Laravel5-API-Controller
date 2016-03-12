@@ -326,11 +326,11 @@ trait SearchableTrait
     protected function mergeQueries(Builder $clone, Builder $original)
     {
         $tableName = DB::connection($this->connection)->getTablePrefix().$this->getTable();
-        if ($this->getDatabaseDriver() == 'pgsql') {
-            $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as {$tableName}"));
-        } else {
-            $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as `{$tableName}`"));
-        }
+
+        $this->getDatabaseDriver() == 'pgsql'
+        ? $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as {$tableName}"))
+        : $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as `{$tableName}`"));
+
         $original->mergeBindings($clone->getQuery());
     }
 }

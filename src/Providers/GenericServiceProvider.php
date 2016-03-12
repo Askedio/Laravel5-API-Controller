@@ -19,8 +19,8 @@ class GenericServiceProvider extends ServiceProvider
         \Askedio\Laravel5ApiController\Exceptions\Handler::class
       );
 
-      $this->app->singleton('api', function ($app) {
-        return new \Askedio\Laravel5ApiController\Helpers\Api();
+      $this->app->singleton('api', function () {
+        return new \Askedio\Laravel5ApiController\Helpers\Api;
       });
 
       $this->mergeConfigFrom(

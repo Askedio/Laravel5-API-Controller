@@ -75,7 +75,8 @@ trait ControllerTrait
             if ($data['results']) {
                 $_results = isset($data['data']) ? $data['data'] : $data['results'];
 
-                return response()->jsonapi($data['success'], Transformer::render($_results));
+                $transformer = new Transformer();
+                return response()->jsonapi($data['success'], $transformer->render($_results));
             }
 
             $exception = new InvalidAttributeException('invalid_attribute', $data['error']);

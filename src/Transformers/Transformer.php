@@ -17,9 +17,9 @@ class Transformer
      *
      * @return array
      */
-    public static function render($object)
+    public function render($object)
     {
-        return self::objectOrPage($object);
+        return $this->objectOrPage($object);
     }
 
     /**
@@ -27,16 +27,16 @@ class Transformer
      *
      * @return array
      */
-    private static function objectOrPage($object)
+    private function objectOrPage($object)
     {
         $_results = [];
         if (is_object($object)) {
-            if (!self::isPaginator($object)) {
-                $_data = self::item($object);
-                $_include = self::includes($object);
-            } elseif (self::isPaginator($object)) {
-                $_data = self::transformObjects($object->items());
-                $_include = self::getPaginationMeta($object);
+            if (!$this->isPaginator($object)) {
+                $_data = $this->item($object);
+                $_include = $this->includes($object);
+            } elseif ($this->isPaginator($object)) {
+                $_data = $this->transformObjects($object->items());
+                $_include = $this->getPaginationMeta($object);
             }
 
             $_results = array_merge(['data' => $_data], $_include);
@@ -50,11 +50,11 @@ class Transformer
      *
      * @return array
      */
-    private static function includes($object)
+    private function includes($object)
     {
         $_results = [];
         if (is_object($object)) {
-            $incs = self::getIncludes($object);
+            $incs = $this->getIncludes($object);
             if (!empty($incs)) {
                 $_results['relationships'] = [];
                 $_results['included'] = [];
@@ -76,14 +76,14 @@ class Transformer
      *
      * @return array
      */
-    private static function getIncludes($object)
+    private function getIncludes($object)
     {
         $_results = [];
 
         foreach (app('api')->includes() as $include) {
             if (is_object($object->$include)) {
                 foreach ($object->$include as $included) {
-                    $_results[] = self::item($included);
+                    $_results[] = $this->item($included);
                 }
             }
         }
@@ -96,11 +96,11 @@ class Transformer
      *
      * @return array
      */
-    private static function transformObjects($object)
+    private function transformObjects($object)
     {
         $_results = [];
         foreach ($object as $key => $item) {
-            $_results[$key] = array_merge(self::item($item), self::includes($item));
+            $_results[$key] = array_merge($this->item($item), $this->includes($item));
         }
 
         return $_results;
@@ -111,7 +111,7 @@ class Transformer
      *
      * @return bool
      */
-    private static function isPaginator($object)
+    private function isPaginator($object)
     {
         return $object instanceof LengthAwarePaginator;
     }
@@ -121,7 +121,7 @@ class Transformer
      *
      * @return array
      */
-    private static function item($object)
+    private function item($object)
     {
         $pimaryId = $object->getId();
 
@@ -140,7 +140,7 @@ class Transformer
      *
      * @return array
      */
-    private static function getPaginationMeta($paginator)
+    private function getPaginationMeta($paginator)
     {
         return [
           'meta'  => [
