@@ -76,6 +76,7 @@ trait ControllerTrait
                 $_results = isset($data['data']) ? $data['data'] : $data['results'];
 
                 $transformer = new Transformer();
+
                 return response()->jsonapi($data['success'], $transformer->render($_results));
             }
 
