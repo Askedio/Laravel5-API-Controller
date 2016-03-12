@@ -2,9 +2,6 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
-use Askedio\Laravel5ApiController\Exceptions\InternalServerErrorException;
-use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
-use Askedio\Laravel5ApiController\Exceptions\NotFoundException;
 
 class ApiException
 {
@@ -22,30 +19,6 @@ class ApiException
     }
 
     /**
-     * Render error codes.
-     *
-     * @param int   $code
-     * @param mixed $errors
-     *
-     * @return void
-     */
-    public static function render($code, $errors = false)
-    {
-        switch ($code) {
-        case 404:
-          throw new NotFoundException('not_found');
-        break;
-        case 500:
-          throw new InternalServerErrorException('internal_server_error');
-        break;
-        case 403:
-          self::setDetails(['errors' => $errors]);
-          throw new InvalidAttributeException('invalid_attribute', $code);
-        break;
-      }
-    }
-
-    /**
      * Build a JsonResponse of errors.
      *
      * @param array $settings
@@ -54,7 +27,7 @@ class ApiException
      */
     public static function build($settings)
     {
-        return JsonResponse::render(['errors' => self::details($settings)]);
+        return self::details($settings);
     }
 
     /**

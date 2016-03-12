@@ -2,35 +2,30 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
-use Askedio\Laravel5ApiController\Transformers\Transformer;
-
-/* TO-DO: probably better off extending the JsonResponse class to add our wrappers? or do something else cause wtf is success vs error, transformer vs no - so same fkn thing... */
 class JsonResponse
 {
+
+
     /**
-     * Successfull Event.
+     * Render json api output
      *
-     * @param int   $code
-     * @param mixed $results
+     * @param  int $code
+     * @param  array $results
      *
      * @return Illuminate\Http\Response
      */
-    public static function success($code, $results)
+    public static function render($code, $results)
     {
-        return response()->jsonapi($code, Transformer::render($results));
+        return response()->jsonapi($code, self::build($results));
     }
 
-    public static function error($code, $results)
-    {
-        return response()->jsonapi($code, $results);
-    }
 
     /**
      * Render the output for the json api.
      *
      * @return array
      */
-    public static function render($data = [])
+    public static function build($data = [])
     {
         return array_merge($data, [
           'jsonapi' => [

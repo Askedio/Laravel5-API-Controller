@@ -20,7 +20,7 @@ class Transformer
      */
     public static function render($object)
     {
-        return JsonResponse::render(self::objectOrPage($object));
+        return self::objectOrPage($object);
     }
 
     /**
