@@ -177,27 +177,29 @@ trait SearchableTrait
     {
         if ($groupBy = $this->getGroupBy()) {
             $query->groupBy($groupBy);
-        } else {
-            $driver = $this->getDatabaseDriver();
-
-            if ($driver == 'sqlsrv') {
-                $columns = $this->getTableColumns();
-            } else {
-                $columns = $this->getTable().'.'.$this->primaryKey;
-            }
-
-            $query->groupBy($columns);
-
-            $joins = array_keys(($this->getJoins()));
-
-            foreach (array_keys($this->getColumns()) as $column) {
-                array_map(function ($join) use ($column, $query) {
-                    if (Str::contains($column, $join)) {
-                        $query->groupBy($column);
-                    }
-                }, $joins);
-            }
+            return $query;
         }
+        
+        $driver = $this->getDatabaseDriver();
+
+        if ($driver == 'sqlsrv') {
+            $columns = $this->getTableColumns();
+        } else {
+            $columns = $this->getTable().'.'.$this->primaryKey;
+        }
+
+        $query->groupBy($columns);
+
+        $joins = array_keys(($this->getJoins()));
+
+        foreach (array_keys($this->getColumns()) as $column) {
+            array_map(function ($join) use ($column, $query) {
+                if (Str::contains($column, $join)) {
+                    $query->groupBy($column);
+                }
+            }, $joins);
+        }
+
     }
 
     /**

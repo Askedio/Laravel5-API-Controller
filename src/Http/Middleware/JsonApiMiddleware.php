@@ -72,10 +72,11 @@ class JsonApiMiddleware
                 ApiException::setDetails(config('jsonapi.accept'));
                 throw new NotAcceptableException('not-acceptable');
             }
-        } else {
-            if (isset($matches[1])) {
-                Api::setVersion($matches[1]);
-            }
+
+        }
+
+        if (isset($matches[1])) {
+            Api::setVersion($matches[1]);
         }
     }
 

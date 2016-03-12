@@ -120,10 +120,10 @@ trait ApiTrait
                 ApiException::setDetails($_errors);
                 throw new BadRequestException('invalid_filter');
             }
-        } else {
-            $_results = $_content;
+            return $_results;
         }
-
+        
+        $_results = $_content;
         return $_results;
     }
 
