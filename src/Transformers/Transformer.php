@@ -123,11 +123,11 @@ class Transformer
      */
     private static function item($object)
     {
-        $id = $object->getId();
+        $pimaryId = $object->getId();
 
         return [
           'type'       => strtolower(class_basename($object)),
-          'id'         => $object->$$id,
+          'id'         => $object->$$pimaryId,
           'attributes' => $object->filterAndTransform(),
         ];
     }

@@ -43,31 +43,31 @@ trait ControllerTrait
         ]);
     }
 
-    public function show($id)
+    public function show($_id)
     {
         return $this->render([
           'success' => 200,
           'error'   => 404,
-          'results' => $this->results->show($id),
+          'results' => $this->results->show($_id),
         ]);
     }
 
-    public function update($id)
+    public function update($_id)
     {
         return $this->render([
           'success' => 200,
           'error'   => 500,
-          'results' => $this->results->update($id),
+          'results' => $this->results->update($_id),
         ]);
     }
 
-    public function destroy($id)
+    public function destroy($_id)
     {
         return $this->render([
           'success' => 200,
           'error'   => 404,
-          'data'    => $this->results->show($id),
-          'results' => $this->results->destroy($id),
+          'data'    => $this->results->show($_id),
+          'results' => $this->results->destroy($_id),
         ]);
     }
 

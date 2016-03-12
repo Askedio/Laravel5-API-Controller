@@ -64,12 +64,12 @@ class ApiController
      *
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function update($id)
+    public function update($_id)
     {
         if ($errors = $this->validate('update')) {
             return ['errors' => $errors];
         } else {
-            $_model = $this->model->find($id);
+            $_model = $this->model->find($_id);
 
             return $_model
               ? (
@@ -86,9 +86,9 @@ class ApiController
      *
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function destroy($id)
+    public function destroy($_id)
     {
-        $_model = $this->model->find($id);
+        $_model = $this->model->find($_id);
 
         return $_model ? $_model->delete() : false;
     }
