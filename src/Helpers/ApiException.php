@@ -2,7 +2,6 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
-
 class ApiException
 {
     /** @var array */
