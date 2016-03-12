@@ -2,9 +2,9 @@
 
 namespace Askedio\Laravel5ApiController\Providers;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
-use \Illuminate\Foundation\AliasLoader;
 
 class GenericServiceProvider extends ServiceProvider
 {
@@ -29,9 +29,9 @@ class GenericServiceProvider extends ServiceProvider
     );
 
       $loader = AliasLoader::getInstance();
-      $loader->alias('Api',          \Askedio\Laravel5ApiController\Facades\Api::class);
+      $loader->alias('Api', \Askedio\Laravel5ApiController\Facades\Api::class);
       $loader->alias('ApiException', \Askedio\Laravel5ApiController\Exceptions\ApiException::class);
-      $loader->alias('ApiResponse',  \Askedio\Laravel5ApiController\Http\Responses\ApiResponse::class);
+      $loader->alias('ApiResponse', \Askedio\Laravel5ApiController\Http\Responses\ApiResponse::class);
   }
 
   /**
