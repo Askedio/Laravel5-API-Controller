@@ -1,10 +1,10 @@
 <?php
 
-namespace Askedio\Tests\UnitTests;
+namespace Askedio\Tests\IntegrationTests;
 
-use Askedio\Tests\UnitTestCase;
+use Askedio\Tests\IntegrationTestCase;
 
-class CrudTest extends UnitTestCase
+class CrudTest extends IntegrationTestCase
 {
     public function testCreate()
     {
