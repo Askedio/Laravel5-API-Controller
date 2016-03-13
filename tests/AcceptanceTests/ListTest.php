@@ -1,10 +1,10 @@
 <?php
 
-namespace Askedio\Tests\IntegrityTests;
+namespace Askedio\Tests\AcceptanceTest;
 
-use Askedio\Tests\IntegrityTestCase;
+use Askedio\Tests\AcceptanceTestCase;
 
-class ListTest extends IntegrityTestCase
+class ListTest extends AcceptanceTestCase
 {
     public function testList()
     {
@@ -64,7 +64,15 @@ class ListTest extends IntegrityTestCase
 
     public function testSearch()
     {
-        $this->json('GET', '/api/user/?search=test');
+        $this->json('GET', '/api/user?search=test');
+        $response = $this->response;
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
+    }
+
+    public function testSearchEmpty()
+    {
+        $this->json('GET', '/api/user?search=');
         $response = $this->response;
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));

@@ -2,7 +2,7 @@
 
 namespace Askedio\Tests;
 
-class IntegrityTestCase extends BaseTestCase
+class AcceptanceTestCase extends BaseTestCase
 {
     /** @var string */
     public $baseUrl = 'http://localhost';
@@ -38,7 +38,6 @@ class IntegrityTestCase extends BaseTestCase
         /*
           TO-DO: save to config file and use said config file to load check arrays from, only when triggered to do so (like maybe some cli flag)
        */
-        print_r($response->getContent());
-        exit;
+        dd($response->getContent());
     }
 }

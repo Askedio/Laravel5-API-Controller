@@ -1,10 +1,10 @@
 <?php
 
-namespace Askedio\Tests\IntegrityTests;
+namespace Askedio\Tests\AcceptanceTest;
 
-use Askedio\Tests\IntegrityTestCase;
+use Askedio\Tests\AcceptanceTestCase;
 
-class PostTest extends IntegrityTestCase
+class PostTest extends AcceptanceTestCase
 {
     public function testBadPostField()
     {
@@ -13,7 +13,7 @@ class PostTest extends IntegrityTestCase
       ]);
 
         $response = $this->response;
-        $this->assertEquals(500, $response->getStatusCode());
+        $this->assertEquals(400, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
 

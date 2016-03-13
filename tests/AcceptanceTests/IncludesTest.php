@@ -1,10 +1,10 @@
 <?php
 
-namespace Askedio\Tests\IntegrityTests;
+namespace Askedio\Tests\AcceptanceTest;
 
-use Askedio\Tests\IntegrityTestCase;
+use Askedio\Tests\AcceptanceTestCase;
 
-class IncludesTest extends IntegrityTestCase
+class IncludesTest extends AcceptanceTestCase
 {
     public function testBadInclude()
     {

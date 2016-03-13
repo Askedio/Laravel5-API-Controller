@@ -6,11 +6,20 @@ use Askedio\Tests\UnitTestCase;
 
 class ExceptionTest extends UnitTestCase
 {
-    public function testException()
+    public function testBlankException()
     {
-        /*
-     * TO-DO: some exception handler testing, validate the results they output (array)
-     * $this->setExpectedException('InvalidArgumentException');
-     */
+
+      $this->setExpectedException(\Askedio\Laravel5ApiController\Exceptions\BadRequestException::class);
+      throw new \Askedio\Laravel5ApiController\Exceptions\BadRequestException();
+
     }
+    public function testNoTemplateException()
+    {
+
+      $this->setExpectedException(\Askedio\Laravel5ApiController\Exceptions\BadRequestException::class);
+      throw (new \Askedio\Laravel5ApiController\Exceptions\BadRequestException('not_found'))->withDetails('');
+
+
+    }
+
 }

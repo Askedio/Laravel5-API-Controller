@@ -1,10 +1,10 @@
 <?php
 
-namespace Askedio\Tests\IntegrityTests;
+namespace Askedio\Tests\AcceptanceTest;
 
-use Askedio\Tests\IntegrityTestCase;
+use Askedio\Tests\AcceptanceTestCase;
 
-class CrudTest extends IntegrityTestCase
+class CrudTest extends AcceptanceTestCase
 {
     public function testCreate()
     {

@@ -8,9 +8,9 @@ class CrudTest extends UnitTestCase
 {
     public function testCreate()
     {
-        $user = $this->createUser();
 
-  /*
+  /*        $user = $this->createUser();
+
    *
    * need some way to pass form/input data
    *     $_results = $this->api()->index();

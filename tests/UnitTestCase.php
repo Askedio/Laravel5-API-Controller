@@ -15,6 +15,6 @@ class UnitTestCase extends BaseTestCase
     public function createUser()
     {
         /* temporary since we dont have relational creation yet */
-    return $this->createUserRaw();
+        return $this->createUserRaw();
     }
 }

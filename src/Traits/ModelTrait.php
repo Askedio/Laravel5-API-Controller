@@ -98,8 +98,8 @@ trait ModelTrait
             return $this;
         }
 
-        $_allowed = $this->getFillable();
         $_request = request()->json()->all();
+        $_key = strtolower(class_basename($this));
 
         $_errors = array_diff(array_keys($_request), $this->getFillable());
         if (!empty($_errors)) {
@@ -116,10 +116,11 @@ trait ModelTrait
     {
         $_allowed = $this->includes ?: [];
         $_includes = app('api')->includes();
+        $_key = strtolower(class_basename($this));
 
         $_errors = array_diff($_includes, $_allowed);
         if (!empty($_errors)) {
-            throw (new BadRequestException('invalid_include'))->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
+            throw (new BadRequestException('invalid_include'))->withDetails([[$_key, implode(' ', $_errors)]]);
         }
     }
 

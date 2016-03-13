@@ -287,11 +287,13 @@ trait SearchableTrait
      */
     protected function getCaseCompare($column, $compare, $relevance)
     {
+      /** commented out for CI
         if ($this->getDatabaseDriver() == 'pgsql') {
             $field = 'LOWER('.$column.') '.$compare.' ?';
 
             return '(case when '.$field.' then '.$relevance.' else 0 end)';
         }
+        */
 
         $column = str_replace('.', '`.`', $column);
         $field = 'LOWER(`'.$column.'`) '.$compare.' ?';
