@@ -80,7 +80,6 @@ class JsonTest extends ApiCase
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
 
-
     public function testSearch()
     {
         $this->json('GET', '/api/user/?search=test');
@@ -89,14 +88,12 @@ class JsonTest extends ApiCase
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
 
-
     public function testNonApiException()
     {
         $this->json('GET', '/not-the-api');
         $response = $this->response;
         $this->assertEquals(404, $response->getStatusCode());
     }
-
 
     public function testBadContentType()
     {

@@ -1,6 +1,7 @@
 <?php
 
 namespace Askedio\Laravel5ApiController\Exceptions;
+
 use Exception;
 
 abstract class ApiException extends Exception
@@ -77,7 +78,6 @@ abstract class ApiException extends Exception
         return $_insert;
     }
 
-
     /**
      * @var string
      */
@@ -141,5 +141,4 @@ abstract class ApiException extends Exception
 
         return array_merge($_base, config(sprintf('errors.%s', $args[0]), []));
     }
-
 }

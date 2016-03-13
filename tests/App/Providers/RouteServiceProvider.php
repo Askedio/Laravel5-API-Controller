@@ -28,5 +28,4 @@ class RouteServiceProvider extends ServiceProvider
             require dirname(__FILE__).'/../Http/routes.php';
         });
     }
-    
 }
