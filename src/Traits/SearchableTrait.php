@@ -287,7 +287,7 @@ trait SearchableTrait
      */
     protected function getCaseCompare($column, $compare, $relevance)
     {
-        /** commented out for CI
+        /* commented out for CI
          }
          */
         $column = str_replace('.', '`.`', $column);
