@@ -4,4 +4,5 @@ linting: true
 
 enabled:
   - strict
-  - unalign_double_arrow
+  - align_double_arrow
+  - align_equals
