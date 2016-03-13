@@ -7,8 +7,9 @@ use Illuminate\Filesystem\ClassFinder;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Routing\Router;
+use Artisan;
 
-class ApiCase extends \Illuminate\Foundation\Testing\TestCase
+class IntegrityTestsCase extends \Illuminate\Foundation\Testing\TestCase
 {
     //use WithoutMiddleware;
 
@@ -40,7 +41,7 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
         $this->app['config']->set('database.connections.sqlite.database', ':memory:');
         $this->app['config']->set('app.url', 'http://localhost/');
         $this->app['config']->set('app.debug', true);
-        $this->app['config']->set('app.key', \env('APP_KEY', '1234567890123456'));
+        $this->app['config']->set('app.key', env('APP_KEY', '1234567890123456'));
         $this->app['config']->set('app.cipher', 'AES-128-CBC');
 
         $this->app->boot();
@@ -53,6 +54,8 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
      */
     public function migrate()
     {
+
+
         $fileSystem = new Filesystem();
         $classFinder = new ClassFinder();
 
@@ -131,16 +134,22 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
         return $this->arrayKeys(json_decode($var, true));
     }
 
-        /**
-         * Create User Helpers.
-         *
-         * @return json
-         */
-        public function createUser()
-        {
-            $this->json('POST', '/api/user', [
-              'name'     => 'test',
-              'email'    => 'test@test.com',
-              'password' => bcrypt('password'), ]);
-        }
+    /**
+     * Create User Helpers.
+     *
+     * @return json
+     */
+    public function createUser()
+    {
+        $this->json('POST', '/api/user', [
+          'name'     => 'test',
+          'email'    => 'test@test.com',
+          'password' => bcrypt('password'), ]);
+    }
+
+
+    public function saveOutput($response)
+    {
+        print_r($response->getContent());exit;
+    }
 }

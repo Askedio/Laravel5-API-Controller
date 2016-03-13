@@ -2,8 +2,9 @@
 
 namespace Askedio\Tests;
 
-class JsonTest extends ApiCase
+class JsonTest extends IntegrityTestsCase
 {
+
     public function testError404()
     {
         $this->json('GET', '/api/404');

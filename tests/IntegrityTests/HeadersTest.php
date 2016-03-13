@@ -2,7 +2,7 @@
 
 namespace Askedio\Tests;
 
-class HeadersTest extends ApiCase
+class HeadersTest extends IntegrityTestsCase
 {
     public function testBadContentType()
     {

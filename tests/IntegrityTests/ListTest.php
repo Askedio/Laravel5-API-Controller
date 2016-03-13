@@ -2,7 +2,7 @@
 
 namespace Askedio\Tests;
 
-class ListTest extends ApiCase
+class ListTest extends IntegrityTestsCase
 {
     public function testList()
     {

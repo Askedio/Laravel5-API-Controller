@@ -100,7 +100,6 @@ class ApiController
         $_allowed = $this->model->getFillable();
         $request = request()->json()->all();
 
-        // TO-DO: laravel helper
         foreach (array_keys($request) as $var) {
             if (!in_array($var, $_allowed)) {
                 unset($request[$var]);

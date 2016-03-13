@@ -2,7 +2,7 @@
 
 namespace Askedio\Tests;
 
-class PostTest extends ApiCase
+class PostTest extends IntegrityTestsCase
 {
     public function testBadPostField()
     {

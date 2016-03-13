@@ -56,8 +56,7 @@ class JsonApiMiddleware
           ]);
         }
 
-        $exception = new BadRequestException('invalid_get');
-        throw $exception->withDetails(['errors' => $_errors]);
+        throw (new BadRequestException('invalid_get'))->withDetails(['errors' => $_errors]);
     }
 
     /**
@@ -75,8 +74,7 @@ class JsonApiMiddleware
             return;
         }
 
-        $exception = new NotAcceptableException('not-acceptable');
-        throw $exception->withDetails(config('jsonapi.accept'));
+        throw (new NotAcceptableException('not-acceptable'))->withDetails(config('jsonapi.accept'));
     }
 
     /**
@@ -90,7 +88,6 @@ class JsonApiMiddleware
             return;
         }
 
-        $exception = new UnsupportedMediaTypeException('unsupported-media-type');
-        throw $exception->withDetails(config('jsonapi.content_type'));
+        throw (new UnsupportedMediaTypeException('unsupported-media-type'))->withDetails(config('jsonapi.content_type'));
     }
 }

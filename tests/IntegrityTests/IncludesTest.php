@@ -2,7 +2,7 @@
 
 namespace Askedio\Tests;
 
-class IncludesTest extends ApiCase
+class IncludesTest extends IntegrityTestsCase
 {
     public function testBadInclude()
     {
@@ -19,4 +19,6 @@ class IncludesTest extends ApiCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
+
+
 }

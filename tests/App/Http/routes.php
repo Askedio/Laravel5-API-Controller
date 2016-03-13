@@ -12,5 +12,6 @@
 */
 
 Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function () {
-  Route::resource('/user', 'Askedio\Tests\App\Http\Controllers\TestController');
+  Route::resource('/user', 'Askedio\Tests\App\Http\Controllers\UserController');
+  Route::resource('/profile', 'Askedio\Tests\App\Http\Controllers\ProfileController');
 });

@@ -2,7 +2,7 @@
 
 namespace Askedio\Tests;
 
-class CrudTest extends ApiCase
+class CrudTest extends IntegrityTestsCase
 {
     public function testRead()
     {

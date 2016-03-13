@@ -70,8 +70,7 @@ trait ModelTrait
 
         $_errors = array_diff(array_map(['self', 'removeSortDash'], $_sorted), $_columns);
         if (!empty($_errors)) {
-            $exception = new BadRequestException('invalid_include');
-            throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
+            throw (new BadRequestException('invalid_include'))->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
         }
 
         foreach ($_sorted as $column) {
@@ -104,8 +103,7 @@ trait ModelTrait
 
         $_errors = array_diff($_includes, $_allowed);
         if (!empty($_errors)) {
-            $exception = new BadRequestException('invalid_include');
-            throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
+            throw (new BadRequestException('invalid_include'))->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
         }
     }
 
@@ -125,8 +123,7 @@ trait ModelTrait
 
         $_errors = array_diff(array_keys($_fields), array_merge([$_key], $this->includes));
         if (!empty($_errors)) {
-            $exception = new BadRequestException('invalid_filter');
-            throw $exception->withDetails([[$_key, implode(' ', $_errors)]]);
+            throw (new BadRequestException('invalid_filter'))->withDetails([[$_key, implode(' ', $_errors)]]);
         }
 
         if (!array_key_exists($_key, $_fields)) {
@@ -137,8 +134,7 @@ trait ModelTrait
 
         $_errors = array_diff(array_values($_fields[$_key]), $_columns);
         if (!empty($_errors)) {
-            $exception = new BadRequestException('invalid_filter');
-            throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
+            throw (new BadRequestException('invalid_filter'))->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
         }
     }
 

@@ -27,30 +27,5 @@ class Profiles extends Model
         'phone',
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-    ];
 
-    protected $rules = [
-    ];
-
-    protected $searchable = [
-        'columns' => [
-            'profile.phone' => 10,
-        ],
-    ];
-
-    protected $primaryKey = 'id';
-
-    public function transform()
-    {
-        return [
-            'id'    => 'iii',
-            'phone' => 'iii',
-        ];
-    }
 }

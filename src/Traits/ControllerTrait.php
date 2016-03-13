@@ -16,8 +16,7 @@ trait ControllerTrait
     public function __construct()
     {
         if (isset($this->version) && app('api')->getVersion() != $this->version) {
-            $exception = new NotAcceptableException('not-acceptable');
-            throw $exception->withDetails('/application/vnd.api.'.$this->version.'+json');
+            throw (new NotAcceptableException('not-acceptable'))->withDetails('/application/vnd.api.'.$this->version.'+json');
         }
 
         $this->results = new ApiController($this->model);
@@ -80,11 +79,9 @@ trait ControllerTrait
                 return response()->jsonapi($data['success'], $transformer->render($_results));
             }
 
-            $exception = new InvalidAttributeException('invalid_attribute', $data['error']);
-            throw $exception->withDetails(['errors' => $data['error']]);
+            throw (new InvalidAttributeException('invalid_attribute', $data['error']))->withDetails(['errors' => $data['error']]);
         }
 
-        $exception = new InvalidAttributeException('invalid_attribute', 403);
-        throw $exception->withDetails(['errors' => $data['results']['errors']]);
+        throw (new InvalidAttributeException('invalid_attribute', 403))->withDetails(['errors' => $data['results']['errors']]);
     }
 }

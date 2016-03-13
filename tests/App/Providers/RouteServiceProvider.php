@@ -14,6 +14,14 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
+
+        $this->publishes([
+          realpath(__DIR__.'/../Database/Migrations') => database_path('migrations'),
+        ], 'migrations');
+          $this->publishes([
+          realpath(__DIR__.'/../Database/Seeds') => database_path('seeds'),
+        ], 'seeds');
+
         parent::boot($router);
     }
 
