@@ -94,7 +94,7 @@ trait ApiTrait
      */
     public function fields()
     {
-  // bad, called for each row - just need it once..
+        // bad, called for each row - just need it once..
         $_results = [];
         foreach (array_filter(request()->input('fields', [])) as $type => $members) {
             foreach (explode(',', $members) as $member) {
@@ -112,7 +112,7 @@ trait ApiTrait
      */
     public function scopefilterAndTransform()
     {
-  // badd too, loops each, this was intended as a post check
+        // badd too, loops each, this was intended as a post check
         $_fields = $this->fields();
         if (empty($_fields)) {
             return $this;
@@ -124,9 +124,7 @@ trait ApiTrait
         $_columns = $this->columns();
         $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
 
-
         foreach ($_fields[$_key] as $filter) {
-
             if (in_array($filter, $_columns)) {
                 $_results[$filter] = $_content[$filter];
             }
@@ -140,8 +138,6 @@ trait ApiTrait
         }
 
         return $_results;
-
-
     }
 
     /**

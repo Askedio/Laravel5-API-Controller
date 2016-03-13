@@ -54,14 +54,14 @@ class User extends Authenticatable
         ],
     ];
 
-    protected $includes  = ['test'];
+    protected $includes = ['test'];
 
-    public function transform(User $user) {
-      return [
-          'id' => $user->id,
-          'name' =>  $user->name,
+    public function transform(User $user)
+    {
+        return [
+          'id'    => $user->id,
+          'name'  => $user->name,
           'email' => $user->email,
       ];
-  }  
-
+    }
 }
