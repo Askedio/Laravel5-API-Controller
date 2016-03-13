@@ -2,16 +2,8 @@
 
 namespace Askedio\Tests;
 
-use Illuminate\Events\Dispatcher;
-use Illuminate\Filesystem\ClassFinder;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Routing\Router;
-use Artisan;
-
 class IntegrityTestCase extends BaseTestCase
 {
-
     /** @var string */
     public $baseUrl = 'http://localhost';
 
@@ -28,7 +20,7 @@ class IntegrityTestCase extends BaseTestCase
         return parent::json($method, $uri, $data, $headers);
     }
 
-   /**
+    /**
      * Create User Helpers.
      *
      * @return json
@@ -41,9 +33,9 @@ class IntegrityTestCase extends BaseTestCase
           'password' => bcrypt('password'), ]);
     }
 
-
     public function saveOutput($response)
     {
-        print_r($response->getContent());exit;
+        print_r($response->getContent());
+        exit;
     }
 }
