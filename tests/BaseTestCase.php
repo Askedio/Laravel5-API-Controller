@@ -2,15 +2,13 @@
 
 namespace Askedio\Tests;
 
+use Askedio\Tests\App\Profiles;
+use Askedio\Tests\App\User;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\ClassFinder;
+/* temporary */
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Router;
-
-/** temporary */
-use Askedio\Tests\App\User;
-use Askedio\Tests\App\Profiles;
-
 
 class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
 {
@@ -116,16 +114,12 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
         return $this->arrayKeys(json_decode($var, true));
     }
 
-
-
-
-
-/**
- * Temporary
- */
+    /**
+     * Temporary.
+     */
     public function createUserRaw()
     {
-      /** temporary since we dont have relational creation yet */
+        /* temporary since we dont have relational creation yet */
       return (new User())->create([
         'name'     => 'test',
         'email'    => 'test@test.com',
@@ -134,9 +128,4 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
             new Profiles(['phone'     => '123']),
        ]);
     }
-
-
-
-
-
 }

@@ -67,8 +67,8 @@ class ApiController
             return ['errors' => $errors];
         }
 
-        if($_model = $this->model->find($_id)){
-          return $_model->update($this->getRequest()) ? $_model : false;
+        if ($_model = $this->model->find($_id)) {
+            return $_model->update($this->getRequest()) ? $_model : false;
         }
 
         return false;
