@@ -13,7 +13,8 @@ class ApiController
     public function __construct($model)
     {
         $this->model = new $model();
-        $this->model->checkIncludes();
+        $this->model->validateIncludes();
+        $this->model->validateFields();
     }
 
     /**

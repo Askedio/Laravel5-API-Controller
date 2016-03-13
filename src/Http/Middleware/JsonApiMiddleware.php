@@ -67,7 +67,7 @@ class JsonApiMiddleware
      */
     private function checkAccept()
     {
-        $matches = preg_match('/application\/vnd\.api\.([\w\d\.]+)\+([\w]+)/', $this->request->header('Accept'), $matches);
+        preg_match('/application\/vnd\.api\.([\w\d\.]+)\+([\w]+)/', $this->request->header('Accept'), $matches);
 
         app('api')->setVersion(isset($matches[1]) ? $matches[1] : config('jsonapi.version'));
 

@@ -53,20 +53,27 @@ class Transformer
     private function includes($object)
     {
         $_results = [];
-        if (is_object($object)) {
-            $incs = $this->getIncludes($object);
-            if (!empty($incs)) {
-                $_results['relationships'] = [];
-                $_results['included'] = [];
-                foreach (array_values($incs) as $include) {
-                    if (!isset($_results['relationships'][$include['type']])) {
-                        $_results['relationships'][$include['type']]['data'] = [];
-                    }
-                    array_push($_results['relationships'][$include['type']]['data'], ['id' => $include['id'], 'type' => $include['type']]);
-                    array_push($_results['included'], $include);
-                }
-            }
+        if (!is_object($object)) {
+          return $_results;
         }
+
+        $incs = $this->getIncludes($object);
+        
+        if (empty($incs)) {
+          return $_results;
+        }
+
+        $_results['relationships'] = [];
+        $_results['included'] = [];
+        foreach (array_values($incs) as $include) {
+            if (!isset($_results['relationships'][$include['type']])) {
+                $_results['relationships'][$include['type']]['data'] = [];
+            }
+            array_push($_results['relationships'][$include['type']]['data'], ['id' => $include['id'], 'type' => $include['type']]);
+            array_push($_results['included'], $include);
+        }
+
+
 
         return $_results;
     }

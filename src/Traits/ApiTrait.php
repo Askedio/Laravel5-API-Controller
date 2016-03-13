@@ -40,6 +40,10 @@ trait ApiTrait
             return isset($this->searchable);
         }
 
+    private function removeSortDash($d){
+      return ltrim($d, '-');
+    }
+
     /**
      * Set order/sort as per json spec.
      *
@@ -50,18 +54,21 @@ trait ApiTrait
      */
     public function scopesetSort($query, $sort)
     {
-        if (!empty($sort) && is_string($sort)) {
-            $members = explode(',', $sort);
-            if (!empty($members)) {
-                $_columns = $this->columns();
-                foreach ($members as $column) {
-                    if (!in_array(ltrim($column, '-'), $_columns)) {
-                        $exception = new BadRequestException('invalid_sort');
-                        throw $exception->withDetails([[strtolower(class_basename($this)), ltrim($column, '-')]]);
-                    }
-                    $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
-                }
-            }
+        if (empty($sort) ||  !is_string($sort) || empty($_sorted = explode(',', $sort))) {
+          return $query;
+        }
+
+        $_columns = $this->columns();
+
+        $_errors = array_diff(array_map(['self', 'removeSortDash'], $_sorted), $_columns);
+
+        if (!empty($_errors)) {
+          $exception = new BadRequestException('invalid_include');
+          throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
+        }
+
+        foreach ($_sorted as $column) {
+            $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
         }
 
         return $query;
@@ -72,38 +79,59 @@ trait ApiTrait
      *
      * @return void
      */
-    public function scopecheckIncludes()
+    public function scopevalidateIncludes()
     {
         $_allowed = $this->includes ?: [];
         $_includes = app('api')->includes();
-        if (empty($_includes) || empty($_allowed)) {
-            return false;
-        }
-        foreach ($_includes as $include) {
-            if (!in_array($include, $_allowed)) {
-                $exception = new BadRequestException('invalid_include');
-                throw $exception->withDetails([strtolower(class_basename($this)), $include]);
-            }
+
+        $_errors = array_diff($_includes, $_allowed);
+        if (!empty($_errors)) {
+          $exception = new BadRequestException('invalid_include');
+          throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
         }
     }
 
+
+
     /**
-     * List of fields from input.
+     * Validate fields belong.
      *
      * @return array
      */
-    public function fields()
+    public function scopevalidateFields()
     {
-        // bad, called for each row - just need it once..
-        $_results = [];
-        foreach (array_filter(request()->input('fields', [])) as $type => $members) {
-            foreach (explode(',', $members) as $member) {
-                $_results[$type][] = $member;
-            }
+        $_fields = app('api')->fields();
+        $_key = strtolower(class_basename($this));
+
+        if (empty($_fields)) {
+            return $this;
         }
 
-        return $_results;
+        $_errors = array_diff(array_keys($_fields), array_merge([$_key], $this->includes));
+        if(!empty($_errors)){
+          $exception = new BadRequestException('invalid_filter');
+          throw $exception->withDetails([[$_key, implode(' ', $_errors)]]);
+        }
+
+        if(array_key_exists($_key, $_fields))
+        {
+
+        $_columns = $this->columns();
+
+        foreach ($_fields[$_key] as $filter) {
+            if (!in_array($filter, $_columns)) {
+              $exception = new BadRequestException('invalid_filter');
+              throw $exception->withDetails([[$_key, $filter]]);
+            }
+        }
+      }
+
     }
+
+
+
+
+
 
     /**
      * Filter results based on filter get variable and transform them if enabled.
@@ -113,28 +141,21 @@ trait ApiTrait
     public function scopefilterAndTransform()
     {
         // badd too, loops each, this was intended as a post check
-        $_fields = $this->fields();
-        if (empty($_fields)) {
+        $_fields = app('api')->fields();
+        $_key = strtolower(class_basename($this));
+        if (empty($_fields) || !isset($_fields[$_key])) {
             return $this;
         }
 
         $_results = [];
-        $_errors = [];
-        $_key = strtolower(class_basename($this));
+
         $_columns = $this->columns();
-        $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
 
         foreach ($_fields[$_key] as $filter) {
             if (in_array($filter, $_columns)) {
+                $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
                 $_results[$filter] = $_content[$filter];
             }
-            if (!in_array($filter, $_columns)) {
-                array_push($_errors, [$_key, $filter]);
-            }
-        }
-        if (!empty($_errors)) {
-            $exception = new BadRequestException('invalid_filter');
-            throw $exception->withDetails($_errors);
         }
 
         return $_results;
@@ -147,7 +168,7 @@ trait ApiTrait
      */
     private function columns()
     {
-        return app('cache')->rememberForever('columns-'.$this->getTable(), function () {
+        return app('cache')->remember('columns-'.$this->getTable(), 5, function () {
               return DB::connection()->getSchemaBuilder()->getColumnListing($this->getTable());
       });
     }
