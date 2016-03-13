@@ -8,7 +8,7 @@ class PatchTest extends AcceptanceTestCase
 {
     public function testBadPatchField()
     {
-      $this->createUser();
+        $this->createUser();
         $this->json('PATCH', '/api/user/1', [
             'test'     => 'test',
           ]);
@@ -20,7 +20,7 @@ class PatchTest extends AcceptanceTestCase
 
     public function testPatchValidation()
     {
-      $this->createUser();
+        $this->createUser();
         $this->json('PATCH', '/api/user/1', [
         'email'     => 'test',
       ]);
@@ -29,7 +29,6 @@ class PatchTest extends AcceptanceTestCase
         $this->assertEquals(403, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
 
     public function testPatch404()
     {
@@ -41,5 +40,4 @@ class PatchTest extends AcceptanceTestCase
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
 }
