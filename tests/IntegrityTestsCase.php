@@ -7,7 +7,6 @@ use Illuminate\Filesystem\ClassFinder;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Routing\Router;
-use Artisan;
 
 class IntegrityTestsCase extends \Illuminate\Foundation\Testing\TestCase
 {
@@ -54,8 +53,6 @@ class IntegrityTestsCase extends \Illuminate\Foundation\Testing\TestCase
      */
     public function migrate()
     {
-
-
         $fileSystem = new Filesystem();
         $classFinder = new ClassFinder();
 
@@ -147,9 +144,9 @@ class IntegrityTestsCase extends \Illuminate\Foundation\Testing\TestCase
           'password' => bcrypt('password'), ]);
     }
 
-
     public function saveOutput($response)
     {
-        print_r($response->getContent());exit;
+        print_r($response->getContent());
+        exit;
     }
 }
