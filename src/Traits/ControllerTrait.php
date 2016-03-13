@@ -15,7 +15,6 @@ trait ControllerTrait
 
     public function __construct()
     {
-      
         if (isset($this->version) && app('api')->getVersion() != $this->version) {
             $exception = new NotAcceptableException('not-acceptable');
             throw $exception->withDetails('/application/vnd.api.'.$this->version.'+json');

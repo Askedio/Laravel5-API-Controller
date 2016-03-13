@@ -6,8 +6,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-  use \Askedio\Laravel5ApiController\Traits\ApiTrait;
-  use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
+    use \Askedio\Laravel5ApiController\Traits\ApiTrait;
+    use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
 
   /**
    * The attributes that are mass assignable.
@@ -27,15 +27,12 @@ class User extends Authenticatable
       'password', 'remember_token',
   ];
 
-
-  protected $includes = [
+    protected $includes = [
       'profiles',
       'addresses',
   ];
 
-
-
-  protected $rules = [
+    protected $rules = [
     'update' => [
       'email' => 'email|unique:users,email',
     ],
@@ -44,34 +41,31 @@ class User extends Authenticatable
     ],
   ];
 
-  protected $searchable = [
+    protected $searchable = [
       'columns' => [
-          'users.name' => 10,
+          'users.name'  => 10,
           'users.email' => 5,
       ],
   ];
 
-  protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 
-
-  public function transform(User $user) {
-      return [
-          'id' => $user->id,
-          'name' =>  $user->name,
+    public function transform(User $user)
+    {
+        return [
+          'id'    => $user->id,
+          'name'  => $user->name,
           'email' => $user->email,
       ];
-  }
+    }
 
+    public function profiles()
+    {
+        return $this->belongsToMany('App\Profiles');
+    }
 
-  public function profiles()
-  {
-      return $this->belongsToMany('App\Profiles');
-  }
-
-  public function addresses()
-  {
-      return $this->belongsToMany('App\Addresses');
-  }
-
-
+    public function addresses()
+    {
+        return $this->belongsToMany('App\Addresses');
+    }
 }

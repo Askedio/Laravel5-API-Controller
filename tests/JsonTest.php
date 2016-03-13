@@ -4,9 +4,6 @@ namespace Askedio\Tests;
 
 class JsonTest extends ApiCase
 {
-
-
-
     public function testList()
     {
         $this->json('GET', '/api/user');
@@ -53,17 +50,15 @@ class JsonTest extends ApiCase
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
 
+    public function testListWithBadFieldName()
+    {
+        $this->createUser();
 
-        public function testListWithBadFieldName()
-        {
-            $this->createUser();
-
-            $this->json('GET', '/api/user?fields[badtest]=id,name,bad');
-            $response = $this->response;
-            $this->assertEquals(400, $response->getStatusCode());
-            $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
-        }
-
+        $this->json('GET', '/api/user?fields[badtest]=id,name,bad');
+        $response = $this->response;
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
+    }
 
     public function testError404()
     {
@@ -96,8 +91,6 @@ class JsonTest extends ApiCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
-
 
     public function testSearch()
     {
@@ -141,6 +134,4 @@ class JsonTest extends ApiCase
         $response = $this->response;
         $this->assertEquals(406, $response->getStatusCode());
     }
-
-
 }

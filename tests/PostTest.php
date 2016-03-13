@@ -4,10 +4,9 @@ namespace Askedio\Tests;
 
 class PostTest extends ApiCase
 {
-
     public function testBadPostField()
     {
-      $this->json('POST', '/api/user', [
+        $this->json('POST', '/api/user', [
         'test'     => 'test',
       ]);
 
@@ -16,20 +15,20 @@ class PostTest extends ApiCase
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
 
-        public function testBadPatchField()
-        {
-          $this->json('PATCH', '/api/user', [
+    public function testBadPatchField()
+    {
+        $this->json('PATCH', '/api/user', [
             'test'     => 'test',
           ]);
 
-            $response = $this->response;
-            $this->assertEquals(405, $response->getStatusCode());
-            $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
-        }
+        $response = $this->response;
+        $this->assertEquals(405, $response->getStatusCode());
+        $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
+    }
 
     public function testPostValidation()
     {
-      $this->json('POST', '/api/user', [
+        $this->json('POST', '/api/user', [
         'email'     => 'test',
       ]);
 
@@ -40,7 +39,7 @@ class PostTest extends ApiCase
 
     public function testPatchValidation()
     {
-      $this->json('PATCH', '/api/user', [
+        $this->json('PATCH', '/api/user', [
         'email'     => 'test',
       ]);
 
@@ -48,6 +47,4 @@ class PostTest extends ApiCase
         $this->assertEquals(405, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
-
-  }
+}

@@ -39,7 +39,6 @@ class Api
         return request()->input('include') ? explode(',', request()->input('include')) : [];
     }
 
-
     /**
      * List of fields from input.
      *
@@ -54,9 +53,7 @@ class Api
                 $_results[$type][] = $member;
             }
         }
+
         return $_results;
     }
-
-
-
 }
