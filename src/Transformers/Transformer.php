@@ -54,7 +54,6 @@ class Transformer
     {
         $_results = [];
 
-
         $incs = $this->getIncludes($object);
 
         if (empty($incs)) {

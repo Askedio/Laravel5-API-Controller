@@ -6,8 +6,6 @@ use Askedio\Tests\IntegrityTestCase;
 
 class PatchTest extends IntegrityTestCase
 {
-
-
     public function testBadPatchField()
     {
         $this->json('PATCH', '/api/user/1', [
@@ -18,8 +16,6 @@ class PatchTest extends IntegrityTestCase
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
-
 
     public function testPatchValidation()
     {

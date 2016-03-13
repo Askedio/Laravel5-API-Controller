@@ -17,7 +17,6 @@ class PostTest extends IntegrityTestCase
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
 
-
     public function testPostValidation()
     {
         $this->json('POST', '/api/user', [
@@ -28,6 +27,4 @@ class PostTest extends IntegrityTestCase
         $this->assertEquals(403, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
-
 }
