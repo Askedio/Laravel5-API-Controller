@@ -4,7 +4,6 @@ namespace Askedio\Tests;
 
 class IncludesTest extends ApiCase
 {
-
     public function testBadInclude()
     {
         $this->json('GET', '/api/user/?include=badtest');
@@ -20,5 +19,4 @@ class IncludesTest extends ApiCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
 }

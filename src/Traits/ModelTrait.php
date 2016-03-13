@@ -81,15 +81,15 @@ trait ModelTrait
         return $query;
     }
 
-
-/**
- * Validate Model vs Request data
- * @return [type] [description]
- */
+    /**
+     * Validate Model vs Request data.
+     *
+     * @return [type] [description]
+     */
     public function scopevalidateApi()
     {
-      $this->validateIncludes();
-      $this->validateFields();
+        $this->validateIncludes();
+        $this->validateFields();
     }
 
     /**
@@ -130,17 +130,16 @@ trait ModelTrait
         }
 
         if (!array_key_exists($_key, $_fields)) {
-          return $this;
+            return $this;
         }
 
         $_columns = $this->columns();
 
         $_errors = array_diff(array_values($_fields[$_key]), $_columns);
-        if(!empty($_errors)){
-          $exception = new BadRequestException('invalid_filter');
-          throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
+        if (!empty($_errors)) {
+            $exception = new BadRequestException('invalid_filter');
+            throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
         }
-
     }
 
     /**

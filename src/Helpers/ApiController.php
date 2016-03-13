@@ -14,7 +14,6 @@ class ApiController
     {
         $this->model = new $model();
         $this->model->validateApi();
-
     }
 
     /**
