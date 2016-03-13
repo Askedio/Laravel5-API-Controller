@@ -1,7 +1,9 @@
 <?php
 
 namespace Askedio\Tests\IntegrityTests;
+
 use Askedio\Tests\IntegrityTestCase;
+
 class ListTest extends IntegrityTestCase
 {
     public function testList()

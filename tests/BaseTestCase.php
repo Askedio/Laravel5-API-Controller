@@ -5,12 +5,10 @@ namespace Askedio\Tests;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\ClassFinder;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Routing\Router;
 
 class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
 {
-
     /**
      * Setup DB before each test.
      */
@@ -35,8 +33,6 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     public function migrate()
     {
-
-
         $fileSystem = new Filesystem();
         $classFinder = new ClassFinder();
 
@@ -114,6 +110,4 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
     {
         return $this->arrayKeys(json_decode($var, true));
     }
-
-
 }

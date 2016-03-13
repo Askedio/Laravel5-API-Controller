@@ -1,7 +1,9 @@
 <?php
 
 namespace Askedio\Tests\IntegrityTests;
+
 use Askedio\Tests\IntegrityTestCase;
+
 class CrudTest extends IntegrityTestCase
 {
     public function testRead()
