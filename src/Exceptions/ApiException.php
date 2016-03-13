@@ -10,6 +10,36 @@ abstract class ApiException extends Exception
     private $exceptionDetails;
 
     /**
+     * @var string
+     */
+    protected $error;
+
+    /**
+     * @var int
+     */
+    protected $status;
+
+    /**
+     * Get the error.
+     *
+     * @return mixed
+     */
+    public function getError()
+    {
+        return $this->getDetails($this->error);
+    }
+
+    /**
+     * Get the status.
+     *
+     * @return int
+     */
+    public function getStatusCode()
+    {
+        return (int) $this->status;
+    }
+
+    /**
      * Store exception details.
      *
      * @param mixed $details
@@ -78,35 +108,6 @@ abstract class ApiException extends Exception
         return $_insert;
     }
 
-    /**
-     * @var string
-     */
-    protected $error;
-
-    /**
-     * @var int
-     */
-    protected $status;
-
-    /**
-     * Get the error.
-     *
-     * @return mixed
-     */
-    public function getError()
-    {
-        return $this->getDetails($this->error);
-    }
-
-    /**
-     * Get the status.
-     *
-     * @return int
-     */
-    public function getStatusCode()
-    {
-        return (int) $this->status;
-    }
 
     /**
      * Build the Exception.

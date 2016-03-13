@@ -14,8 +14,8 @@ class BadRequestException extends ApiException
      */
     public function __construct()
     {
-        $message = $this->build(func_get_args());
+        $this->build(func_get_args());
 
-        parent::__construct($message);
+        parent::__construct();
     }
 }
