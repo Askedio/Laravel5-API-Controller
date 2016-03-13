@@ -40,9 +40,16 @@ trait ApiTrait
             return isset($this->searchable);
         }
 
-    private function removeSortDash($d)
+/**
+ * Remove left dash from sort string
+ * 
+ * @param  string $string
+ *
+ * @return string
+ */
+    private function removeSortDash($string)
     {
-        return ltrim($d, '-');
+        return ltrim($string, '-');
     }
 
     /**
