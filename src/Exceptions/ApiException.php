@@ -92,9 +92,7 @@ abstract class ApiException extends Exception
      */
     private function item($_template, $detail)
     {
-        if (empty($detail)) {
-            return $_template;
-        }
+
 
         $_insert = $_template;
         $_replace = $_template['detail'];
