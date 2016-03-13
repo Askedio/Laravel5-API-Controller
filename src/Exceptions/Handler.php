@@ -6,7 +6,6 @@ use Askedio\Laravel5ApiController\Http\Responses\ApiResponse;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -41,7 +40,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-  
         if (!$request->is(config('jsonapi.url'))) {
             return parent::render($request, $exception);
         }

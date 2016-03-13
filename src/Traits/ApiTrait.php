@@ -104,7 +104,6 @@ trait ApiTrait
         return $_results;
     }
 
-
     /**
      * Filter results based on filter get variable and transform them if enabled.
      *

@@ -38,5 +38,4 @@ class Api
     {
         return request()->input('include') ? explode(',', request()->input('include')) : [];
     }
-
 }
