@@ -38,7 +38,7 @@ Add the use statements to your Model to enable the Api and Search features.
 class User extends Authenticatable
 {
 
-    use \Askedio\Laravel5ApiController\Traits\ApiTrait;
+    use \Askedio\Laravel5ApiController\Traits\ModelTrait;
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~

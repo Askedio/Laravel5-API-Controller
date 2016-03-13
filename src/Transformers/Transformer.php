@@ -88,7 +88,8 @@ class Transformer
         foreach (app('api')->includes() as $include) {
             if (is_object($object->$include)) {
                 foreach ($object->$include as $included) {
-                    $_results[] = $this->item($included);
+                  $included->validateApi();
+                  $_results[] = $this->item($included);
                 }
             }
         }

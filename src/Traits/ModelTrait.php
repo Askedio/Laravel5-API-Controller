@@ -6,7 +6,7 @@ use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Helpers\Api;
 use DB;
 
-trait ApiTrait
+trait ModelTrait
 {
     /**
      * The validation rules assigned in model.
@@ -69,7 +69,6 @@ trait ApiTrait
         $_columns = $this->columns();
 
         $_errors = array_diff(array_map(['self', 'removeSortDash'], $_sorted), $_columns);
-
         if (!empty($_errors)) {
             $exception = new BadRequestException('invalid_include');
             throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
@@ -80,6 +79,17 @@ trait ApiTrait
         }
 
         return $query;
+    }
+
+
+/**
+ * Validate Model vs Request data
+ * @return [type] [description]
+ */
+    public function scopevalidateApi()
+    {
+      $this->validateIncludes();
+      $this->validateFields();
     }
 
     /**
@@ -119,16 +129,18 @@ trait ApiTrait
             throw $exception->withDetails([[$_key, implode(' ', $_errors)]]);
         }
 
-        if (array_key_exists($_key, $_fields)) {
-            $_columns = $this->columns();
-
-            foreach ($_fields[$_key] as $filter) {
-                if (!in_array($filter, $_columns)) {
-                    $exception = new BadRequestException('invalid_filter');
-                    throw $exception->withDetails([[$_key, $filter]]);
-                }
-            }
+        if (!array_key_exists($_key, $_fields)) {
+          return $this;
         }
+
+        $_columns = $this->columns();
+
+        $_errors = array_diff(array_values($_fields[$_key]), $_columns);
+        if(!empty($_errors)){
+          $exception = new BadRequestException('invalid_filter');
+          throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
+        }
+
     }
 
     /**

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use \Askedio\Laravel5ApiController\Traits\ApiTrait;
+    use \Askedio\Laravel5ApiController\Traits\ModelTrait;
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
 
   /**
@@ -29,7 +29,6 @@ class User extends Authenticatable
 
     protected $includes = [
       'profiles',
-      'addresses',
   ];
 
     protected $rules = [
@@ -61,11 +60,8 @@ class User extends Authenticatable
 
     public function profiles()
     {
-        return $this->belongsToMany('App\Profiles');
+        return $this->belongsToMany('Askedio\Tests\App\Profiles');
     }
 
-    public function addresses()
-    {
-        return $this->belongsToMany('App\Addresses');
-    }
+
 }
