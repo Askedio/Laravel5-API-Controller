@@ -68,9 +68,9 @@ class Handler extends ExceptionHandler
 
         /* not an exception we manage so generic error or if debug, the real exception */
         if (!env('APP_DEBUG', false)) {
-            $code   = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;
+            $code = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;
             $detail = method_exists($exception, 'getMessage') ? $exception->getMessage() : 'Unknown Exception.';
-            $data   = array_filter([
+            $data = array_filter([
              'status' => $code,
              'detail' => $detail,
            ]);
