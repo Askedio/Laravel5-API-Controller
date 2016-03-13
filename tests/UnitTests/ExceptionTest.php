@@ -8,18 +8,13 @@ class ExceptionTest extends UnitTestCase
 {
     public function testBlankException()
     {
-
-      $this->setExpectedException(\Askedio\Laravel5ApiController\Exceptions\BadRequestException::class);
-      throw new \Askedio\Laravel5ApiController\Exceptions\BadRequestException();
-
+        $this->setExpectedException(\Askedio\Laravel5ApiController\Exceptions\BadRequestException::class);
+        throw new \Askedio\Laravel5ApiController\Exceptions\BadRequestException();
     }
+
     public function testNoTemplateException()
     {
-
-      $this->setExpectedException(\Askedio\Laravel5ApiController\Exceptions\BadRequestException::class);
-      throw new \Askedio\Laravel5ApiController\Exceptions\BadRequestException('badtemplate');
-
-
+        $this->setExpectedException(\Askedio\Laravel5ApiController\Exceptions\BadRequestException::class);
+        throw new \Askedio\Laravel5ApiController\Exceptions\BadRequestException('badtemplate');
     }
-
 }
