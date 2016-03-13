@@ -19,6 +19,4 @@ class IncludesTest extends IntegrityTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
-
 }

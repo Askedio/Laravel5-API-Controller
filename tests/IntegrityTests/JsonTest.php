@@ -4,7 +4,6 @@ namespace Askedio\Tests\IntegrityTests;
 use Askedio\Tests\IntegrityTestCase;
 class JsonTest extends IntegrityTestCase
 {
-
     public function testError404()
     {
         $this->json('GET', '/api/404');
