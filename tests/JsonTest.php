@@ -55,13 +55,21 @@ class JsonTest extends ApiCase
         $this->seeJsonStructure($this->getKeys($this->list));
     }
 
+    public function testListWithFields()
+    {
+        $this->json('GET', '/api/user?fields[user]=id,name');
+        $response = $this->response;
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
+        $this->seeJsonStructure($this->getKeys($this->list));
+    }
+
     public function testError404()
     {
-        $this->json('GET', '/api/user/404');
+        $this->json('GET', '/api/404');
         $response = $this->response;
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
-        $this->seeJson(['code' => 404]);
     }
 
     public function testBadField()
@@ -71,6 +79,24 @@ class JsonTest extends ApiCase
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
+
+
+    public function testSearch()
+    {
+        $this->json('GET', '/api/user/?search=test');
+        $response = $this->response;
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
+    }
+
+
+    public function testNonApiException()
+    {
+        $this->json('GET', '/not-the-api');
+        $response = $this->response;
+        $this->assertEquals(404, $response->getStatusCode());
+    }
+
 
     public function testBadContentType()
     {

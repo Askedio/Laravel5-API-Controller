@@ -16,6 +16,6 @@ class NotAcceptableException extends ApiException
     {
         $message = $this->build(func_get_args());
 
-        parent::__construct($message);
+        parent::__construct();
     }
 }

@@ -88,13 +88,31 @@ trait ApiTrait
     }
 
     /**
+     * List of fields from input.
+     *
+     * @return array
+     */
+    public function fields()
+    {
+        $_results = [];
+        foreach (array_filter(request()->input('fields', [])) as $type => $members) {
+            foreach (explode(',', $members) as $member) {
+                $_results[$type][] = $member;
+            }
+        }
+
+        return $_results;
+    }
+
+
+    /**
      * Filter results based on filter get variable and transform them if enabled.
      *
      * @return array
      */
     public function scopefilterAndTransform()
     {
-        $_fields = app('api')->fields();
+        $_fields = $this->fields();
         if (empty($_fields)) {
             return $this;
         }

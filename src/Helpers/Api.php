@@ -39,20 +39,4 @@ class Api
         return request()->input('include') ? explode(',', request()->input('include')) : [];
     }
 
-    /**
-     * List of fields from input.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        $_results = [];
-        foreach (array_filter(request()->input('fields', [])) as $type => $members) {
-            foreach (explode(',', $members) as $member) {
-                $_results[$type][] = $member;
-            }
-        }
-
-        return $_results;
-    }
 }
