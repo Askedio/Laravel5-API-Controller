@@ -30,6 +30,16 @@ trait ApiTrait
         return isset($this->primaryKey) ? $this->primaryKey : 'id';
     }
 
+        /**
+         * Return if Model has searchable flag.
+         *
+         * @return bool
+         */
+        public function isSearchable()
+        {
+            return isset($this->searchable);
+        }
+
     /**
      * Set order/sort as per json spec.
      *
@@ -47,7 +57,7 @@ trait ApiTrait
                 foreach ($members as $column) {
                     if (!in_array(ltrim($column, '-'), $_columns)) {
                         $exception = new BadRequestException('invalid_sort');
-                        throw $exception->withDetails([strtolower(class_basename($this)), ltrim($column, '-')]);
+                        throw $exception->withDetails([[strtolower(class_basename($this)), ltrim($column, '-')]]);
                     }
                     $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
                 }
@@ -55,16 +65,6 @@ trait ApiTrait
         }
 
         return $query;
-    }
-
-    /**
-     * Return if Model has searchable flag.
-     *
-     * @return bool
-     */
-    public function isSearchable()
-    {
-        return isset($this->searchable);
     }
 
     /**
@@ -94,6 +94,7 @@ trait ApiTrait
      */
     public function fields()
     {
+  // bad, called for each row - just need it once..
         $_results = [];
         foreach (array_filter(request()->input('fields', [])) as $type => $members) {
             foreach (explode(',', $members) as $member) {
@@ -111,6 +112,7 @@ trait ApiTrait
      */
     public function scopefilterAndTransform()
     {
+  // badd too, loops each, this was intended as a post check
         $_fields = $this->fields();
         if (empty($_fields)) {
             return $this;
@@ -122,26 +124,24 @@ trait ApiTrait
         $_columns = $this->columns();
         $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
 
-        if (isset($_fields[$_key])) {
-            foreach ($_fields[$_key] as $filter) {
-                if (in_array($filter, $_columns)) {
-                    $_results[$filter] = $_content[$filter];
-                }
-                if (!in_array($filter, $_columns)) {
-                    array_push($_errors, [$_key, $filter]);
-                }
-            }
-            if (!empty($_errors)) {
-                $exception = new BadRequestException('invalid_filter');
-                throw $exception->withDetails($_errors);
-            }
 
-            return $_results;
+        foreach ($_fields[$_key] as $filter) {
+
+            if (in_array($filter, $_columns)) {
+                $_results[$filter] = $_content[$filter];
+            }
+            if (!in_array($filter, $_columns)) {
+                array_push($_errors, [$_key, $filter]);
+            }
+        }
+        if (!empty($_errors)) {
+            $exception = new BadRequestException('invalid_filter');
+            throw $exception->withDetails($_errors);
         }
 
-        $_results = $_content;
-
         return $_results;
+
+
     }
 
     /**

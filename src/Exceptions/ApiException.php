@@ -109,7 +109,7 @@ abstract class ApiException extends Exception
     }
 
     /**
-     * Build the Exception.
+     * Build the Exception details from the custom exception class.
      *
      * @return void
      */
@@ -127,7 +127,7 @@ abstract class ApiException extends Exception
     }
 
     /**
-     * Generate settings array.
+     * Generate settings array from errors config.
      *
      * @return array
      */

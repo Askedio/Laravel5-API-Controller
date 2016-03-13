@@ -53,4 +53,15 @@ class User extends Authenticatable
             'users.email' => 5,
         ],
     ];
+
+    protected $includes  = ['test'];
+
+    public function transform(User $user) {
+      return [
+          'id' => $user->id,
+          'name' =>  $user->name,
+          'email' => $user->email,
+      ];
+  }  
+
 }
