@@ -1,8 +1,8 @@
 <?php
 
-namespace Askedio\Tests;
-
-class ListTest extends IntegrityTestsCase
+namespace Askedio\Tests\IntegrityTests;
+use Askedio\Tests\IntegrityTestCase;
+class ListTest extends IntegrityTestCase
 {
     public function testList()
     {

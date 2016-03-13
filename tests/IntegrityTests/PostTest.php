@@ -1,8 +1,10 @@
 <?php
 
-namespace Askedio\Tests;
+namespace Askedio\Tests\IntegrityTests;
 
-class PostTest extends IntegrityTestsCase
+use Askedio\Tests\IntegrityTestCase;
+
+class PostTest extends IntegrityTestCase
 {
     public function testBadPostField()
     {

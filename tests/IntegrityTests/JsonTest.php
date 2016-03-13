@@ -1,8 +1,8 @@
 <?php
 
-namespace Askedio\Tests;
-
-class JsonTest extends IntegrityTestsCase
+namespace Askedio\Tests\IntegrityTests;
+use Askedio\Tests\IntegrityTestCase;
+class JsonTest extends IntegrityTestCase
 {
 
     public function testError404()

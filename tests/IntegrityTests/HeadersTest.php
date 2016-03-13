@@ -1,8 +1,8 @@
 <?php
 
-namespace Askedio\Tests;
-
-class HeadersTest extends IntegrityTestsCase
+namespace Askedio\Tests\IntegrityTests;
+use Askedio\Tests\IntegrityTestCase;
+class HeadersTest extends IntegrityTestCase
 {
     public function testBadContentType()
     {
