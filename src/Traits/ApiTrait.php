@@ -40,8 +40,9 @@ trait ApiTrait
             return isset($this->searchable);
         }
 
-    private function removeSortDash($d){
-      return ltrim($d, '-');
+    private function removeSortDash($d)
+    {
+        return ltrim($d, '-');
     }
 
     /**
@@ -55,7 +56,7 @@ trait ApiTrait
     public function scopesetSort($query, $sort)
     {
         if (empty($sort) ||  !is_string($sort) || empty($_sorted = explode(',', $sort))) {
-          return $query;
+            return $query;
         }
 
         $_columns = $this->columns();
@@ -63,8 +64,8 @@ trait ApiTrait
         $_errors = array_diff(array_map(['self', 'removeSortDash'], $_sorted), $_columns);
 
         if (!empty($_errors)) {
-          $exception = new BadRequestException('invalid_include');
-          throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
+            $exception = new BadRequestException('invalid_include');
+            throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
         }
 
         foreach ($_sorted as $column) {
@@ -86,12 +87,10 @@ trait ApiTrait
 
         $_errors = array_diff($_includes, $_allowed);
         if (!empty($_errors)) {
-          $exception = new BadRequestException('invalid_include');
-          throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
+            $exception = new BadRequestException('invalid_include');
+            throw $exception->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
         }
     }
-
-
 
     /**
      * Validate fields belong.
@@ -108,30 +107,22 @@ trait ApiTrait
         }
 
         $_errors = array_diff(array_keys($_fields), array_merge([$_key], $this->includes));
-        if(!empty($_errors)){
-          $exception = new BadRequestException('invalid_filter');
-          throw $exception->withDetails([[$_key, implode(' ', $_errors)]]);
+        if (!empty($_errors)) {
+            $exception = new BadRequestException('invalid_filter');
+            throw $exception->withDetails([[$_key, implode(' ', $_errors)]]);
         }
 
-        if(array_key_exists($_key, $_fields))
-        {
+        if (array_key_exists($_key, $_fields)) {
+            $_columns = $this->columns();
 
-        $_columns = $this->columns();
-
-        foreach ($_fields[$_key] as $filter) {
-            if (!in_array($filter, $_columns)) {
-              $exception = new BadRequestException('invalid_filter');
-              throw $exception->withDetails([[$_key, $filter]]);
+            foreach ($_fields[$_key] as $filter) {
+                if (!in_array($filter, $_columns)) {
+                    $exception = new BadRequestException('invalid_filter');
+                    throw $exception->withDetails([[$_key, $filter]]);
+                }
             }
         }
-      }
-
     }
-
-
-
-
-
 
     /**
      * Filter results based on filter get variable and transform them if enabled.

@@ -54,13 +54,13 @@ class Transformer
     {
         $_results = [];
         if (!is_object($object)) {
-          return $_results;
+            return $_results;
         }
 
         $incs = $this->getIncludes($object);
-        
+
         if (empty($incs)) {
-          return $_results;
+            return $_results;
         }
 
         $_results['relationships'] = [];
@@ -72,8 +72,6 @@ class Transformer
             array_push($_results['relationships'][$include['type']]['data'], ['id' => $include['id'], 'type' => $include['type']]);
             array_push($_results['included'], $include);
         }
-
-
 
         return $_results;
     }

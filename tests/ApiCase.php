@@ -22,9 +22,6 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
     /** @var string */
     public $list = '{"data":[],"meta":{"total":0,"currentPage":1,"perPage":"10","hasMorePages":false,"hasPages":false},"links":{"self":"http:\/\/localhost\/api\/user?page=1","first":"http:\/\/localhost\/api\/user?page=1","last":"http:\/\/localhost\/api\/user?page=1","next":null,"prev":null},"jsonapi":{"version":"1.0","self":"v1"}}';
 
-
-
-
     public function json($method, $uri, array $data = [], array $headers = [])
     {
         $headers = array_merge($headers, array_merge(['Content-Type' => config('jsonapi.content_type'), 'Accept' => config('jsonapi.accept')], $headers));
@@ -134,14 +131,11 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
         return $this->arrayKeys(json_decode($var, true));
     }
 
-
-
-
-
-/**
- * Create User Helpers
- * @return json
- */
+        /**
+         * Create User Helpers.
+         *
+         * @return json
+         */
         public function createUser()
         {
             $this->json('POST', '/api/user', [
@@ -149,5 +143,4 @@ class ApiCase extends \Illuminate\Foundation\Testing\TestCase
               'email'    => 'test@test.com',
               'password' => bcrypt('password'), ]);
         }
-
 }

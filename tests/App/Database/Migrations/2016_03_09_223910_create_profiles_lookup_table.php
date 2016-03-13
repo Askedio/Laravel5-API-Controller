@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+
 class CreateProfilesLookupTable extends Migration
 {
     /**
@@ -24,6 +25,6 @@ class CreateProfilesLookupTable extends Migration
      */
     public function down()
     {
-         DB::connection()->getSchemaBuilder()->dropIfExists('profiles_user');
+        DB::connection()->getSchemaBuilder()->dropIfExists('profiles_user');
     }
 }

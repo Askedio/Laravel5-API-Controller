@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+
 class CreateProfilesTable extends Migration
 {
     /**
@@ -16,7 +17,6 @@ class CreateProfilesTable extends Migration
             $table->string('phone');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -26,6 +26,6 @@ class CreateProfilesTable extends Migration
      */
     public function down()
     {
-         DB::connection()->getSchemaBuilder()->dropIfExists('profiles');
+        DB::connection()->getSchemaBuilder()->dropIfExists('profiles');
     }
 }

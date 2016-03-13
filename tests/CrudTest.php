@@ -4,7 +4,6 @@ namespace Askedio\Tests;
 
 class CrudTest extends ApiCase
 {
-
     public function testRead()
     {
         $this->createUser();
@@ -37,5 +36,4 @@ class CrudTest extends ApiCase
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
         $this->seeJsonStructure($this->getKeys($this->read));
     }
-
-  }
+}
