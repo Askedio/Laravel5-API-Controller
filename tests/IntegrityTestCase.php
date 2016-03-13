@@ -27,7 +27,7 @@ class IntegrityTestCase extends BaseTestCase
      */
     public function createUser()
     {
-        $this->json('POST', '/api/user', [
+        return $this->json('POST', '/api/user', [
           'name'     => 'test',
           'email'    => 'test@test.com',
           'password' => bcrypt('password'), ]);
@@ -35,6 +35,9 @@ class IntegrityTestCase extends BaseTestCase
 
     public function saveOutput($response)
     {
+      /*
+          TO-DO: save to config file and use said config file to load check arrays from, only when triggered to do so (like maybe some cli flag)
+       */
         print_r($response->getContent());
         exit;
     }

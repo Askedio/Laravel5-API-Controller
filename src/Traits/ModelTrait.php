@@ -89,6 +89,25 @@ trait ModelTrait
     {
         $this->validateIncludes();
         $this->validateFields();
+        $this->validateRequests();
+    }
+
+
+    public function scopevalidateRequests()
+    {
+
+      if(!request()->isMethod('post') && !request()->isMethod('patch')){
+        return $this;
+      }
+
+      $_allowed = $this->getFillable();
+      $_request = request()->json()->all();
+
+      $_errors = array_diff(array_keys($_request), $this->getFillable());
+      if (!empty($_errors)) {
+          throw (new BadRequestException('invalid_filter'))->withDetails([[$_key, implode(' ', $_errors)]]);
+      }
+
     }
 
     /**

@@ -42,6 +42,9 @@ class ListTest extends IntegrityTestCase
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
 
+
+
+
     public function testListWithBadFields()
     {
         $this->createUser();

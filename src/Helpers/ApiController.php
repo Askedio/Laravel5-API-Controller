@@ -43,7 +43,7 @@ class ApiController
             return ['errors' => $errors];
         }
 
-        return $this->model->create($this->cleanRequest());
+        return $this->model->create($this->getRequest());
     }
 
     /**
@@ -67,15 +67,11 @@ class ApiController
             return ['errors' => $errors];
         }
 
-        $_model = $this->model->find($_id);
+        if($_model = $this->model->find($_id)){
+          return $_model->update($this->getRequest()) ? $_model : false;
+        }
 
-        return $_model
-          ? (
-              $_model->update($this->cleanRequest())
-              ? $_model
-              : false
-            )
-          : false;
+        return false;
     }
 
     /**
@@ -95,18 +91,9 @@ class ApiController
      *
      * @return array
      */
-    private function cleanRequest()
+    private function getRequest()
     {
-        $_allowed = $this->model->getFillable();
-        $request = request()->json()->all();
-
-        foreach (array_keys($request) as $var) {
-            if (!in_array($var, $_allowed)) {
-                unset($request[$var]);
-            }
-        }
-
-        return $request;
+        return request()->json()->all();
     }
 
     /**

@@ -7,6 +7,11 @@ use Illuminate\Filesystem\ClassFinder;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Router;
 
+/** temporary */
+use Askedio\Tests\App\User;
+use Askedio\Tests\App\Profiles;
+
+
 class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -110,4 +115,28 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
     {
         return $this->arrayKeys(json_decode($var, true));
     }
+
+
+
+
+
+/**
+ * Temporary
+ */
+    public function createUserRaw()
+    {
+      /** temporary since we dont have relational creation yet */
+      return (new User())->create([
+        'name'     => 'test',
+        'email'    => 'test@test.com',
+        'password' => bcrypt('password'),
+       ])->profiles()->saveMany([
+            new Profiles(['phone'     => '123']),
+       ]);
+    }
+
+
+
+
+
 }

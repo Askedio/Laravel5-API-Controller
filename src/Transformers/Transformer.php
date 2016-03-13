@@ -53,9 +53,7 @@ class Transformer
     private function includes($object)
     {
         $_results = [];
-        if (!is_object($object)) {
-            return $_results;
-        }
+
 
         $incs = $this->getIncludes($object);
 

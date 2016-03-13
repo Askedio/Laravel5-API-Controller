@@ -4,13 +4,15 @@ namespace Askedio\Tests\IntegrityTests;
 
 use Askedio\Tests\IntegrityTestCase;
 
-class PostTest extends IntegrityTestCase
+class PatchTest extends IntegrityTestCase
 {
-    public function testBadPostField()
+
+
+    public function testBadPatchField()
     {
-        $this->json('POST', '/api/user', [
-        'test'     => 'test',
-      ]);
+        $this->json('PATCH', '/api/user/1', [
+            'test'     => 'test',
+          ]);
 
         $response = $this->response;
         $this->assertEquals(500, $response->getStatusCode());
@@ -18,9 +20,10 @@ class PostTest extends IntegrityTestCase
     }
 
 
-    public function testPostValidation()
+
+    public function testPatchValidation()
     {
-        $this->json('POST', '/api/user', [
+        $this->json('PATCH', '/api/user/1', [
         'email'     => 'test',
       ]);
 
@@ -28,6 +31,4 @@ class PostTest extends IntegrityTestCase
         $this->assertEquals(403, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
-
 }

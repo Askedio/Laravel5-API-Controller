@@ -6,6 +6,15 @@ use Askedio\Tests\IntegrityTestCase;
 
 class CrudTest extends IntegrityTestCase
 {
+
+  public function testCreate()
+  {
+      $_results = $this->createUser();
+      $response = $_results->response;
+      $this->assertEquals(200, $response->getStatusCode());
+      $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
+  }
+
     public function testRead()
     {
         $this->createUser();
