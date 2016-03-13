@@ -60,8 +60,6 @@ class ListTest extends ApiCase
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
 
-
-
     public function testSearch()
     {
         $this->json('GET', '/api/user/?search=test');
@@ -69,5 +67,4 @@ class ListTest extends ApiCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
 }

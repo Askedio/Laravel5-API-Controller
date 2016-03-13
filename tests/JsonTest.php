@@ -4,8 +4,6 @@ namespace Askedio\Tests;
 
 class JsonTest extends ApiCase
 {
-
-
     public function testError404()
     {
         $this->json('GET', '/api/404');
@@ -30,13 +28,10 @@ class JsonTest extends ApiCase
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
 
-
-
     public function testNonApiException()
     {
         $this->json('GET', '/not-the-api');
         $response = $this->response;
         $this->assertEquals(404, $response->getStatusCode());
     }
-
 }

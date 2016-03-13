@@ -62,6 +62,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('Askedio\Tests\App\Profiles');
     }
-
-
 }

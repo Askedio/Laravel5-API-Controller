@@ -4,8 +4,6 @@ namespace Askedio\Tests;
 
 class HeadersTest extends ApiCase
 {
-
-
     public function testBadContentType()
     {
         $this->json('GET', '/api/user/', [], ['Content-Type' => 'test']);
