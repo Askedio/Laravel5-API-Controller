@@ -108,7 +108,6 @@ abstract class ApiException extends Exception
         return $_insert;
     }
 
-
     /**
      * Build the Exception.
      *
