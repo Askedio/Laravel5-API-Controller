@@ -122,7 +122,6 @@ trait SearchableTrait
         return false;
     }
 
-
     /**
      * Returns the tables that are to be joined.
      *
