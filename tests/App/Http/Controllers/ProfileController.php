@@ -2,10 +2,12 @@
 
 namespace Askedio\Tests\App\Http\Controllers;
 
-use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
+use Askedio\Laravel5ApiController\Traits\ControllerTrait;
+use Illuminate\Routing\Controller;
 
-class ProfileController extends BaseController
+class ProfileController extends Controller
 {
+use ControllerTrait;
     public $model = \Askedio\Tests\App\Profiles::class;
 
     public $version = 'v1';
