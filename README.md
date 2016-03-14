@@ -4,7 +4,7 @@ A really simple package that provides a CRUD JSON API for your Laravel 5 applica
 [![Build Status](https://img.shields.io/travis/Askedio/Laravel5-API-Controller/master.svg?style=flat-square)](https://travis-ci.org/Askedio/Laravel5-API-Controller)
 [![StyleCI](https://styleci.io/repos/52752552/shield)](https://styleci.io/repos/52752552)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/c2f2291fe3af4ea3a511afa64ddc034b)](https://www.codacy.com/app/gcphost/Laravel5-API-Controller)
-[![Code Climate](https://codeclimate.com/github/Askedio/Laravel5-API-Controller/badges/gpa.svg)](https://codeclimate.com/github/Askedio/Laravel5-API-Controller)
+[![Codacy Badge](https://api.codacy.com/project/badge/coverage/c2f2291fe3af4ea3a511afa64ddc034b)](https://www.codacy.com/app/gcphost/Laravel5-API-Controller)[![Code Climate](https://codeclimate.com/github/Askedio/Laravel5-API-Controller/badges/gpa.svg)](https://codeclimate.com/github/Askedio/Laravel5-API-Controller)
 
 * [Live Demo](https://cruddy.io/app/)
 * [Laravel 5.2 Example Package](https://github.com/Askedio/Laravel-5-CRUD-Example)
