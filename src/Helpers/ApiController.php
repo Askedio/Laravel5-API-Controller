@@ -67,8 +67,8 @@ class ApiController
             return ['errors' => $errors];
         }
 
-        if ($_model = $this->model->find($idd)) {
-            return $_model->update($this->getRequest()) ? $_model : false;
+        if ($model = $this->model->find($idd)) {
+            return $model->update($this->getRequest()) ? $model : false;
         }
 
         return false;
@@ -81,9 +81,9 @@ class ApiController
      */
     public function destroy($idd)
     {
-        $_model = $this->model->find($idd);
+        $model = $this->model->find($idd);
 
-        return $_model ? $_model->delete() : false;
+        return $model ? $model->delete() : false;
     }
 
     /**
@@ -106,9 +106,9 @@ class ApiController
     private function validate($action)
     {
         $validator = validator()->make(request()->json()->all(), $this->model->getRule($action));
-        $_errors = [];
+        $errors = [];
         foreach ($validator->errors()->toArray() as $_field => $_err) {
-            array_push($_errors, [
+            array_push($errors, [
             // TO-DO: detect errors for a valid json api code
             //'code'   => 0,
             'source' => ['pointer' => $_field],
@@ -117,6 +117,6 @@ class ApiController
           ]);
         }
 
-        return $validator->fails() ? $_errors : false;
+        return $validator->fails() ? $errors : false;
     }
 }

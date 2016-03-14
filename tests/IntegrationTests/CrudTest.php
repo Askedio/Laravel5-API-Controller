@@ -13,7 +13,7 @@ class CrudTest extends IntegrationTestCase
 
    *
    * need some way to pass form/input data
-   *     $_results = $this->api()->index();
+   *     $results = $this->api()->index();
    */
 
     // ...

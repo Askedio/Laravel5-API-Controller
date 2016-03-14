@@ -72,11 +72,11 @@ trait ControllerTrait
     {
         if (!isset($data['results']['errors'])) {
             if ($data['results']) {
-                $_results = isset($data['data']) ? $data['data'] : $data['results'];
+                $results = isset($data['data']) ? $data['data'] : $data['results'];
 
                 $transformer = new Transformer();
 
-                return response()->jsonapi($data['success'], $transformer->render($_results));
+                return response()->jsonapi($data['success'], $transformer->render($results));
             }
 
             throw (new InvalidAttributeException('invalid_attribute', $data['error']))->withDetails(['errors' => $data['error']]);

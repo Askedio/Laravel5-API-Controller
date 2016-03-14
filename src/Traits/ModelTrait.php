@@ -66,11 +66,11 @@ trait ModelTrait
             return $query;
         }
 
-        $_columns = $this->columns();
+        $columns = $this->columns();
 
-        $_errors = array_diff(array_map(['self', 'removeSortDash'], $_sorted), $_columns);
-        if (!empty($_errors)) {
-            throw (new BadRequestException('invalid_include'))->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
+        $errors = array_diff(array_map(['self', 'removeSortDash'], $_sorted), $columns);
+        if (!empty($errors)) {
+            throw (new BadRequestException('invalid_include'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
         }
 
         foreach ($_sorted as $column) {
@@ -99,11 +99,11 @@ trait ModelTrait
         }
 
         $_request = request()->json()->all();
-        $_key = strtolower(class_basename($this));
+        $key = strtolower(class_basename($this));
 
-        $_errors = array_diff(array_keys($_request), $this->getFillable());
-        if (!empty($_errors)) {
-            throw (new BadRequestException('invalid_filter'))->withDetails([[$_key, implode(' ', $_errors)]]);
+        $errors = array_diff(array_keys($_request), $this->getFillable());
+        if (!empty($errors)) {
+            throw (new BadRequestException('invalid_filter'))->withDetails([[$key, implode(' ', $errors)]]);
         }
     }
 
@@ -116,11 +116,11 @@ trait ModelTrait
     {
         $_allowed = $this->includes ?: [];
         $_includes = app('api')->includes();
-        $_key = strtolower(class_basename($this));
+        $key = strtolower(class_basename($this));
 
-        $_errors = array_diff($_includes, $_allowed);
-        if (!empty($_errors)) {
-            throw (new BadRequestException('invalid_include'))->withDetails([[$_key, implode(' ', $_errors)]]);
+        $errors = array_diff($_includes, $_allowed);
+        if (!empty($errors)) {
+            throw (new BadRequestException('invalid_include'))->withDetails([[$key, implode(' ', $errors)]]);
         }
     }
 
@@ -131,27 +131,27 @@ trait ModelTrait
      */
     public function scopevalidateFields()
     {
-        $_fields = app('api')->fields();
-        $_key = strtolower(class_basename($this));
+        $fields = app('api')->fields();
+        $key = strtolower(class_basename($this));
 
-        if (empty($_fields)) {
+        if (empty($fields)) {
             return $this;
         }
 
-        $_errors = array_diff(array_keys($_fields), array_merge([$_key], $this->includes));
-        if (!empty($_errors)) {
-            throw (new BadRequestException('invalid_filter'))->withDetails([[$_key, implode(' ', $_errors)]]);
+        $errors = array_diff(array_keys($fields), array_merge([$key], $this->includes));
+        if (!empty($errors)) {
+            throw (new BadRequestException('invalid_filter'))->withDetails([[$key, implode(' ', $errors)]]);
         }
 
-        if (!array_key_exists($_key, $_fields)) {
+        if (!array_key_exists($key, $fields)) {
             return $this;
         }
 
-        $_columns = $this->columns();
+        $columns = $this->columns();
 
-        $_errors = array_diff(array_values($_fields[$_key]), $_columns);
-        if (!empty($_errors)) {
-            throw (new BadRequestException('invalid_filter'))->withDetails([[strtolower(class_basename($this)), implode(' ', $_errors)]]);
+        $errors = array_diff(array_values($fields[$key]), $columns);
+        if (!empty($errors)) {
+            throw (new BadRequestException('invalid_filter'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
         }
     }
 
@@ -163,24 +163,24 @@ trait ModelTrait
     public function scopefilterAndTransform()
     {
         // badd too, loops each, this was intended as a post check
-        $_fields = app('api')->fields();
-        $_key = strtolower(class_basename($this));
-        if (empty($_fields) || !isset($_fields[$_key])) {
+        $fields = app('api')->fields();
+        $key = strtolower(class_basename($this));
+        if (empty($fields) || !isset($fields[$key])) {
             return $this;
         }
 
-        $_results = [];
+        $results = [];
 
-        $_columns = $this->columns();
+        $columns = $this->columns();
 
-        foreach ($_fields[$_key] as $filter) {
-            if (in_array($filter, $_columns)) {
+        foreach ($fields[$key] as $filter) {
+            if (in_array($filter, $columns)) {
                 $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
-                $_results[$filter] = $_content[$filter];
+                $results[$filter] = $_content[$filter];
             }
         }
 
-        return $_results;
+        return $results;
     }
 
     /**

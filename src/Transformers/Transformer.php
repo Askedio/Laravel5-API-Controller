@@ -29,7 +29,7 @@ class Transformer
      */
     private function objectOrPage($object)
     {
-        $_results = [];
+        $results = [];
         if (is_object($object)) {
             if (!$this->isPaginator($object)) {
                 $_data = $this->item($object);
@@ -39,10 +39,10 @@ class Transformer
                 $_include = $this->getPaginationMeta($object);
             }
 
-            $_results = array_merge(['data' => $_data], $_include);
+            $results = array_merge(['data' => $_data], $_include);
         }
 
-        return $_results;
+        return $results;
     }
 
     /**
@@ -52,25 +52,25 @@ class Transformer
      */
     private function includes($object)
     {
-        $_results = [];
+        $results = [];
 
         $incs = $this->getIncludes($object);
 
         if (empty($incs)) {
-            return $_results;
+            return $results;
         }
 
-        $_results['relationships'] = [];
-        $_results['included'] = [];
+        $results['relationships'] = [];
+        $results['included'] = [];
         foreach (array_values($incs) as $include) {
-            if (!isset($_results['relationships'][$include['type']])) {
-                $_results['relationships'][$include['type']]['data'] = [];
+            if (!isset($results['relationships'][$include['type']])) {
+                $results['relationships'][$include['type']]['data'] = [];
             }
-            array_push($_results['relationships'][$include['type']]['data'], ['id' => $include['id'], 'type' => $include['type']]);
-            array_push($_results['included'], $include);
+            array_push($results['relationships'][$include['type']]['data'], ['id' => $include['id'], 'type' => $include['type']]);
+            array_push($results['included'], $include);
         }
 
-        return $_results;
+        return $results;
     }
 
     /**
@@ -80,18 +80,18 @@ class Transformer
      */
     private function getIncludes($object)
     {
-        $_results = [];
+        $results = [];
 
         foreach (app('api')->includes() as $include) {
             if (is_object($object->$include)) {
                 foreach ($object->$include as $included) {
                     $included->validateApi();
-                    $_results[] = $this->item($included);
+                    $results[] = $this->item($included);
                 }
             }
         }
 
-        return $_results;
+        return $results;
     }
 
     /**
@@ -101,12 +101,12 @@ class Transformer
      */
     private function transformObjects($object)
     {
-        $_results = [];
+        $results = [];
         foreach ($object as $key => $item) {
-            $_results[$key] = array_merge($this->item($item), $this->includes($item));
+            $results[$key] = array_merge($this->item($item), $this->includes($item));
         }
 
-        return $_results;
+        return $results;
     }
 
     /**
