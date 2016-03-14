@@ -9,7 +9,7 @@ class UserAlt extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\ModelTrait;
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
 
-  protected $table = 'users';
+    protected $table = 'users';
 
   /**
    * The attributes that are mass assignable.
@@ -44,12 +44,12 @@ class UserAlt extends Authenticatable
 
     protected $searchable = [
       'columns' => [
-          'users.name'  => 10,
-          'users.email' => 5,
+          'users.name'     => 10,
+          'users.email'    => 5,
           'profiles.phone' => 5,
       ],
       'joins' => [
-        'profiles' => ['users.id','profiles.user_id', 'users.id', 'profiles.user_id'],
+        'profiles' => ['users.id', 'profiles.user_id', 'users.id', 'profiles.user_id'],
       ],
   ];
 

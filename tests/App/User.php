@@ -42,14 +42,14 @@ class User extends Authenticatable
 
     protected $searchable = [
       'columns' => [
-          'users.name'  => 10,
-          'users.email' => 5,
+          'users.name'       => 10,
+          'users.email'      => 5,
           'profiles.user_id' => 5,
       ],
       'joins' => [
-        'profiles' => ['users.id','profiles.user_id'],
+        'profiles' => ['users.id', 'profiles.user_id'],
       ],
-      'groupBy' => 'profiles.user_id'
+      'groupBy' => 'profiles.user_id',
   ];
 
     protected $primaryKey = 'id';
