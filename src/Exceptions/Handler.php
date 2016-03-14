@@ -55,7 +55,7 @@ class Handler extends ExceptionHandler
      *
      * @return ApiResponse
      */
-    private function handle($request, Exception $exception)
+    private function handle($code, Exception $exception)
     {
 
         /* custom exception class */
@@ -78,6 +78,6 @@ class Handler extends ExceptionHandler
         return response()->jsonapi($code, ['errors' => $data]);
       //  }
 
-      //  return parent::render($request, $exception);
+      //  return parent::render($code, $exception);
     }
 }

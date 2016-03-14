@@ -162,8 +162,6 @@ trait SearchableTrait
             return $query;
         }
 
-        $driver = $this->getDatabaseDriver();
-
         $columns = $this->getTable().'.'.$this->primaryKey;
 
         $query->groupBy($columns);

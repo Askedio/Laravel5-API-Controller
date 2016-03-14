@@ -11,26 +11,31 @@ class SearchTest extends IntegrationTestCase
 {
     public function testSearchWith()
     {
-        $search = User::search('test')->with('profiles')->get();
+        $search = (new User)->search('test')->with('profiles')->get();
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $search);
     }
 
     public function testSearchGroupBy()
     {
-        $search = User::search('test')->with('profiles')->get();
+        $search = (new User)->search('test')->with('profiles')->get();
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $search);
     }
 
     public function testSearchEntireText()
     {
-        $search = User::search('test', 10, true)->with('profiles')->get();
+        $search = (new User)->search('test', 10, true)->with('profiles')->get();
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $search);
     }
 
     public function testSearchNoColumnsDefined()
     {
-        $search = Profiles::search('test');
+        $search = (new Profiles)->search('test');
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Builder', $search);
     }
 
     public function testSearchAltGroupBy()
     {
-        $search = UserAlt::search('test')->with('profiles')->get();
+        $search = (new UserAlt)->search('test')->with('profiles')->get();
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $search);
     }
 }
