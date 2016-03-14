@@ -20,8 +20,9 @@ class ExceptionTest extends UnitTestCase
 
     public function testDefaultRenderException()
     {
-        define('PHPUnit_Test', true);
-        $this->setExpectedException(\Askedio\Laravel5ApiController\Exceptions\BadRequestException::class);
-        throw new \Askedio\Laravel5ApiController\Exceptions\BadRequestException('badtemplate');
+        $this->setExpectedException(\Askedio\Laravel5ApiController\Exceptions\DefaultException::class);
+        throw new \Askedio\Laravel5ApiController\Exceptions\DefaultException('badtemplate');
     }
+
+
 }

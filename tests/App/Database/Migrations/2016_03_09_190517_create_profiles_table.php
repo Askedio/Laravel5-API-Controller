@@ -14,6 +14,7 @@ class CreateProfilesTable extends Migration
     {
         DB::connection()->getSchemaBuilder()->create('profiles', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
             $table->string('phone');
             $table->timestamps();
         });

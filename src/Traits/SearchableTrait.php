@@ -35,18 +35,14 @@ trait SearchableTrait
      */
     public function scopeSearch(Builder $qry, $search, $threshold = null, $entireText = null)
     {
-        return $this->scopeSearchRestricted($qry, $search, null, $threshold, $entireText);
+        return $this->scopeSearchRestricted($qry, $search, $threshold, $entireText);
     }
 
-    public function scopeSearchRestricted(Builder $qry, $search, $restriction, $threshold = null, $entireText = null)
+    public function scopeSearchRestricted(Builder $qry, $search, $threshold = null, $entireText = null)
     {
         $query = clone $qry;
         $query->select($this->getTable().'.*');
         $this->makeJoins($query);
-
-        if (!$search) {
-            return $qry;
-        }
 
         $search = mb_strtolower(trim($search));
         $words = explode(' ', $search);
@@ -81,10 +77,6 @@ trait SearchableTrait
 
         $this->addBindingsToQuery($query, $this->search_bindings);
 
-        if (is_callable($restriction)) {
-            $query = $restriction($query);
-        }
-
         $this->mergeQueries($query, $qry);
 
         return $qry;
@@ -109,11 +101,11 @@ trait SearchableTrait
      */
     protected function getColumns()
     {
-        if (array_key_exists('columns', $this->searchable)) {
+        if (isset($this->searchable) && array_key_exists('columns', $this->searchable)) {
             return $this->searchable['columns'];
         }
 
-        return DB::connection()->getSchemaBuilder()->getColumnListing($this->table);
+        return DB::connection()->getSchemaBuilder()->getColumnListing($this->getTable());
     }
 
     /**
@@ -123,22 +115,13 @@ trait SearchableTrait
      */
     protected function getGroupBy()
     {
-        if (array_key_exists('groupBy', $this->searchable)) {
+        if (isset($this->searchable) && array_key_exists('groupBy', $this->searchable)) {
             return $this->searchable['groupBy'];
         }
 
         return false;
     }
 
-    /**
-     * Returns the table columns.
-     *
-     * @return array
-     */
-    public function getTableColumns()
-    {
-        return $this->searchable['table_columns'];
-    }
 
     /**
      * Returns the tables that are to be joined.
@@ -182,7 +165,7 @@ trait SearchableTrait
 
         $driver = $this->getDatabaseDriver();
 
-        $columns = $driver == 'sqlsrv' ? $this->getTableColumns() : $this->getTable().'.'.$this->primaryKey;
+        $columns = $this->getTable().'.'.$this->primaryKey;
 
         $query->groupBy($columns);
 

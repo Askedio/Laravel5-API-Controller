@@ -4,10 +4,12 @@ namespace Askedio\Tests\App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class UserAlt extends Authenticatable
 {
     use \Askedio\Laravel5ApiController\Traits\ModelTrait;
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
+
+  protected $table = 'users';
 
   /**
    * The attributes that are mass assignable.
@@ -44,12 +46,11 @@ class User extends Authenticatable
       'columns' => [
           'users.name'  => 10,
           'users.email' => 5,
-          'profiles.user_id' => 5,
+          'profiles.phone' => 5,
       ],
       'joins' => [
-        'profiles' => ['users.id','profiles.user_id'],
+        'profiles' => ['users.id','profiles.user_id', 'users.id', 'profiles.user_id'],
       ],
-      'groupBy' => 'profiles.user_id'
   ];
 
     protected $primaryKey = 'id';
