@@ -56,15 +56,15 @@ abstract class ApiException extends Exception
      *
      * @return array
      */
-    public function getDetails($_template)
+    public function getDetails($template)
     {
         $_results = [];
 
-        $_details = $this->exceptionDetails;
+        $details = $this->exceptionDetails;
 
       /* Pre-rendered errors */
-      if (isset($_details['errors']) && is_array($_details['errors'])) {
-          foreach ($_details['errors'] as $detail) {
+      if (isset($details['errors']) && is_array($details['errors'])) {
+          foreach ($details['errors'] as $detail) {
               $_results[] = $detail;
           }
 
@@ -72,13 +72,13 @@ abstract class ApiException extends Exception
       }
 
       /* Not pre-rendered errors, build from template */
-      if (!is_array($_details)) {
-          $_details = [$_details];
+      if (!is_array($details)) {
+          $details = [$details];
       }
 
-        if (!empty($_details)) {
-            foreach ($_details as $detail) {
-                $_results[] = $this->item($_template, $detail);
+        if (!empty($details)) {
+            foreach ($details as $detail) {
+                $_results[] = $this->item($template, $detail);
             }
         }
 
@@ -90,15 +90,15 @@ abstract class ApiException extends Exception
      *
      * @return array
      */
-    private function item($_template, $detail)
+    private function item($template, $detail)
     {
-        $_insert = $_template;
-        $_replace = $_template['detail'];
+        $_insert = $template;
+        $_replace = $template['detail'];
 
         $_insert['detail'] = vsprintf($_replace, $detail);
-        if (isset($_template['source'])) {
+        if (isset($template['source'])) {
             $_insert['source'] = [];
-            $_insert['source'][$_template['source']['type']] = vsprintf($_template['source']['value'], $detail);
+            $_insert['source'][$template['source']['type']] = vsprintf($template['source']['value'], $detail);
         }
 
         return $_insert;

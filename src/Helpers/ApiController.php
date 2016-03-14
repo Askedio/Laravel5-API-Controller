@@ -51,9 +51,9 @@ class ApiController
      *
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function show($_id)
+    public function show($idd)
     {
-        return $this->model->find($_id);
+        return $this->model->find($idd);
     }
 
     /**
@@ -61,13 +61,13 @@ class ApiController
      *
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function update($_id)
+    public function update($idd)
     {
         if ($errors = $this->validate('update')) {
             return ['errors' => $errors];
         }
 
-        if ($_model = $this->model->find($_id)) {
+        if ($_model = $this->model->find($idd)) {
             return $_model->update($this->getRequest()) ? $_model : false;
         }
 
@@ -79,9 +79,9 @@ class ApiController
      *
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function destroy($_id)
+    public function destroy($idd)
     {
-        $_model = $this->model->find($_id);
+        $_model = $this->model->find($idd);
 
         return $_model ? $_model->delete() : false;
     }

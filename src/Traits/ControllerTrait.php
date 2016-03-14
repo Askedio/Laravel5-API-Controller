@@ -40,31 +40,31 @@ trait ControllerTrait
         ]);
     }
 
-    public function show($_id)
+    public function show($idd)
     {
         return $this->render([
           'success' => 200,
           'error'   => 404,
-          'results' => $this->results->show($_id),
+          'results' => $this->results->show($idd),
         ]);
     }
 
-    public function update($_id)
+    public function update($idd)
     {
         return $this->render([
           'success' => 200,
           'error'   => 500,
-          'results' => $this->results->update($_id),
+          'results' => $this->results->update($idd),
         ]);
     }
 
-    public function destroy($_id)
+    public function destroy($idd)
     {
         return $this->render([
           'success' => 200,
           'error'   => 404,
-          'data'    => $this->results->show($_id),
-          'results' => $this->results->destroy($_id),
+          'data'    => $this->results->show($idd),
+          'results' => $this->results->destroy($idd),
         ]);
     }
 

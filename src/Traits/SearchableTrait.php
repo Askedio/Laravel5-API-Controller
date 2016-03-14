@@ -53,10 +53,10 @@ trait SearchableTrait
 
         $selects = [];
         $this->search_bindings = [];
-        $relevance_count = 0;
+        $relevanceCount = 0;
 
         foreach ($this->getColumns() as $column => $relevance) {
-            $relevance_count += $relevance;
+            $relevanceCount += $relevance;
             $queries = $this->getSearchQueriesForColumn($column, $relevance, $words);
 
             if ($entireText === true) {
@@ -72,7 +72,7 @@ trait SearchableTrait
 
         // Default the threshold if no value was passed.
         if (is_null($threshold)) {
-            $threshold = $relevance_count / 4;
+            $threshold = $relevanceCount / 4;
         }
 
         $this->filterQueryWithRelevance($query, $selects, $threshold);
@@ -214,15 +214,15 @@ trait SearchableTrait
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param array                                 $selects
-     * @param float                                 $relevance_count
+     * @param float                                 $relevanceCount
      */
-    protected function filterQueryWithRelevance(Builder $query, array $selects, $relevance_count)
+    protected function filterQueryWithRelevance(Builder $query, array $selects, $relevanceCount)
     {
         $comparator = $this->getDatabaseDriver() != 'mysql' ? implode(' + ', $selects) : 'relevance';
 
-        $relevance_count = number_format($relevance_count, 2, '.', '');
+        $relevanceCount = number_format($relevanceCount, 2, '.', '');
 
-        $query->havingRaw("$comparator > $relevance_count");
+        $query->havingRaw("$comparator > $relevanceCount");
         $query->orderBy('relevance', 'desc');
 
         // add bindings to postgres
@@ -257,19 +257,19 @@ trait SearchableTrait
      * @param string                                $relevance
      * @param array                                 $words
      * @param string                                $compare
-     * @param float                                 $relevance_multiplier
+     * @param float                                 $relevanceMultiplier
      * @param string                                $pre_word
      * @param string                                $post_word
      *
      * @return string
      */
-    protected function getSearchQuery($column, $relevance, array $words, $relevance_multiplier, $pre_word = '', $post_word = '')
+    protected function getSearchQuery($column, $relevance, array $words, $relevanceMultiplier, $pre_word = '', $post_word = '')
     {
         $like_comparator = $this->getDatabaseDriver() == 'pgsql' ? 'ILIKE' : 'LIKE';
         $cases = [];
 
         foreach ($words as $word) {
-            $cases[] = $this->getCaseCompare($column, $like_comparator, $relevance * $relevance_multiplier);
+            $cases[] = $this->getCaseCompare($column, $like_comparator, $relevance * $relevanceMultiplier);
             $this->search_bindings[] = $pre_word.$word.$post_word;
         }
 
