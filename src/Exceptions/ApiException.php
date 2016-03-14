@@ -92,16 +92,16 @@ abstract class ApiException extends Exception
      */
     private function item($template, $detail)
     {
-        $_insert = $template;
+        $insert = $template;
         $_replace = $template['detail'];
 
-        $_insert['detail'] = vsprintf($_replace, $detail);
+        $insert['detail'] = vsprintf($_replace, $detail);
         if (isset($template['source'])) {
-            $_insert['source'] = [];
-            $_insert['source'][$template['source']['type']] = vsprintf($template['source']['value'], $detail);
+            $insert['source'] = [];
+            $insert['source'][$template['source']['type']] = vsprintf($template['source']['value'], $detail);
         }
 
-        return $_insert;
+        return $insert;
     }
 
     /**

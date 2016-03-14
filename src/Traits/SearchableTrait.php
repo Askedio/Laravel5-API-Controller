@@ -33,12 +33,12 @@ trait SearchableTrait
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSearch(Builder $qry, $search, $threshold = null, $entireText = false)
+    public function scopeSearch(Builder $qry, $search, $threshold = null, $entireText = null)
     {
         return $this->scopeSearchRestricted($qry, $search, null, $threshold, $entireText);
     }
 
-    public function scopeSearchRestricted(Builder $qry, $search, $restriction, $threshold = null, $entireText = false)
+    public function scopeSearchRestricted(Builder $qry, $search, $restriction, $threshold = null, $entireText = null)
     {
         $query = clone $qry;
         $query->select($this->getTable().'.*');
@@ -59,7 +59,7 @@ trait SearchableTrait
             $relevanceCount += $relevance;
             $queries = $this->getSearchQueriesForColumn($column, $relevance, $words);
 
-            if ($entireText === true) {
+            if ($entireText) {
                 $queries[] = $this->getSearchQuery($column, $relevance, [$search], 30, '', '%');
             }
 
@@ -258,19 +258,19 @@ trait SearchableTrait
      * @param array                                 $words
      * @param string                                $compare
      * @param float                                 $relevanceMultiplier
-     * @param string                                $pre_word
-     * @param string                                $post_word
+     * @param string                                $preWord
+     * @param string                                $postWord
      *
      * @return string
      */
-    protected function getSearchQuery($column, $relevance, array $words, $relevanceMultiplier, $pre_word = '', $post_word = '')
+    protected function getSearchQuery($column, $relevance, array $words, $relevanceMultiplier, $preWord = '', $postWord = '')
     {
         $like_comparator = $this->getDatabaseDriver() == 'pgsql' ? 'ILIKE' : 'LIKE';
         $cases = [];
 
         foreach ($words as $word) {
             $cases[] = $this->getCaseCompare($column, $like_comparator, $relevance * $relevanceMultiplier);
-            $this->search_bindings[] = $pre_word.$word.$post_word;
+            $this->search_bindings[] = $preWord.$word.$postWord;
         }
 
         return implode(' + ', $cases);
