@@ -41,18 +41,6 @@ trait ModelTrait
         }
 
     /**
-     * Remove left dash from sort string.
-     *
-     * @param string $string
-     *
-     * @return string
-     */
-    private function removeSortDash($string)
-    {
-        return ltrim($string, '-');
-    }
-
-    /**
      * Set order/sort as per json spec.
      *
      * @param string $query
@@ -68,16 +56,21 @@ trait ModelTrait
 
         $columns = $this->columns();
 
-        $errors = array_diff(array_map(['self', 'removeSortDash'], $_sorted), $columns);
+        $errors = array_filter(array_diff(array_map(function($string){
+          return ltrim($string, '-');
+        }, $_sorted), $columns));
+
         if (!empty($errors)) {
-            throw (new BadRequestException('invalid_include'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
+            throw (new BadRequestException('invalid_sort'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
         }
 
-        foreach ($_sorted as $column) {
-            $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
-        }
+        array_map(function($column) use($query){
+          return $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
+        }, $_sorted);
 
         return $query;
+
+
     }
 
     /**

@@ -58,17 +58,12 @@ abstract class ApiException extends Exception
      */
     public function getDetails($template)
     {
-        $results = [];
 
-        $details = $this->exceptionDetails;
+      $details = $this->exceptionDetails;
 
       /* Pre-rendered errors */
       if (isset($details['errors']) && is_array($details['errors'])) {
-          foreach ($details['errors'] as $detail) {
-              $results[] = $detail;
-          }
-
-          return $results;
+          return $details['errors'];
       }
 
       /* Not pre-rendered errors, build from template */
@@ -76,13 +71,10 @@ abstract class ApiException extends Exception
           $details = [$details];
       }
 
-        if (!empty($details)) {
-            foreach ($details as $detail) {
-                $results[] = $this->item($template, $detail);
-            }
-        }
+      return array_map(function($detail) use($template){
+        return $this->item($template, $detail);
+      }, $details);
 
-        return $results;
     }
 
     /**
