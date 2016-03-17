@@ -132,6 +132,12 @@ Supported:
 * Sorting
 * Form Validation
 
+## Strict Mode
+You can force Accept and Content-type matching by adding the following to your .env
+~~~
+JSONAPI_STRICT=true
+~~~
+
 Not Supported:
 * PUT: I am using PATCH instead.
 * PATCH/POST input variaibles: Currently accepting {var:val}

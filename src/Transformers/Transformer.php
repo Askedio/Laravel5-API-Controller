@@ -12,6 +12,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 class Transformer
 {
+
     /**
      * @param $object
      *
@@ -19,21 +20,13 @@ class Transformer
      */
     public function render($object)
     {
-        return $this->objectOrPage($object);
-    }
 
-    /**
-     * @param $object
-     *
-     * @return array
-     */
-    private function objectOrPage($object)
-    {
         $results = [];
         if (is_object($object)) {
             if (!$this->isPaginator($object)) {
                 $_data = $this->item($object);
                 $_include = $this->includes($object);
+                $_include['links']['self'] = request()->url();
             } elseif ($this->isPaginator($object)) {
                 $_data = $this->transformObjects($object->items());
                 $_include = $this->getPaginationMeta($object);
@@ -54,15 +47,16 @@ class Transformer
     {
         $results = [];
 
-        $incs = $this->getIncludes($object);
+        $includes = $this->getIncludes($object);
 
-        if (empty($incs)) {
+        if (empty($includes)) {
             return $results;
         }
 
         $results['relationships'] = [];
         $results['included'] = [];
-        foreach (array_values($incs) as $include) {
+
+        foreach (array_values($includes) as $include) {
             if (!isset($results['relationships'][$include['type']])) {
                 $results['relationships'][$include['type']]['data'] = [];
             }

@@ -61,7 +61,7 @@ class JsonApiMiddleware
           ]);
         }
 
-        throw (new BadRequestException('invalid_get'))->withDetails(['errors' => $errors]);
+        throw (new BadRequestException('invalid_get'))->withErrors($errors);
     }
 
     /**

@@ -2,10 +2,6 @@
 
 return [
 
-    'not_found' => [
-        'title'  => 'The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible.',
-        'detail' => 'The resource you were looking for was not found.',
-    ],
 
     'not-acceptable' => [
         'title'  => 'Not Acceptable',
