@@ -1,6 +1,7 @@
 <?php
 
 namespace Askedio\Laravel5ApiController\Helpers;
+
 use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
 
 class ApiController
@@ -115,9 +116,8 @@ class ApiController
           ]);
         }
 
-        if(!empty($errors)){
-          throw (new InvalidAttributeException('invalid_attribute', 403))->withErrors($errors);
+        if (!empty($errors)) {
+            throw (new InvalidAttributeException('invalid_attribute', 403))->withErrors($errors);
         }
-
     }
 }

@@ -6,7 +6,7 @@ use Exception;
 
 abstract class ApiException extends Exception
 {
-  /** @var array */
+    /** @var array */
   private $exceptionDetails;
 
   /** @var array */
@@ -66,8 +66,6 @@ abstract class ApiException extends Exception
         return $this;
     }
 
-
-
     /**
      * Build the error results.
      *
@@ -75,13 +73,10 @@ abstract class ApiException extends Exception
      */
     public function getDetails($template)
     {
-
-      if($this->exceptionErrors){
-        return $this->exceptionErrors;
-      }
-      $details = $this->exceptionDetails;
-
-
+        if ($this->exceptionErrors) {
+            return $this->exceptionErrors;
+        }
+        $details = $this->exceptionDetails;
 
       /* Not pre-rendered errors, build from template */
       if (!is_array($details)) {

@@ -2,7 +2,6 @@
 
 return [
 
-
     'not-acceptable' => [
         'title'  => 'Not Acceptable',
         'detail' => 'Accept was not %s.',

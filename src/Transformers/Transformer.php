@@ -12,7 +12,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 class Transformer
 {
-
     /**
      * @param $object
      *
@@ -20,7 +19,6 @@ class Transformer
      */
     public function render($object)
     {
-
         $results = [];
         if (is_object($object)) {
             if (!$this->isPaginator($object)) {
