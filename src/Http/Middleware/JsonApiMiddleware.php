@@ -42,12 +42,13 @@ class JsonApiMiddleware
         }
 
         $badRequestInput = array_except($this->request->all(), array_keys(config('jsonapi.allowed_get')));
-        if (empty($badRequestInput)) {
-            return false;
-        }
 
         if($paged = request()->input('page')){
+          $badRequestInput = array_merge($badRequestInput, array_except(request()->input('page'), config('jsonapi.allowed_get.page')));
+        }
 
+        if (empty($badRequestInput)) {
+            return false;
         }
 
         $errors = [];
