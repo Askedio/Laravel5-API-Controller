@@ -56,7 +56,7 @@ trait ModelTrait
 
         $columns = $this->columns();
 
-        $errors = array_filter(array_diff(array_map(function($string){
+        $errors = array_filter(array_diff(array_map(function ($string) {
           return ltrim($string, '-');
         }, $_sorted), $columns));
 
@@ -64,13 +64,11 @@ trait ModelTrait
             throw (new BadRequestException('invalid_sort'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
         }
 
-        array_map(function($column) use($query){
+        array_map(function ($column) use ($query) {
           return $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
         }, $_sorted);
 
         return $query;
-
-
     }
 
     /**
