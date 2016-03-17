@@ -78,7 +78,6 @@ class ListTest extends AcceptanceTestCase
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
 
-
     public function testPagination()
     {
         $this->json('GET', '/api/user?page[limit]=1&page[number]=1');
@@ -94,9 +93,4 @@ class ListTest extends AcceptanceTestCase
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
-
-
-
-
 }
