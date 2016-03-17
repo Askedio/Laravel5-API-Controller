@@ -46,8 +46,7 @@ class JsonApiMiddleware
             return false;
         }
 
-        if($paged = request()->input('page')){
-
+        if ($paged = request()->input('page')) {
         }
 
         $errors = [];
