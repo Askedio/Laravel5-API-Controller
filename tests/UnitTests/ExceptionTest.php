@@ -18,9 +18,5 @@ class ExceptionTest extends UnitTestCase
         throw new \Askedio\Laravel5ApiController\Exceptions\BadRequestException('badtemplate');
     }
 
-    public function testDefaultRenderException()
-    {
-        $this->setExpectedException(\Askedio\Laravel5ApiController\Exceptions\DefaultException::class);
-        throw new \Askedio\Laravel5ApiController\Exceptions\DefaultException('badtemplate');
-    }
+
 }
