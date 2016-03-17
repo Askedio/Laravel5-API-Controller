@@ -18,7 +18,7 @@ Read the [wiki](https://github.com/Askedio/Laravel5-API-Controller/wiki) for mor
 
 ### Install Package
 ~~~
-composer require askedio/laravel5-api-controller:dev-master
+composer require askedio/laravel5-api-controller::0.0.6.x-dev
 ~~~
 
 
