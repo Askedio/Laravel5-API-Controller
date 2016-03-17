@@ -41,17 +41,21 @@ class JsonApiMiddleware
             return false;
         }
 
-        $requestAll = array_except($this->request->all(), config('jsonapi.allowed_get'));
-        if (empty($requestAll)) {
+        $badRequestInput = array_except($this->request->all(), array_keys(config('jsonapi.allowed_get')));
+        if (empty($badRequestInput)) {
             return false;
+        }
+
+        if($paged = request()->input('page')){
+
         }
 
         $errors = [];
 
-        foreach (array_keys($requestAll) as $_field) {
+        foreach (array_keys($badRequestInput) as $field) {
             array_push($errors, [
-            'code'   => 0,
-            'source' => ['pointer' => $_field],
+            //'code'   => 0,
+            'source' => ['pointer' => $field],
             'title'  => config('errors.invalid_get.title'),
           ]);
         }

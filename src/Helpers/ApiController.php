@@ -29,7 +29,8 @@ class ApiController
             $results->search(request()->input('search'));
         }
 
-        return $results->paginate((request()->input('limit') ?: '10'));
+        return $results->paginate(request()->input('page.limit', 10), ['*'], 'page', request()->input('page.number', 1)
+      );
     }
 
     /**
