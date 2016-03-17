@@ -53,9 +53,11 @@ Create a custom controller for your API.
 
 namespace App\Http\Controllers\Api;
 
-use Askedio\Laravel5ApiController\Http\Controllers\BaseController;
+use Illuminate\Routing\Controller as BaseController;
+
 class UserController extends BaseController
 {
+    use \Askedio\Laravel5ApiController\Traits\ControllerTrait;
     public $modal = \App\User::class;
 
     /* Optional */
