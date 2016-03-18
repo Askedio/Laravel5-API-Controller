@@ -153,7 +153,6 @@ trait ModelTrait
      */
     public function scopefilterAndTransform()
     {
-
         $results = $this->toArray();
         $fields = app('api')->fields();
         $key = strtolower(class_basename($this));

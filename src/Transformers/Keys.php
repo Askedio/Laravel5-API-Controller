@@ -3,7 +3,6 @@
 namespace Askedio\Laravel5ApiController\Transformers;
 
 use Askedio\Laravel5ApiController\Helpers\Api;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * Class Keys.
@@ -12,8 +11,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 class Keys
 {
-
-  /**
+    /**
       * @link http://jsonapi.org/format/#document-member-names-reserved-characters
       *
       * @var array
@@ -61,30 +59,24 @@ class Keys
          ' ',
      ];
 
+    public function transform($array)
+    {
+        $results = [];
+        foreach ($array as $key => $value) {
+            $results[$this->convert($key)] = is_array($value) ? $this->transform($value) : $value;
+        }
 
-     public function transform($array)
-     {
-       $results = [];
-       foreach($array as $key => $value){
-         $results[$this->convert($key)] = is_array($value) ? $this->transform($value) : $value;
-       }
-       return $results;
-     }
+        return $results;
+    }
 
-     private function convert($key)
-     {
+    private function convert($key)
+    {
+        if (!is_string($key)) {
+            return $key;
+        }
 
-      if(!is_string($key)) {
-        return $key;
-      }
+        $firstLast = implode('', $this->forbiddenAsFirstOrLastCharacter);
 
-      $firstLast = implode('', $this->forbiddenAsFirstOrLastCharacter);
-      return str_replace($this->forbiddenMemberNameCharacters, '', ltrim(rtrim($key, $firstLast), $firstLast));
-
-     }
-
-
-
-
-
+        return str_replace($this->forbiddenMemberNameCharacters, '', ltrim(rtrim($key, $firstLast), $firstLast));
+    }
 }
