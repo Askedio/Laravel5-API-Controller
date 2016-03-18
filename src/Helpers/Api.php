@@ -36,7 +36,7 @@ class Api
      */
     public function includes()
     {
-        return request()->input('include') ? explode(',', request()->input('include')) : [];
+        return collect(request()->input('include') ? explode(',', request()->input('include')) : []);
     }
 
     /**
@@ -53,6 +53,6 @@ class Api
             }
         }
 
-        return $results;
+        return collect($results);
     }
 }

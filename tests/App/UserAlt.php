@@ -30,7 +30,7 @@ class UserAlt extends Authenticatable
   ];
 
     protected $includes = [
-      'profiles',
+      \Askedio\Tests\App\Profiles::class,
   ];
 
     protected $rules = [

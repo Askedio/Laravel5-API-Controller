@@ -10,7 +10,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  *
  * Assists in filtering and transforming model
  */
-class JsonApiTransformer
+class ApiTransformer
 {
     /**
      * @param $object
@@ -77,7 +77,6 @@ class JsonApiTransformer
         foreach (app('api')->includes() as $include) {
             if (is_object($object->$include)) {
                 foreach ($object->$include as $included) {
-                    $included->validateApi();
                     $results[] = $this->item($included);
                 }
             }
