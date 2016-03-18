@@ -105,11 +105,11 @@ trait ModelTrait
      */
     public function scopevalidateIncludes()
     {
-        $_allowed = $this->includes ?: [];
-        $_includes = app('api')->includes();
+        $allowed = $this->includes ?: [];
+        $includes = app('api')->includes();
         $key = strtolower(class_basename($this));
 
-        $errors = array_diff($_includes, $_allowed);
+        $errors = array_diff($includes, $allowed);
         if (!empty($errors)) {
             throw (new BadRequestException('invalid_include'))->withDetails([[$key, implode(' ', $errors)]]);
         }
