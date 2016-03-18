@@ -16,7 +16,7 @@ class KeysTransformer
       *
       * @var array
       */
-     protected $forbiddenMemberNameCharacters = [
+     protected $forbiddenCharacters = [
          '+',
          ',',
          '.',
@@ -53,7 +53,7 @@ class KeysTransformer
       *
       * @var array
       */
-     protected $forbiddenAsFirstOrLastCharacter = [
+     protected $forbiddenFirstOrLast = [
          '-',
          '_',
          ' ',
@@ -75,8 +75,8 @@ class KeysTransformer
             return $key;
         }
 
-        $firstLast = implode('', $this->forbiddenAsFirstOrLastCharacter);
+        $firstLast = implode('', $this->forbiddenFirstOrLast);
 
-        return str_replace($this->forbiddenMemberNameCharacters, '', ltrim(rtrim($key, $firstLast), $firstLast));
+        return str_replace($this->forbiddenCharacters, '', ltrim(rtrim($key, $firstLast), $firstLast));
     }
 }
