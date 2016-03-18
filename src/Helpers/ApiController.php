@@ -16,7 +16,7 @@ class ApiController
     {
         $this->model = new $model();
 
-        new ApiObjects($this->model);
+        new ApiValidation($this->model->getObjects());
     }
 
     /**

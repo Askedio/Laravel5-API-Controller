@@ -11,11 +11,42 @@ namespace Askedio\Laravel5ApiController\Helpers;
  */
 class ApiObjects
 {
+    /** @var collection */
     private $relations;
+
+    /** @var collection */
     private $fillables;
+
+    /** @var object */
     private $baseObject;
+
+    /** @var collection */
     private $includes;
+
+    /** @var collection */
     private $columns;
+
+/* will use some day
+    public function getRelations()
+    {
+      return $this->relations;
+    }
+*/
+
+    public function getFillables()
+    {
+      return $this->fillables;
+    }
+
+    public function getIncludes()
+    {
+      return $this->includes;
+    }
+
+    public function getColumns()
+    {
+      return $this->columns;
+    }
 
     public function __construct($object)
     {
@@ -24,13 +55,6 @@ class ApiObjects
         $this->includes = collect([]);
         $this->columns = collect([]);
         $this->relations = collect([$this->includes($object)]);
-
-        new ApiValidation([
-          'fillable'  => $this->fillables,
-          'includes'  => $this->includes,
-          'relations' => $this->relations,
-          'columns'   => $this->columns,
-        ]);
     }
 
   /**

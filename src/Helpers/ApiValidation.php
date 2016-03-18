@@ -4,25 +4,32 @@ namespace Askedio\Laravel5ApiController\Helpers;
 
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 
+
 /**
  * Intended to validate the ApiObjects collection.
  */
 class ApiValidation
 {
-    public function __construct($settings)
+
+  private $objects;
+
+    public function __construct($objects)
     {
-        $this->validateIncludes($settings['includes']);
-        $this->validateFields($settings['columns'], $settings['includes']);
-        $this->validateRequests($settings['fillable']);
+        $this->objects=$objects;
+        $this->validateIncludes();
+        $this->validateFields();
+        $this->validateRequests();
     }
 
-    public function validateRequests($fillable)
+    public function validateRequests()
     {
         if (!request()->isMethod('post') && !request()->isMethod('patch')) {
             return;
         }
 
         $request = request()->json()->all();
+        $fillable = $this->objects->getFillables();
+
         $errors = array_diff(array_keys($request), $fillable->flatten()->all());
         if (!empty($errors)) {
             throw (new BadRequestException('invalid_filter'))->withDetails($errors);
@@ -34,8 +41,9 @@ class ApiValidation
    *
    * @return void
    */
-  public function validateIncludes($allowed)
+  public function validateIncludes()
   {
+      $allowed = $this->objects->getIncludes();
       $includes = app('api')->includes();
 
       $errors = array_diff($includes->all(), $allowed->all());
@@ -50,9 +58,11 @@ class ApiValidation
    *
    * @return array
    */
-  public function validateFields($columns, $includes)
+  public function validateFields()
   {
       $fields = app('api')->fields();
+      $columns = $this->objects->getColumns();
+      $includes = $this->objects->getIncludes();
 
       $errors = array_diff($fields->keys()->all(), $includes->all());
       if (!empty($errors)) {
