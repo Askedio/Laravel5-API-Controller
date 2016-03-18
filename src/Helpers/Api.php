@@ -46,7 +46,6 @@ class Api
      */
     public function fields()
     {
-        // bad, called for each row - just need it once..
         $results = [];
         foreach (array_filter(request()->input('fields', [])) as $type => $members) {
             foreach (explode(',', $members) as $member) {
