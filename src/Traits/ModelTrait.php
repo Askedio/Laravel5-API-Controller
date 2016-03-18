@@ -8,6 +8,14 @@ use DB;
 
 trait ModelTrait
 {
+
+
+  public function getIncludes()
+  {
+
+    return isset($this->includes) ? $this->includes : [];
+  }
+
     /**
      * The validation rules assigned in model.
      *
@@ -71,80 +79,6 @@ trait ModelTrait
         return $query;
     }
 
-    /**
-     * Validate Model vs Request data.
-     *
-     * @return [type] [description]
-     */
-    public function scopevalidateApi()
-    {
-        $this->validateIncludes();
-        $this->validateFields();
-        $this->validateRequests();
-    }
-
-    public function scopevalidateRequests()
-    {
-        if (!request()->isMethod('post') && !request()->isMethod('patch')) {
-            return $this;
-        }
-
-        $_request = request()->json()->all();
-        $key = strtolower(class_basename($this));
-
-        $errors = array_diff(array_keys($_request), $this->getFillable());
-        if (!empty($errors)) {
-            throw (new BadRequestException('invalid_filter'))->withDetails([[$key, implode(' ', $errors)]]);
-        }
-    }
-
-    /**
-     * Check if includes get variable is valid.
-     *
-     * @return void
-     */
-    public function scopevalidateIncludes()
-    {
-        $allowed = $this->includes ?: [];
-        $includes = app('api')->includes();
-        $key = strtolower(class_basename($this));
-
-        $errors = array_diff($includes, $allowed);
-        if (!empty($errors)) {
-            throw (new BadRequestException('invalid_include'))->withDetails([[$key, implode(' ', $errors)]]);
-        }
-    }
-
-    /**
-     * Validate fields belong.
-     *
-     * @return array
-     */
-    public function scopevalidateFields()
-    {
-        $fields = app('api')->fields();
-        $key = strtolower(class_basename($this));
-
-        if (empty($fields)) {
-            return $this;
-        }
-
-        $errors = array_diff(array_keys($fields), array_merge([$key], $this->includes));
-        if (!empty($errors)) {
-            throw (new BadRequestException('invalid_filter'))->withDetails([[$key, implode(' ', $errors)]]);
-        }
-
-        if (!array_key_exists($key, $fields)) {
-            return $this;
-        }
-
-        $columns = $this->columns();
-
-        $errors = array_diff(array_values($fields[$key]), $columns);
-        if (!empty($errors)) {
-            throw (new BadRequestException('invalid_filter'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
-        }
-    }
 
     /**
      * Filter results based on filter get variable and transform them if enabled.
@@ -155,8 +89,10 @@ trait ModelTrait
     {
         $results = $this->toArray();
         $fields = app('api')->fields();
-        $key = strtolower(class_basename($this));
-        if (empty($fields) || !isset($fields[$key])) {
+
+        $key = $this->getTable();
+
+        if ($fields->isEmpty() || !$fields->has($key)) {
             return $results;
         }
 
@@ -179,12 +115,13 @@ trait ModelTrait
      *
      * @return array
      */
-    private function columns()
+    public function columns()
     {
         return app('cache')->remember('columns-'.$this->getTable(), 5, function () {
               return DB::connection()->getSchemaBuilder()->getColumnListing($this->getTable());
       });
     }
+
 
     /**
      * Checks whether the object is transformable or not.

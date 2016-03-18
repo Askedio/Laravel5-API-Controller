@@ -36,7 +36,7 @@ class ListTest extends AcceptanceTestCase
     {
         $this->createUser();
 
-        $this->json('GET', '/api/user?fields[user]=id,name');
+        $this->json('GET', '/api/user?fields[users]=id,name');
         $response = $this->response;
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
@@ -46,7 +46,7 @@ class ListTest extends AcceptanceTestCase
     {
         $this->createUser();
 
-        $this->json('GET', '/api/user?fields[user]=id,name,badtest');
+        $this->json('GET', '/api/user?fields[users]=id,name,badtest');
         $response = $this->response;
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));

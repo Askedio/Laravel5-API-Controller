@@ -77,7 +77,6 @@ class JsonApiTransformer
         foreach (app('api')->includes() as $include) {
             if (is_object($object->$include)) {
                 foreach ($object->$include as $included) {
-                    $included->validateApi();
                     $results[] = $this->item($included);
                 }
             }

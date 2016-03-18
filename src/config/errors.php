@@ -20,8 +20,8 @@ return [
 
     'invalid_filter' => [
         'title'  => 'Invalid Query Parameter.',
-        'detail' => 'The resource `%s` does not have an `%s` filter option.',
-        'source' => ['type' => 'parameter', 'value' => '%s.%s'],
+        'detail' => 'The resource does not have an `%s` filter option.',
+        'source' => ['type' => 'parameter', 'value' => '%s'],
     ],
 
     'invalid_include' => [
