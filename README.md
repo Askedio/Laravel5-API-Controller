@@ -122,15 +122,16 @@ search:  [string]
 
 # JSON API Spec
 Supported:
-* Content-type validation
-* Accept validation
-* Variable validation
-* Responses & Errors
-* Includes
-* Fields
-* Pagination
-* Sorting
-* Form Validation
+* Content-type & Accept validation [ref](http://jsonapi.org/format/#content-negotiation)
+* GET input variables validation
+* Responses [ref](http://jsonapi.org/format/#document-resource-objects)
+* Errors [ref](http://jsonapi.org/format/#errors)
+* Includes [ref](http://jsonapi.org/format/#fetching-includes)
+* Fieldsets [ref](http://jsonapi.org/format/#fetching-sparse-fieldsets)
+* Pagination [ref](http://jsonapi.org/format/#fetching-pagination)
+* Sorting [ref](http://jsonapi.org/format/#fetching-sorting)
+* Form Validation [ref](http://jsonapi.org/examples/#error-objects-error-codes)
+* Member Name Sanitization [ref](http://jsonapi.org/format/#document-member-names)
 
 ## Strict Mode
 You can force Accept and Content-type matching by adding the following to your .env
