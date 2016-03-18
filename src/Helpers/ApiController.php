@@ -107,13 +107,13 @@ class ApiController
     {
         $validator = validator()->make(request()->json()->all(), $this->model->getRule($action));
         $errors = [];
-        foreach ($validator->errors()->toArray() as $_field => $_err) {
+        foreach ($validator->errors()->toArray() as $field => $err) {
             array_push($errors, [
             // TO-DO: detect errors for a valid json api code
             //'code'   => 0,
-            'source' => ['pointer' => $_field],
+            'source' => ['pointer' => $field],
             'title'  => config('errors.invalid_attribute.title'),
-            'detail' => implode(' ', $_err),
+            'detail' => implode(' ', $err),
           ]);
         }
 

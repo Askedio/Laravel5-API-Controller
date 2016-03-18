@@ -55,7 +55,7 @@ trait ModelTrait
      */
     public function scopesetSort($query, $sort)
     {
-        if (empty($sort) ||  !is_string($sort) || empty($_sorted = explode(',', $sort))) {
+        if (empty($sort) ||  !is_string($sort) || empty($sorted = explode(',', $sort))) {
             return $query;
         }
 
@@ -63,7 +63,7 @@ trait ModelTrait
 
         $errors = array_filter(array_diff(array_map(function ($string) {
           return ltrim($string, '-');
-        }, $_sorted), $columns));
+        }, $sorted), $columns));
 
         if (!empty($errors)) {
             throw (new BadRequestException('invalid_sort'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
@@ -71,7 +71,7 @@ trait ModelTrait
 
         array_map(function ($column) use ($query) {
           return $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
-        }, $_sorted);
+        }, $sorted);
 
         return $query;
     }
@@ -98,8 +98,8 @@ trait ModelTrait
 
         foreach ($fields[$key] as $filter) {
             if (in_array($filter, $columns)) {
-                $_content = $this->isTransformable($this) ? $this->transform($this) : $results;
-                $results[$filter] = $_content[$filter];
+                $content = $this->isTransformable($this) ? $this->transform($this) : $results;
+                $results[$filter] = $content[$filter];
             }
         }
 

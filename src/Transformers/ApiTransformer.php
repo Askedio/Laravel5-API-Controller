@@ -22,15 +22,15 @@ class ApiTransformer
         $results = [];
         if (is_object($object)) {
             if (!$this->isPaginator($object)) {
-                $_data = $this->item($object);
-                $_include = $this->includes($object);
-                $_include['links']['self'] = request()->url();
+                $data = $this->item($object);
+                $include = $this->includes($object);
+                $include['links']['self'] = request()->url();
             } elseif ($this->isPaginator($object)) {
-                $_data = $this->transformObjects($object->items());
-                $_include = $this->getPaginationMeta($object);
+                $data = $this->transformObjects($object->items());
+                $include = $this->getPaginationMeta($object);
             }
 
-            $results = array_merge(['data' => $_data], $_include);
+            $results = array_merge(['data' => $data], $include);
         }
 
         return (new KeysTransformer())->transform($results);

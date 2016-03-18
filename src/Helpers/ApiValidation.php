@@ -22,8 +22,8 @@ class ApiValidation
             return;
         }
 
-        $_request = request()->json()->all();
-        $errors = array_diff(array_keys($_request), $fillable->flatten()->all());
+        $request = request()->json()->all();
+        $errors = array_diff(array_keys($request), $fillable->flatten()->all());
         if (!empty($errors)) {
             throw (new BadRequestException('invalid_filter'))->withDetails($errors);
         }
