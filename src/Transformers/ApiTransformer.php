@@ -19,7 +19,6 @@ class ApiTransformer
      */
     public function transform($object)
     {
-
         $results = [];
         if (is_object($object)) {
             if (!$this->isPaginator($object)) {
@@ -34,7 +33,7 @@ class ApiTransformer
             $results = array_merge(['data' => $data], $include);
         }
 
-        /** Done with data transformation, transform keys to valid json api spec */
+        /* Done with data transformation, transform keys to valid json api spec */
         return (new KeysTransformer())->transform($results);
     }
 

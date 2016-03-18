@@ -35,17 +35,17 @@ class ApiObjects
 
     public function getFillables()
     {
-      return $this->fillables;
+        return $this->fillables;
     }
 
     public function getIncludes()
     {
-      return $this->includes;
+        return $this->includes;
     }
 
     public function getColumns()
     {
-      return $this->columns;
+        return $this->columns;
     }
 
     public function __construct($object)

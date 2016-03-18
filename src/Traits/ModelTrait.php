@@ -5,7 +5,6 @@ namespace Askedio\Laravel5ApiController\Traits;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Helpers\Api;
 use Askedio\Laravel5ApiController\Helpers\ApiObjects;
-
 use DB;
 
 trait ModelTrait
@@ -19,10 +18,11 @@ trait ModelTrait
 
     public function getObjects()
     {
-      if(!$this->objects){
-       $this->objects = new ApiObjects($this);
-     }
-      return  $this->objects;
+        if (!$this->objects) {
+            $this->objects = new ApiObjects($this);
+        }
+
+        return  $this->objects;
     }
 
     /**
@@ -123,12 +123,14 @@ trait ModelTrait
      *
      * @return array
      */
-
     private $cols;
 
     public function columns()
     {
-        if(!$this->cols) $this->cols =  DB::connection()->getSchemaBuilder()->getColumnListing($this->getTable());
+        if (!$this->cols) {
+            $this->cols = DB::connection()->getSchemaBuilder()->getColumnListing($this->getTable());
+        }
+
         return $this->cols;
     }
 

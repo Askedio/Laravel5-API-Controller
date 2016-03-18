@@ -4,18 +4,16 @@ namespace Askedio\Laravel5ApiController\Helpers;
 
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 
-
 /**
  * Intended to validate the ApiObjects collection.
  */
 class ApiValidation
 {
-
-  private $objects;
+    private $objects;
 
     public function __construct($objects)
     {
-        $this->objects=$objects;
+        $this->objects = $objects;
         $this->validateIncludes();
         $this->validateFields();
         $this->validateRequests();
