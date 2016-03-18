@@ -10,14 +10,14 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  *
  * Assists in filtering and transforming model
  */
-class Transformer
+class JsonApiTransformer
 {
     /**
      * @param $object
      *
      * @return array
      */
-    public function render($object)
+    public function transform($object)
     {
         $results = [];
         if (is_object($object)) {
@@ -33,7 +33,7 @@ class Transformer
             $results = array_merge(['data' => $_data], $_include);
         }
 
-        return (new Keys())->transform($results);
+        return (new KeysTransformer())->transform($results);
     }
 
     /**

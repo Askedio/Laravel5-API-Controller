@@ -9,7 +9,7 @@ use Askedio\Laravel5ApiController\Helpers\Api;
  *
  * Assists in transforming result keys to json api spec
  */
-class Keys
+class KeysTransformer
 {
     /**
       * @link http://jsonapi.org/format/#document-member-names-reserved-characters

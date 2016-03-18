@@ -5,7 +5,7 @@ namespace Askedio\Laravel5ApiController\Traits;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Helpers\Api;
 use Askedio\Laravel5ApiController\Helpers\ApiController;
-use Askedio\Laravel5ApiController\Transformers\Transformer;
+use Askedio\Laravel5ApiController\Transformers\JsonApiTransformer;
 
 trait ControllerTrait
 {
@@ -70,7 +70,7 @@ trait ControllerTrait
     private function render($data)
     {
         if ($data['results']) {
-            return response()->jsonapi($data['success'], (new Transformer())->render(isset($data['data']) ? $data['data'] : $data['results']));
+            return response()->jsonapi($data['success'], (new JsonApiTransformer())->transform(isset($data['data']) ? $data['data'] : $data['results']));
         }
 
         throw new $data['error']();
