@@ -10,7 +10,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  *
  * Assists in filtering and transforming model
  */
-class JsonApiTransformer
+class ApiTransformer
 {
     /**
      * @param $object

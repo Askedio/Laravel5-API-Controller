@@ -26,11 +26,11 @@ class ApiObjects
         $this->relations = collect([$this->includes($object)]);
 
         new ApiValidation([
-      'fillable'  => $this->fillables,
-      'includes'  => $this->includes,
-      'relations' => $this->relations,
-      'columns'   => $this->columns,
-    ]);
+          'fillable'  => $this->fillables,
+          'includes'  => $this->includes,
+          'relations' => $this->relations,
+          'columns'   => $this->columns,
+        ]);
     }
 
   /**
@@ -53,11 +53,11 @@ class ApiObjects
       if (!empty($includes)) {
           foreach ($includes as $include) {
               $results[$table] = [
-         'primaryId' => $primaryId,
-         'fillable'  => $fillable,
-         'columns'   => $columns,
-         'includes'  => $this->includes(new $include()),
-       ];
+               'primaryId' => $primaryId,
+               'fillable'  => $fillable,
+               'columns'   => $columns,
+               'includes'  => $this->includes(new $include()),
+             ];
           }
       }
 
