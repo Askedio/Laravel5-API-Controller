@@ -2,35 +2,32 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
-use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 
 /**
- * Intended to validate the ApiObjects collection
+ * Intended to validate the ApiObjects collection.
  */
-
 class ApiValidation
 {
+    public function __construct($settings)
+    {
+        $this->validateIncludes($settings['includes']);
+        $this->validateFields($settings['columns'], $settings['includes']);
+        $this->validateRequests($settings['fillable']);
+    }
 
-  public function __construct($settings)
-  {
-    $this->validateIncludes($settings['includes']);
-    $this->validateFields($settings['columns'], $settings['includes']);
-    $this->validateRequests($settings['fillable']);
-  }
+    public function validateRequests($fillable)
+    {
+        if (!request()->isMethod('post') && !request()->isMethod('patch')) {
+            return;
+        }
 
-  public function validateRequests($fillable)
-  {
-      if (!request()->isMethod('post') && !request()->isMethod('patch')) {
-          return;
-      }
-
-      $_request = request()->json()->all();
-      $errors = array_diff(array_keys($_request), $fillable->flatten()->all());
-      if (!empty($errors)) {
-          throw (new BadRequestException('invalid_filter'))->withDetails($errors);
-      }
-  }
+        $_request = request()->json()->all();
+        $errors = array_diff(array_keys($_request), $fillable->flatten()->all());
+        if (!empty($errors)) {
+            throw (new BadRequestException('invalid_filter'))->withDetails($errors);
+        }
+    }
 
   /**
    * Check if includes get variable is valid.
@@ -69,14 +66,5 @@ class ApiValidation
       if (!empty($errors)) {
           throw (new BadRequestException('invalid_filter'))->withDetails($errors);
       }
-
   }
-
-
-
-
-
-
-
-
 }
