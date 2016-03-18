@@ -41,18 +41,6 @@ trait ModelTrait
         }
 
     /**
-     * Remove left dash from sort string.
-     *
-     * @param string $string
-     *
-     * @return string
-     */
-    private function removeSortDash($string)
-    {
-        return ltrim($string, '-');
-    }
-
-    /**
      * Set order/sort as per json spec.
      *
      * @param string $query
@@ -68,14 +56,17 @@ trait ModelTrait
 
         $columns = $this->columns();
 
-        $errors = array_diff(array_map(['self', 'removeSortDash'], $_sorted), $columns);
+        $errors = array_filter(array_diff(array_map(function ($string) {
+          return ltrim($string, '-');
+        }, $_sorted), $columns));
+
         if (!empty($errors)) {
-            throw (new BadRequestException('invalid_include'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
+            throw (new BadRequestException('invalid_sort'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
         }
 
-        foreach ($_sorted as $column) {
-            $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
-        }
+        array_map(function ($column) use ($query) {
+          return $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
+        }, $_sorted);
 
         return $query;
     }
@@ -162,11 +153,11 @@ trait ModelTrait
      */
     public function scopefilterAndTransform()
     {
-        // badd too, loops each, this was intended as a post check
+        $results = $this->toArray();
         $fields = app('api')->fields();
         $key = strtolower(class_basename($this));
         if (empty($fields) || !isset($fields[$key])) {
-            return $this;
+            return $results;
         }
 
         $results = [];
@@ -175,7 +166,7 @@ trait ModelTrait
 
         foreach ($fields[$key] as $filter) {
             if (in_array($filter, $columns)) {
-                $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
+                $_content = $this->isTransformable($this) ? $this->transform($this) : $results;
                 $results[$filter] = $_content[$filter];
             }
         }

@@ -7,7 +7,10 @@ use Exception;
 abstract class ApiException extends Exception
 {
     /** @var array */
-    private $exceptionDetails;
+  private $exceptionDetails;
+
+  /** @var array */
+  private $exceptionErrors;
 
     /**
      * @var string
@@ -24,7 +27,7 @@ abstract class ApiException extends Exception
      *
      * @return mixed
      */
-    public function getError()
+    public function getErrors()
     {
         return $this->getDetails($this->error);
     }
@@ -52,37 +55,37 @@ abstract class ApiException extends Exception
     }
 
     /**
+     * Store exception errors details.
+     *
+     * @param array $details
+     */
+    public function withErrors($errors)
+    {
+        $this->exceptionErrors = $errors;
+
+        return $this;
+    }
+
+    /**
      * Build the error results.
      *
      * @return array
      */
     public function getDetails($template)
     {
-        $results = [];
-
+        if ($this->exceptionErrors) {
+            return $this->exceptionErrors;
+        }
         $details = $this->exceptionDetails;
-
-      /* Pre-rendered errors */
-      if (isset($details['errors']) && is_array($details['errors'])) {
-          foreach ($details['errors'] as $detail) {
-              $results[] = $detail;
-          }
-
-          return $results;
-      }
 
       /* Not pre-rendered errors, build from template */
       if (!is_array($details)) {
           $details = [$details];
       }
 
-        if (!empty($details)) {
-            foreach ($details as $detail) {
-                $results[] = $this->item($template, $detail);
-            }
-        }
-
-        return $results;
+        return array_map(function ($detail) use ($template) {
+        return $this->item($template, $detail);
+      }, $details);
     }
 
     /**

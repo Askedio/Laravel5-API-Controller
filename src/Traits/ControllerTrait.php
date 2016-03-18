@@ -2,11 +2,10 @@
 
 namespace Askedio\Laravel5ApiController\Traits;
 
-use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Helpers\Api;
 use Askedio\Laravel5ApiController\Helpers\ApiController;
-use Askedio\Laravel5ApiController\Transformers\Transformer;
+use Askedio\Laravel5ApiController\Transformers\JsonApiTransformer;
 
 trait ControllerTrait
 {
@@ -26,7 +25,7 @@ trait ControllerTrait
     {
         return $this->render([
           'success' => 200,
-          'error'   => 500,
+          'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
           'results' => $this->results->index(),
         ]);
     }
@@ -35,7 +34,7 @@ trait ControllerTrait
     {
         return $this->render([
           'success' => 200,
-          'error'   => 500,
+          'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
           'results' => $this->results->store(),
         ]);
     }
@@ -44,7 +43,7 @@ trait ControllerTrait
     {
         return $this->render([
           'success' => 200,
-          'error'   => 404,
+          'error'   => \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
           'results' => $this->results->show($idd),
         ]);
     }
@@ -53,7 +52,7 @@ trait ControllerTrait
     {
         return $this->render([
           'success' => 200,
-          'error'   => 500,
+          'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
           'results' => $this->results->update($idd),
         ]);
     }
@@ -62,7 +61,7 @@ trait ControllerTrait
     {
         return $this->render([
           'success' => 200,
-          'error'   => 404,
+          'error'   => \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
           'data'    => $this->results->show($idd),
           'results' => $this->results->destroy($idd),
         ]);
@@ -70,18 +69,10 @@ trait ControllerTrait
 
     private function render($data)
     {
-        if (!isset($data['results']['errors'])) {
-            if ($data['results']) {
-                $results = isset($data['data']) ? $data['data'] : $data['results'];
-
-                $transformer = new Transformer();
-
-                return response()->jsonapi($data['success'], $transformer->render($results));
-            }
-
-            throw (new InvalidAttributeException('invalid_attribute', $data['error']))->withDetails(['errors' => $data['error']]);
+        if ($data['results']) {
+            return response()->jsonapi($data['success'], (new JsonApiTransformer())->transform(isset($data['data']) ? $data['data'] : $data['results']));
         }
 
-        throw (new InvalidAttributeException('invalid_attribute', 403))->withDetails(['errors' => $data['results']['errors']]);
+        throw new $data['error']();
     }
 }

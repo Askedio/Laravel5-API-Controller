@@ -2,6 +2,8 @@
 
 namespace Askedio\Laravel5ApiController\Helpers;
 
+use Askedio\Laravel5ApiController\Exceptions\InvalidAttributeException;
+
 class ApiController
 {
     /** @var object */
@@ -29,7 +31,8 @@ class ApiController
             $results->search(request()->input('search'));
         }
 
-        return $results->paginate((request()->input('limit') ?: '10'));
+        return $results->paginate(request()->input('page.limit', 10), ['*'], 'page', request()->input('page.number', 1)
+      );
     }
 
     /**
@@ -39,9 +42,7 @@ class ApiController
      */
     public function store()
     {
-        if ($errors = $this->validate('create')) {
-            return ['errors' => $errors];
-        }
+        $this->validate('create');
 
         return $this->model->create($this->getRequest());
     }
@@ -63,9 +64,7 @@ class ApiController
      */
     public function update($idd)
     {
-        if ($errors = $this->validate('update')) {
-            return ['errors' => $errors];
-        }
+        $this->validate('update');
 
         if ($model = $this->model->find($idd)) {
             return $model->update($this->getRequest()) ? $model : false;
@@ -101,7 +100,7 @@ class ApiController
      *
      * @param string $action
      *
-     * @return array
+     * @return void
      */
     private function validate($action)
     {
@@ -117,6 +116,8 @@ class ApiController
           ]);
         }
 
-        return $validator->fails() ? $errors : false;
+        if (!empty($errors)) {
+            throw (new InvalidAttributeException('invalid_attribute', 403))->withErrors($errors);
+        }
     }
 }

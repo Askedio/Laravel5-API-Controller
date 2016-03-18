@@ -41,22 +41,27 @@ class JsonApiMiddleware
             return false;
         }
 
-        $requestAll = array_except($this->request->all(), config('jsonapi.allowed_get'));
-        if (empty($requestAll)) {
+        $badRequestInput = array_except($this->request->all(), array_keys(config('jsonapi.allowed_get')));
+
+        if ($paged = request()->input('page')) {
+            $badRequestInput = array_merge($badRequestInput, array_except(request()->input('page'), config('jsonapi.allowed_get.page')));
+        }
+
+        if (empty($badRequestInput)) {
             return false;
         }
 
         $errors = [];
 
-        foreach (array_keys($requestAll) as $_field) {
+        foreach (array_keys($badRequestInput) as $field) {
             array_push($errors, [
-            'code'   => 0,
-            'source' => ['pointer' => $_field],
+            //'code'   => 0,
+            'source' => ['pointer' => $field],
             'title'  => config('errors.invalid_get.title'),
           ]);
         }
 
-        throw (new BadRequestException('invalid_get'))->withDetails(['errors' => $errors]);
+        throw (new BadRequestException('invalid_get'))->withErrors($errors);
     }
 
     /**

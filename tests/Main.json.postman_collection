@@ -6,7 +6,10 @@
 		"3d5535b8-f059-8237-36f3-aca6f40d83e3",
 		"46050c55-b832-69b3-2c60-93ebfd2f9b48",
 		"7b8f4299-fb53-992e-b94d-1cd1c05f4528",
-		"b15ccc96-82d6-c838-ea73-034836395500"
+		"b15ccc96-82d6-c838-ea73-034836395500",
+		"847e81b7-2f7e-7196-598b-c7079b94e06d",
+		"e8755e27-4396-cf48-5d77-4e20d6b4906e",
+		"0db676e2-f8a8-3309-c305-9b386ca3c5ef"
 	],
 	"folders": [],
 	"timestamp": 1457906270302,
@@ -14,6 +17,24 @@
 	"remoteLink": "",
 	"public": false,
 	"requests": [
+		{
+			"id": "0db676e2-f8a8-3309-c305-9b386ca3c5ef",
+			"headers": "Content-Type: application/vnd.api+json\nAccept: application/vnd.api+json\n",
+			"url": "http://localhost:8000/api/admin/user?page[limiit]=1&page[number]=2",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "tests[\"Body Content-Type\"] = \"application/vnd.api+json\"\n\n\ntests[\"Status code is 400\"] = responseCode.code === 400;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1458236437329,
+			"name": "Pagination Bad Page Variable",
+			"description": "            ",
+			"collectionId": "e34ec7c9-8419-ac7e-d344-2eac7e6cbe71",
+			"responses": []
+		},
 		{
 			"id": "3d5535b8-f059-8237-36f3-aca6f40d83e3",
 			"headers": "Content-Type: application/vnd.api+json\nAccept: application/vnd.api+json\n",
@@ -69,6 +90,24 @@
 			"responses": []
 		},
 		{
+			"id": "847e81b7-2f7e-7196-598b-c7079b94e06d",
+			"headers": "Content-Type: application/vnd.api+json\nAccept: application/vnd.api+json\n",
+			"url": "http://localhost:8000/api/admin/user?include=profiles",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"tests": "tests[\"Body Content-Type\"] = \"application/vnd.api+json\"\n\ntests[\"Status code is 200\"] = responseCode.code === 200;\n\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1457906683361,
+			"name": "Sort",
+			"description": "",
+			"collectionId": "e34ec7c9-8419-ac7e-d344-2eac7e6cbe71",
+			"responses": []
+		},
+		{
 			"id": "b15ccc96-82d6-c838-ea73-034836395500",
 			"headers": "Content-Type: application/vnd.api+json\nAccept: application/vnd.api+json\n",
 			"url": "http://localhost:8000/api/admin/user?fields[profiles]=id&include=profiles&sort=-id",
@@ -87,6 +126,24 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\n",
 			"currentHelper": "normal",
 			"helperAttributes": {}
+		},
+		{
+			"id": "e8755e27-4396-cf48-5d77-4e20d6b4906e",
+			"headers": "Content-Type: application/vnd.api+json\nAccept: application/vnd.api+json\n",
+			"url": "http://localhost:8000/api/admin/user?page[limit]=1&page[number]=2",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "tests[\"Body Content-Type\"] = \"application/vnd.api+json\"\n\n\ntests[\"Status code is 200\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1458235274270,
+			"name": "Pagination",
+			"description": "            ",
+			"collectionId": "e34ec7c9-8419-ac7e-d344-2eac7e6cbe71",
+			"responses": []
 		}
 	]
 }

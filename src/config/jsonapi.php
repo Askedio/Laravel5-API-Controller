@@ -8,11 +8,10 @@ return [
     'accept'       => 'application/vnd.api+json',
     'content_type' => 'application/vnd.api+json',
     'allowed_get'  => [
-      'include',
-      'fields',
-      'page',
-      'limit',
-      'sort',
-      'search',
+      'include' => '',
+      'fields'  => '',
+      'page'    => ['limit', 'number'],
+      'sort'    => '',
+      'search'  => '',
     ],
 ];

@@ -77,4 +77,20 @@ class ListTest extends AcceptanceTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
+
+    public function testPagination()
+    {
+        $this->json('GET', '/api/user?page[limit]=1&page[number]=1');
+        $response = $this->response;
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
+    }
+
+    public function testPaginationBadField()
+    {
+        $this->json('GET', '/api/user?page[badtest]=1&page[number]=1');
+        $response = $this->response;
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
+    }
 }
