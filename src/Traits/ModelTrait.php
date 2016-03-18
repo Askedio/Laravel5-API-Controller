@@ -8,13 +8,10 @@ use DB;
 
 trait ModelTrait
 {
-
-
-  public function getIncludes()
-  {
-
-    return isset($this->includes) ? $this->includes : [];
-  }
+    public function getIncludes()
+    {
+        return isset($this->includes) ? $this->includes : [];
+    }
 
     /**
      * The validation rules assigned in model.
@@ -79,7 +76,6 @@ trait ModelTrait
         return $query;
     }
 
-
     /**
      * Filter results based on filter get variable and transform them if enabled.
      *
@@ -121,7 +117,6 @@ trait ModelTrait
               return DB::connection()->getSchemaBuilder()->getColumnListing($this->getTable());
       });
     }
-
 
     /**
      * Checks whether the object is transformable or not.

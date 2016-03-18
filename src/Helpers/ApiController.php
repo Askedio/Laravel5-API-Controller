@@ -15,7 +15,7 @@ class ApiController
     public function __construct($model)
     {
         $this->model = new $model();
-        
+
         new ApiObjects($this->model);
     }
 
