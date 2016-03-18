@@ -105,44 +105,46 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 
 
 
-### Allowed Query Paramaters
+### Allowed Query Parameters
 ~~~
 #Global
-include: [comma delim list] ie: include=profiles,addresses
-fields:  [array=comma delim list] ie: fields[profile]=id,name
+include:        [comma delim list] ie: include=profiles,addresses
+fields:         [array=comma delim list] ie: fields[profile]=id,name
 
 # Lists
-page:    [int]
-limit:   [int]
-sort:    [-]field
-search:  [string]
+page[number]:    [int]
+page[limit]:     [int]
+sort:            [-]field
+search:          [string]
 ~~~
 
 
 
 # JSON API Spec
 Supported:
-* Content-type & Accept validation [ref](http://jsonapi.org/format/#content-negotiation)
+* Content-type & Accept validation | [ref](http://jsonapi.org/format/#content-negotiation)
 * GET input variables validation
-* Responses [ref](http://jsonapi.org/format/#document-resource-objects)
-* Errors [ref](http://jsonapi.org/format/#errors)
-* Includes [ref](http://jsonapi.org/format/#fetching-includes)
-* Fieldsets [ref](http://jsonapi.org/format/#fetching-sparse-fieldsets)
-* Pagination [ref](http://jsonapi.org/format/#fetching-pagination)
-* Sorting [ref](http://jsonapi.org/format/#fetching-sorting)
-* Form Validation [ref](http://jsonapi.org/examples/#error-objects-error-codes)
-* Member Name Sanitization [ref](http://jsonapi.org/format/#document-member-names)
+* Responses | [ref](http://jsonapi.org/format/#document-resource-objects)
+* Errors | [ref](http://jsonapi.org/format/#errors)
+* Includes | [ref](http://jsonapi.org/format/#fetching-includes)
+* Fieldsets | [ref](http://jsonapi.org/format/#fetching-sparse-fieldsets)
+* Pagination | [ref](http://jsonapi.org/format/#fetching-pagination)
+* Sorting | [ref](http://jsonapi.org/format/#fetching-sorting)
+* Form Validation | [ref](http://jsonapi.org/examples/#error-objects-error-codes)
+* Member Name Sanitation | [ref](http://jsonapi.org/format/#document-member-names)
+
+## Not Supported:
+* PUT: I am using PATCH instead.
+* PATCH/POST input variables: Currently accepting {var:val}
+
+
+
 
 ## Strict Mode
 You can force Accept and Content-type matching by adding the following to your .env
 ~~~
 JSONAPI_STRICT=true
 ~~~
-
-Not Supported:
-* PUT: I am using PATCH instead.
-* PATCH/POST input variaibles: Currently accepting {var:val}
-
 
 
 
