@@ -33,7 +33,7 @@ class Transformer
             $results = array_merge(['data' => $_data], $_include);
         }
 
-        return $results;
+        return (new Keys())->transform($results);
     }
 
     /**

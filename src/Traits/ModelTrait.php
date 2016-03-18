@@ -153,11 +153,12 @@ trait ModelTrait
      */
     public function scopefilterAndTransform()
     {
-        // badd too, loops each, this was intended as a post check
+
+        $results = $this->toArray();
         $fields = app('api')->fields();
         $key = strtolower(class_basename($this));
         if (empty($fields) || !isset($fields[$key])) {
-            return $this;
+            return $results;
         }
 
         $results = [];
@@ -166,7 +167,7 @@ trait ModelTrait
 
         foreach ($fields[$key] as $filter) {
             if (in_array($filter, $columns)) {
-                $_content = $this->isTransformable($this) ? $this->transform($this) : $this;
+                $_content = $this->isTransformable($this) ? $this->transform($this) : $results;
                 $results[$filter] = $_content[$filter];
             }
         }
