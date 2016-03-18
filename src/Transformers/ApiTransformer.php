@@ -10,7 +10,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  *
  * Assists in filtering and transforming model
  */
-class JsonApiTransformer
+class ApiTransformer
 {
     /**
      * @param $object
@@ -22,17 +22,18 @@ class JsonApiTransformer
         $results = [];
         if (is_object($object)) {
             if (!$this->isPaginator($object)) {
-                $_data = $this->item($object);
-                $_include = $this->includes($object);
-                $_include['links']['self'] = request()->url();
+                $data = $this->item($object);
+                $include = $this->includes($object);
+                $include['links']['self'] = request()->url();
             } elseif ($this->isPaginator($object)) {
-                $_data = $this->transformObjects($object->items());
-                $_include = $this->getPaginationMeta($object);
+                $data = $this->transformObjects($object->items());
+                $include = $this->getPaginationMeta($object);
             }
 
-            $results = array_merge(['data' => $_data], $_include);
+            $results = array_merge(['data' => $data], $include);
         }
 
+        /* Done with data transformation, transform keys to valid json api spec */
         return (new KeysTransformer())->transform($results);
     }
 
@@ -77,7 +78,6 @@ class JsonApiTransformer
         foreach (app('api')->includes() as $include) {
             if (is_object($object->$include)) {
                 foreach ($object->$include as $included) {
-                    $included->validateApi();
                     $results[] = $this->item($included);
                 }
             }

@@ -96,9 +96,9 @@ abstract class ApiException extends Exception
     private function item($template, $detail)
     {
         $insert = $template;
-        $_replace = $template['detail'];
+        $replace = $template['detail'];
 
-        $insert['detail'] = vsprintf($_replace, $detail);
+        $insert['detail'] = vsprintf($replace, $detail);
         if (isset($template['source'])) {
             $insert['source'] = [];
             $insert['source'][$template['source']['type']] = vsprintf($template['source']['value'], $detail);
@@ -132,12 +132,12 @@ abstract class ApiException extends Exception
      */
     private function settings($args)
     {
-        $_base = [
+        $base = [
         'title'  => '',
         'detail' => '',
         'code'   => isset($args[1]) ? $args[1] : $this->status,
       ];
 
-        return array_merge($_base, config(sprintf('errors.%s', $args[0]), []));
+        return array_merge($base, config(sprintf('errors.%s', $args[0]), []));
     }
 }

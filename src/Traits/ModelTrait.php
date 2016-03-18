@@ -4,10 +4,27 @@ namespace Askedio\Laravel5ApiController\Traits;
 
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Helpers\Api;
+use Askedio\Laravel5ApiController\Helpers\ApiObjects;
 use DB;
 
 trait ModelTrait
 {
+    public function getIncludes()
+    {
+        return isset($this->includes) ? $this->includes : [];
+    }
+
+    private $objects;
+
+    public function getObjects()
+    {
+        if (!$this->objects) {
+            $this->objects = new ApiObjects($this);
+        }
+
+        return  $this->objects;
+    }
+
     /**
      * The validation rules assigned in model.
      *
@@ -50,7 +67,7 @@ trait ModelTrait
      */
     public function scopesetSort($query, $sort)
     {
-        if (empty($sort) ||  !is_string($sort) || empty($_sorted = explode(',', $sort))) {
+        if (empty($sort) ||  !is_string($sort) || empty($sorted = explode(',', $sort))) {
             return $query;
         }
 
@@ -58,7 +75,7 @@ trait ModelTrait
 
         $errors = array_filter(array_diff(array_map(function ($string) {
           return ltrim($string, '-');
-        }, $_sorted), $columns));
+        }, $sorted), $columns));
 
         if (!empty($errors)) {
             throw (new BadRequestException('invalid_sort'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
@@ -66,84 +83,9 @@ trait ModelTrait
 
         array_map(function ($column) use ($query) {
           return $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
-        }, $_sorted);
+        }, $sorted);
 
         return $query;
-    }
-
-    /**
-     * Validate Model vs Request data.
-     *
-     * @return [type] [description]
-     */
-    public function scopevalidateApi()
-    {
-        $this->validateIncludes();
-        $this->validateFields();
-        $this->validateRequests();
-    }
-
-    public function scopevalidateRequests()
-    {
-        if (!request()->isMethod('post') && !request()->isMethod('patch')) {
-            return $this;
-        }
-
-        $_request = request()->json()->all();
-        $key = strtolower(class_basename($this));
-
-        $errors = array_diff(array_keys($_request), $this->getFillable());
-        if (!empty($errors)) {
-            throw (new BadRequestException('invalid_filter'))->withDetails([[$key, implode(' ', $errors)]]);
-        }
-    }
-
-    /**
-     * Check if includes get variable is valid.
-     *
-     * @return void
-     */
-    public function scopevalidateIncludes()
-    {
-        $_allowed = $this->includes ?: [];
-        $_includes = app('api')->includes();
-        $key = strtolower(class_basename($this));
-
-        $errors = array_diff($_includes, $_allowed);
-        if (!empty($errors)) {
-            throw (new BadRequestException('invalid_include'))->withDetails([[$key, implode(' ', $errors)]]);
-        }
-    }
-
-    /**
-     * Validate fields belong.
-     *
-     * @return array
-     */
-    public function scopevalidateFields()
-    {
-        $fields = app('api')->fields();
-        $key = strtolower(class_basename($this));
-
-        if (empty($fields)) {
-            return $this;
-        }
-
-        $errors = array_diff(array_keys($fields), array_merge([$key], $this->includes));
-        if (!empty($errors)) {
-            throw (new BadRequestException('invalid_filter'))->withDetails([[$key, implode(' ', $errors)]]);
-        }
-
-        if (!array_key_exists($key, $fields)) {
-            return $this;
-        }
-
-        $columns = $this->columns();
-
-        $errors = array_diff(array_values($fields[$key]), $columns);
-        if (!empty($errors)) {
-            throw (new BadRequestException('invalid_filter'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
-        }
     }
 
     /**
@@ -155,8 +97,10 @@ trait ModelTrait
     {
         $results = $this->toArray();
         $fields = app('api')->fields();
-        $key = strtolower(class_basename($this));
-        if (empty($fields) || !isset($fields[$key])) {
+
+        $key = $this->getTable();
+
+        if ($fields->isEmpty() || !$fields->has($key)) {
             return $results;
         }
 
@@ -166,8 +110,8 @@ trait ModelTrait
 
         foreach ($fields[$key] as $filter) {
             if (in_array($filter, $columns)) {
-                $_content = $this->isTransformable($this) ? $this->transform($this) : $results;
-                $results[$filter] = $_content[$filter];
+                $content = $this->isTransformable($this) ? $this->transform($this) : $results;
+                $results[$filter] = $content[$filter];
             }
         }
 
@@ -179,11 +123,15 @@ trait ModelTrait
      *
      * @return array
      */
-    private function columns()
+    private $cols;
+
+    public function columns()
     {
-        return app('cache')->remember('columns-'.$this->getTable(), 5, function () {
-              return DB::connection()->getSchemaBuilder()->getColumnListing($this->getTable());
-      });
+        if (!$this->cols) {
+            $this->cols = DB::connection()->getSchemaBuilder()->getColumnListing($this->getTable());
+        }
+
+        return $this->cols;
     }
 
     /**

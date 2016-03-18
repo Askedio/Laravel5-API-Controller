@@ -10,7 +10,6 @@ class Profiles extends Model
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
 
     protected $includes = [
-        'profiles',
     ];
 
     public function user()
