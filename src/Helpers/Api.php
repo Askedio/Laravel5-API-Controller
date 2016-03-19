@@ -58,8 +58,6 @@ class Api
 
     public function jsonBody()
     {
-      return collect(request()->json()->all())->get('data');
+        return collect(request()->json()->all())->get('data');
     }
-
-
 }

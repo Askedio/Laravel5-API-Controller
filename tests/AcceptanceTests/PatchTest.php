@@ -6,16 +6,13 @@ use Askedio\Tests\AcceptanceTestCase;
 
 class PatchTest extends AcceptanceTestCase
 {
-
     public function testUpdate()
     {
         $this->createUser();
         $this->json('PATCH', '/api/user/1', [
-          'data' =>
-          [
-            'type' => 'users',
-            'attributes' =>
-            [
+          'data' => [
+            'type'       => 'users',
+            'attributes' => [
               'name' => 'testupdate',
             ],
           ],
@@ -42,11 +39,9 @@ class PatchTest extends AcceptanceTestCase
     {
         $this->createUser();
         $this->json('PATCH', '/api/user/1', [
-          'data' =>
-          [
-            'type' => 'users',
-            'attributes' =>
-            [
+          'data' => [
+            'type'       => 'users',
+            'attributes' => [
               'email' => 'notanemail',
             ],
           ],
@@ -60,11 +55,9 @@ class PatchTest extends AcceptanceTestCase
     public function testPatch404()
     {
         $this->json('PATCH', '/api/user/404', [
-          'data' =>
-          [
-            'type' => 'users',
-            'attributes' =>
-            [
+          'data' => [
+            'type'       => 'users',
+            'attributes' => [
               'name' => 'Ember Hamster kpok',
             ],
           ],

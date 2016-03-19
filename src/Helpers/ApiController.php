@@ -94,6 +94,7 @@ class ApiController
     private function getRequest()
     {
         $requst = app('api')->jsonBody();
+
         return isset($requst['attributes']) ? $requst['attributes'] : [];
     }
 

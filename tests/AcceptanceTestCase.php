@@ -22,13 +22,11 @@ class AcceptanceTestCase extends BaseTestCase
     public function createUser()
     {
         return $this->json('POST', '/api/user', [
-          'data' =>
-          [
-            'type' => 'users',
-            'attributes' =>
-            [
-              'name' => 'Ember Hamster',
-              'email' => 'test@test.com',
+          'data' => [
+            'type'       => 'users',
+            'attributes' => [
+              'name'     => 'Ember Hamster',
+              'email'    => 'test@test.com',
               'password' => bcrypt('password'),
             ],
           ],
