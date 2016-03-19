@@ -32,11 +32,4 @@ class AcceptanceTestCase extends BaseTestCase
           'email'    => 'test@test.com',
           'password' => bcrypt('password'), ]);
     }
-
-
-
-
-
-
-
 }

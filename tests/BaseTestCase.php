@@ -14,7 +14,6 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
 {
     use SeeOrSaveJsonStructure;
 
-    
     /**
      * Setup DB before each test.
      */
@@ -85,8 +84,6 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
         $app->instance('request', (new \Illuminate\Http\Request())->instance());
         $app->make('Illuminate\Foundation\Http\Kernel', [$app, $this->getRouter()])->bootstrap();
     }
-
-
 
     /**
      * Temporary.

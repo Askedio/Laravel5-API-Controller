@@ -22,7 +22,6 @@ class CrudTest extends AcceptanceTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
         $this->seeOrSaveJsonStructure($response);
-
     }
 
     public function testUpdate()
