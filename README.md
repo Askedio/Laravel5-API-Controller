@@ -85,10 +85,20 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 
 
 ##### POST [/]
-* accepts: 'fillable' data in your Model.
+* accepts: 'fillable' data in your Model
 * validation failure: Returns 403
 * failure: Returns 500
-
+~~~
+{
+  "data": {
+    "type": "users",
+    "attributes": {
+      "name": "Ember Hamster",
+      "email": "test@test.com"
+    }
+  }
+}
+~~~
 
 ##### GET [/id|/]
 * failure: Returns 404
@@ -97,7 +107,16 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 ##### PATCH [/id]
 * accepts: 'fillable' data in your Model.
 * failure: Returns 500
-
+~~~
+{
+  "data": {
+    "type": "users",
+    "attributes": {
+      "name": "Ember Hamster Esq.",
+    }
+  }
+}
+~~~
 
 ##### DELETE [/id]
 * failure: Returns 500
