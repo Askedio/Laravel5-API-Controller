@@ -8,7 +8,7 @@ class CrudTest extends AcceptanceTestCase
 {
     public function testCreate()
     {
-        $results  = $this->createUser();
+        $results = $this->createUser();
         $response = $results->response;
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));

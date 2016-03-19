@@ -57,7 +57,7 @@ class ApiValidation
      */
     public function validateIncludes()
     {
-        $allowed  = $this->objects->getIncludes();
+        $allowed = $this->objects->getIncludes();
         $includes = app('api')->includes();
 
         $errors = array_diff($includes->all(), $allowed->all());
@@ -74,8 +74,8 @@ class ApiValidation
      */
     public function validateFields()
     {
-        $fields   = app('api')->fields();
-        $columns  = $this->objects->getColumns();
+        $fields = app('api')->fields();
+        $columns = $this->objects->getColumns();
         $includes = $this->objects->getIncludes();
 
         $errors = array_diff($fields->keys()->all(), $includes->all());

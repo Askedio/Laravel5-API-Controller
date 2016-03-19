@@ -15,7 +15,7 @@ trait SeeOrSaveJsonStructure
 
         $this->setup();
 
-        $file = rtrim(env('RESPONSE_FOLDER'), '\\/') . DIRECTORY_SEPARATOR . class_basename(debug_backtrace()[1]['class']) . '-' . debug_backtrace()[1]['function'] . '.json';
+        $file = rtrim(env('RESPONSE_FOLDER'), '\\/').DIRECTORY_SEPARATOR.class_basename(debug_backtrace()[1]['class']).'-'.debug_backtrace()[1]['function'].'.json';
 
         if (!env('SAVE_RESPONSES', false) && file_exists($file)) {
             $this->seeJsonStructure(json_decode(file_get_contents($file), true));

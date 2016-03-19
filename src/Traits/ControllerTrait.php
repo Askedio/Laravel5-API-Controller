@@ -14,7 +14,7 @@ trait ControllerTrait
     public function __construct()
     {
         if (isset($this->version) && app('api')->getVersion() != $this->version) {
-            throw (new NotAcceptableException('not-acceptable'))->withDetails('/application/vnd.api.' . $this->version . '+json');
+            throw (new NotAcceptableException('not-acceptable'))->withDetails('/application/vnd.api.'.$this->version.'+json');
         }
 
         $this->results = new ApiController($this->model);
