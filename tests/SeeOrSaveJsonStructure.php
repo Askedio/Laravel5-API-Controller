@@ -6,7 +6,6 @@ trait SeeOrSaveJsonStructure
 {
     /**
        * See a json result from a file or save json result to file.
-       * 
        */
       public function seeOrSaveJsonStructure()
       {
