@@ -7,10 +7,10 @@ use Exception;
 abstract class ApiException extends Exception
 {
     /** @var array */
-  private $exceptionDetails;
+    private $exceptionDetails;
 
-  /** @var array */
-  private $exceptionErrors;
+    /** @var array */
+    private $exceptionErrors;
 
     /**
      * @var string
@@ -78,14 +78,14 @@ abstract class ApiException extends Exception
         }
         $details = $this->exceptionDetails;
 
-      /* Not pre-rendered errors, build from template */
-      if (!is_array($details)) {
-          $details = [$details];
-      }
+        /* Not pre-rendered errors, build from template */
+        if (!is_array($details)) {
+            $details = [$details];
+        }
 
         return array_map(function ($detail) use ($template) {
-        return $this->item($template, $detail);
-      }, $details);
+            return $this->item($template, $detail);
+        }, $details);
     }
 
     /**
@@ -95,12 +95,12 @@ abstract class ApiException extends Exception
      */
     private function item($template, $detail)
     {
-        $insert = $template;
+        $insert  = $template;
         $replace = $template['detail'];
 
         $insert['detail'] = vsprintf($replace, $detail);
         if (isset($template['source'])) {
-            $insert['source'] = [];
+            $insert['source']                              = [];
             $insert['source'][$template['source']['type']] = vsprintf($template['source']['value'], $detail);
         }
 
@@ -115,13 +115,13 @@ abstract class ApiException extends Exception
     protected function build(array $args)
     {
 
-      /* Nothing to build if no type. */
-      if (!isset($args[0])) {
-          return false;
-      }
+        /* Nothing to build if no type. */
+        if (!isset($args[0])) {
+            return false;
+        }
 
-        $settings = $this->settings($args);
-        $this->error = $settings;
+        $settings     = $this->settings($args);
+        $this->error  = $settings;
         $this->status = $settings['code'];
     }
 
@@ -133,10 +133,10 @@ abstract class ApiException extends Exception
     private function settings($args)
     {
         $base = [
-        'title'  => '',
-        'detail' => '',
-        'code'   => isset($args[1]) ? $args[1] : $this->status,
-      ];
+            'title'  => '',
+            'detail' => '',
+            'code'   => isset($args[1]) ? $args[1] : $this->status,
+        ];
 
         return array_merge($base, config(sprintf('errors.%s', $args[0]), []));
     }

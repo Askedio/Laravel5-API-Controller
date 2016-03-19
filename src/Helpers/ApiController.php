@@ -33,7 +33,7 @@ class ApiController
         }
 
         return $results->paginate(request()->input('page.limit', 10), ['*'], 'page', request()->input('page.number', 1)
-      );
+        );
     }
 
     /**
@@ -108,15 +108,15 @@ class ApiController
     private function validate($action)
     {
         $validator = validator()->make($this->getRequest(), $this->model->getRule($action));
-        $errors = [];
+        $errors    = [];
         foreach ($validator->errors()->toArray() as $field => $err) {
             array_push($errors, [
-            // TO-DO: report valid json api error code base on validation error.
-            //'code'   => 0,
-            'source' => ['pointer' => $field],
-            'title'  => config('errors.invalid_attribute.title'),
-            'detail' => implode(' ', $err),
-          ]);
+                // TO-DO: report valid json api error code base on validation error.
+                //'code'   => 0,
+                'source' => ['pointer' => $field],
+                'title'  => config('errors.invalid_attribute.title'),
+                'detail' => implode(' ', $err),
+            ]);
         }
 
         if (!empty($errors)) {

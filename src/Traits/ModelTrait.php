@@ -22,7 +22,7 @@ trait ModelTrait
             $this->objects = new ApiObjects($this);
         }
 
-        return  $this->objects;
+        return $this->objects;
     }
 
     /**
@@ -47,15 +47,15 @@ trait ModelTrait
         return isset($this->primaryKey) ? $this->primaryKey : 'id';
     }
 
-        /**
-         * Return if Model has searchable flag.
-         *
-         * @return bool
-         */
-        public function isSearchable()
-        {
-            return isset($this->searchable);
-        }
+    /**
+     * Return if Model has searchable flag.
+     *
+     * @return bool
+     */
+    public function isSearchable()
+    {
+        return isset($this->searchable);
+    }
 
     /**
      * Set order/sort as per json spec.
@@ -68,14 +68,14 @@ trait ModelTrait
      */
     public function scopesetSort($query, $sort)
     {
-        if (empty($sort) ||  !is_string($sort) || empty($sorted = explode(',', $sort))) {
+        if (empty($sort) || !is_string($sort) || empty($sorted = explode(',', $sort))) {
             return $query;
         }
 
         $columns = $this->columns();
 
         $errors = array_filter(array_diff(array_map(function ($string) {
-          return ltrim($string, '-');
+            return ltrim($string, '-');
         }, $sorted), $columns));
 
         if (!empty($errors)) {
@@ -83,7 +83,7 @@ trait ModelTrait
         }
 
         array_map(function ($column) use ($query) {
-          return $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
+            return $query->orderBy(ltrim($column, '-'), ('-' === $column[0]) ? 'DESC' : 'ASC');
         }, $sorted);
 
         return $query;

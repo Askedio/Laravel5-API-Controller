@@ -18,8 +18,8 @@ class ApiResponse extends Response
     public function jsonapi($code, $results)
     {
         return response()->json($this->jsonapiData($results), $code, [
-        'Content-Type' => config('jsonapi.content_type'),
-      ], true);
+            'Content-Type' => config('jsonapi.content_type'),
+        ], true);
     }
 
     /**
@@ -30,10 +30,10 @@ class ApiResponse extends Response
     public function jsonapiData($data = [])
     {
         return array_merge($data, [
-          'jsonapi' => [
-            'version'   => config('jsonapi.json_version', '1.0'),
-            'self'      => app('api')->getVersion(),
-          ],
+            'jsonapi' => [
+                'version' => config('jsonapi.json_version', '1.0'),
+                'self'    => app('api')->getVersion(),
+            ],
         ]);
     }
 }

@@ -5,7 +5,6 @@ namespace Askedio\Laravel5ApiController\Http\Middleware;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Exceptions\UnsupportedMediaTypeException;
-use Askedio\Laravel5ApiController\Helpers\Api;
 use Closure;
 
 class JsonApiMiddleware
@@ -55,10 +54,10 @@ class JsonApiMiddleware
 
         foreach (array_keys($badRequestInput) as $field) {
             array_push($errors, [
-            //'code'   => 0,
-            'source' => ['pointer' => $field],
-            'title'  => config('errors.invalid_get.title'),
-          ]);
+                //'code'   => 0,
+                'source' => ['pointer' => $field],
+                'title'  => config('errors.invalid_get.title'),
+            ]);
         }
 
         throw (new BadRequestException('invalid_get'))->withErrors($errors);

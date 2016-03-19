@@ -9,9 +9,9 @@
 | It's a breeze. Simply tell Laravel the URIs it should respond to
 | and give it the Closure to execute when that URI is requested.
 |
-*/
+ */
 
 Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function () {
-  Route::resource('/user', 'Askedio\Tests\App\Http\Controllers\UserController');
-  Route::resource('/profile', 'Askedio\Tests\App\Http\Controllers\ProfileController');
+    Route::resource('/user', 'Askedio\Tests\App\Http\Controllers\UserController');
+    Route::resource('/profile', 'Askedio\Tests\App\Http\Controllers\ProfileController');
 });

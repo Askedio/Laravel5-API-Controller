@@ -38,10 +38,10 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     public function migrate()
     {
-        $fileSystem = new Filesystem();
+        $fileSystem  = new Filesystem();
         $classFinder = new ClassFinder();
 
-        foreach ($fileSystem->files(__DIR__.'/App/Database/Migrations') as $file) {
+        foreach ($fileSystem->files(__DIR__ . '/App/Database/Migrations') as $file) {
             $fileSystem->requireOnce($file);
             $migrationClass = $classFinder->findClass($file);
             (new $migrationClass())->down();
@@ -57,7 +57,7 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
     public function createApplication()
     {
         /** @var $app \Illuminate\Foundation\Application */
-        $app = require __DIR__.'/../vendor/laravel/laravel/bootstrap/app.php';
+        $app = require __DIR__ . '/../vendor/laravel/laravel/bootstrap/app.php';
 
         $this->setUpHttpKernel($app);
         $app->register(\Askedio\Laravel5ApiController\Providers\GenericServiceProvider::class);
@@ -91,12 +91,12 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
     public function createUserRaw()
     {
         /* temporary since we dont have relational creation yet */
-      return (new User())->create([
-        'name'     => 'test',
-        'email'    => 'test@test.com',
-        'password' => bcrypt('password'),
-       ])->profiles()->saveMany([
-            new Profiles(['phone'     => '123']),
-       ]);
+        return (new User())->create([
+            'name'     => 'test',
+            'email'    => 'test@test.com',
+            'password' => bcrypt('password'),
+        ])->profiles()->saveMany([
+            new Profiles(['phone' => '123']),
+        ]);
     }
 }

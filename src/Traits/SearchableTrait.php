@@ -41,15 +41,15 @@ trait SearchableTrait
     public function scopeSearchRestricted(Builder $qry, $search, $threshold = null, $entireText = null)
     {
         $query = clone $qry;
-        $query->select($this->getTable().'.*');
+        $query->select($this->getTable() . '.*');
         $this->makeJoins($query);
 
         $search = mb_strtolower(trim($search));
-        $words = explode(' ', $search);
+        $words  = explode(' ', $search);
 
-        $selects = [];
+        $selects               = [];
         $this->search_bindings = [];
-        $relevanceCount = 0;
+        $relevanceCount        = 0;
 
         foreach ($this->getColumns() as $column => $relevance) {
             $relevanceCount += $relevance;
@@ -91,7 +91,7 @@ trait SearchableTrait
     {
         $key = $this->connection ?: config('database.default');
 
-        return config('database.connections.'.$key.'.driver');
+        return config('database.connections.' . $key . '.driver');
     }
 
     /**
@@ -162,7 +162,7 @@ trait SearchableTrait
             return $query;
         }
 
-        $columns = $this->getTable().'.'.$this->primaryKey;
+        $columns = $this->getTable() . '.' . $this->primaryKey;
 
         $query->groupBy($columns);
 
@@ -185,7 +185,7 @@ trait SearchableTrait
      */
     protected function addSelectsToQuery(Builder $query, array $selects)
     {
-        $selects = new Expression('max('.implode(' + ', $selects).') as relevance');
+        $selects = new Expression('max(' . implode(' + ', $selects) . ') as relevance');
         $query->addSelect($selects);
     }
 
@@ -246,11 +246,11 @@ trait SearchableTrait
     protected function getSearchQuery($column, $relevance, array $words, $relevanceMultiplier, $preWord = '', $postWord = '')
     {
         $likeComparator = $this->getDatabaseDriver() == 'pgsql' ? 'ILIKE' : 'LIKE';
-        $cases = [];
+        $cases          = [];
 
         foreach ($words as $word) {
-            $cases[] = $this->getCaseCompare($column, $likeComparator, $relevance * $relevanceMultiplier);
-            $this->search_bindings[] = $preWord.$word.$postWord;
+            $cases[]                 = $this->getCaseCompare($column, $likeComparator, $relevance * $relevanceMultiplier);
+            $this->search_bindings[] = $preWord . $word . $postWord;
         }
 
         return implode(' + ', $cases);
@@ -268,12 +268,12 @@ trait SearchableTrait
     protected function getCaseCompare($column, $compare, $relevance)
     {
         /* commented out for CI
-         }
+        }
          */
         $column = str_replace('.', '`.`', $column);
-        $field = 'LOWER(`'.$column.'`) '.$compare.' ?';
+        $field  = 'LOWER(`' . $column . '`) ' . $compare . ' ?';
 
-        return '(case when '.$field.' then '.$relevance.' else 0 end)';
+        return '(case when ' . $field . ' then ' . $relevance . ' else 0 end)';
     }
 
     /**
@@ -301,7 +301,7 @@ trait SearchableTrait
      */
     protected function mergeQueries(Builder $clone, Builder $original)
     {
-        $tableName = DB::connection($this->connection)->getTablePrefix().$this->getTable();
+        $tableName = DB::connection($this->connection)->getTablePrefix() . $this->getTable();
 
         $this->getDatabaseDriver() == 'pgsql'
         ? $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as {$tableName}"))
