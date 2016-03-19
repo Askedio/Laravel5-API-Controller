@@ -78,8 +78,8 @@ class ApiObjects
           foreach ($includes as $include) {
               $results[$table] = [
 
-              'object' => $object,
-              'includes'=>  $this->includes(new $include()),
+              'object'   => $object,
+              'includes' => $this->includes(new $include()),
              ];
           }
       }

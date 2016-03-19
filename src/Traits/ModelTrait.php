@@ -59,7 +59,7 @@ trait ModelTrait
 
     /**
      * Set order/sort as per json spec.
-     * TO-DO: Should go into the ApiValidation class so it can manage relational sorts, ie sort=-profiles.id,users.id
+     * TO-DO: Should go into the ApiValidation class so it can manage relational sorts, ie sort=-profiles.id,users.id.
      *
      * @param string $query
      * @param string $sort
@@ -96,7 +96,6 @@ trait ModelTrait
      */
     public function scopefilterAndTransform()
     {
-
         $fields = app('api')->fields();
 
         $key = $this->getTable();
@@ -104,7 +103,7 @@ trait ModelTrait
         $results = $this->isTransformable($this) ? $this->transform($this) : $this;
 
         if ($fields->has($key)) {
-          $results = array_diff_key($results, array_flip(array_diff(array_keys($results),$fields->get($key))));
+            $results = array_diff_key($results, array_flip(array_diff(array_keys($results), $fields->get($key))));
         }
 
         return $results;
