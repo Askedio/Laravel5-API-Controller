@@ -24,18 +24,6 @@ class CrudTest extends AcceptanceTestCase
         $this->seeOrSaveJsonStructure($response);
     }
 
-    public function testUpdate()
-    {
-        $this->createUser();
-        $this->json('PATCH', '/api/user/1', [
-          'name' => 'testupdate',
-          ]);
-        $response = $this->response;
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
-        $this->seeJson(['name' => 'testupdate']);
-    }
-
     public function testDelete()
     {
         $this->createUser();

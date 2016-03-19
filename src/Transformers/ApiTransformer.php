@@ -55,66 +55,67 @@ class ApiTransformer
         return $this->transformation($this->object, true);
     }
 
-  /**
-   * Build the transformed results.
-   *
-   * @param  object $object
-   * @param  bool $single
-   *
-   * @return array
-   */
-  private function transformation($object, $single)
-  {
-      $includes = $this->objectIncludes($object);
+    /**
+     * Build the transformed results.
+     *
+     * @param object $object
+     * @param bool   $single
+     *
+     * @return array
+     */
+    private function transformation($object, $single)
+    {
+        $includes = $this->objectIncludes($object);
 
-      $item = $single ? ['data' => $this->item($object)] : $this->item($object);
-      $data = array_merge($item, ['relationships' => $this->relations($includes)]);
+        $item = $single ? ['data' => $this->item($object)] : $this->item($object);
+        $data = array_merge($item, ['relationships' => $this->relations($includes)]);
 
-      return array_merge(
-        $data,
-        ['included' => $includes]
-      );
-  }
+        return array_merge(
+          $data,
+          ['included' => $includes],
+          $single ? ['links' => ['self' => request()->url()]] : []
+        );
+    }
 
-      /**
-       * Build a list of includes for this object.
-       *
-       * @param  object $object
-       *
-       * @return array
-       */
-      private function objectIncludes($object)
-      {
-          $results = [];
+    /**
+     * Build a list of includes for this object.
+     *
+     * @param object $object
+     *
+     * @return array
+     */
+    private function objectIncludes($object)
+    {
+        $results = [];
 
-          foreach (app('api')->includes() as $include) {
-              if (is_object($object->$include)) {
-                  foreach ($object->$include as $included) {
-                      $results[] = $this->item($included);
-                  }
-              }
-          }
+        foreach (app('api')->includes() as $include) {
+            if (is_object($object->$include)) {
+                foreach ($object->$include as $included) {
+                    $results[] = $this->item($included);
+                }
+            }
+        }
 
-          return $results;
-      }
+        return $results;
+    }
 
-      /**
-       * Build json api style results per item.
-       *
-       * @param $object
-       *
-       * @return array
-       */
-      private function item($object)
-      {
-          $pimaryId = $object->getId();
+    /**
+     * Build json api style results per item.
+     *
+     * @param $object
+     *
+     * @return array
+     */
+    private function item($object)
+    {
+        $pimaryId = $object->getId();
 
-          return [
-            'type'       => $object->getTable(),
-            'id'         => $object->$pimaryId,
-            'attributes' => $object->filterAndTransform(),
-          ];
-      }
+        return [
+          'type'       => $object->getTable(),
+          'id'         => $object->$pimaryId,
+          'attributes' => $object->filterAndTransform(),
+        ];
+    }
 
     /**
      * Get relations for the included items.
@@ -126,12 +127,9 @@ class ApiTransformer
      */
     private function relations($includes)
     {
-        $relations = [];
-        foreach ($includes as $inc) {
-            $relations[$inc['type']]['data'] = ['id' => $inc['attributes']['id'], 'type' => $inc['type']];
-        }
-
-        return $relations;
+        return array_map(function ($inc) {
+        return [$inc['type'] => ['data' => ['id' => $inc['attributes']['id'], 'type' => $inc['type']]]];
+      }, $includes);
     }
 
     /**

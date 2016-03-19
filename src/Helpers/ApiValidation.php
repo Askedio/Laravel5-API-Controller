@@ -36,10 +36,15 @@ class ApiValidation
             return;
         }
 
-        $request = request()->json()->all();
+        $request = app('api')->jsonBody();
+
         $fillable = $this->objects->getFillables();
 
-        $errors = array_diff(array_keys($request), $fillable->flatten()->all());
+        if (!isset($request['attributes'])) {
+            throw (new BadRequestException('invalid_filter'))->withDetails(['data.attributes']);
+        }
+
+        $errors = array_diff(array_keys($request['attributes']), $fillable->flatten()->all());
         if (!empty($errors)) {
             throw (new BadRequestException('invalid_filter'))->withDetails($errors);
         }

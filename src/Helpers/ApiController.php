@@ -93,7 +93,9 @@ class ApiController
      */
     private function getRequest()
     {
-        return request()->json()->all();
+        $requst = app('api')->jsonBody();
+
+        return isset($requst['attributes']) ? $requst['attributes'] : [];
     }
 
     /**
@@ -105,11 +107,11 @@ class ApiController
      */
     private function validate($action)
     {
-        $validator = validator()->make(request()->json()->all(), $this->model->getRule($action));
+        $validator = validator()->make($this->getRequest(), $this->model->getRule($action));
         $errors = [];
         foreach ($validator->errors()->toArray() as $field => $err) {
             array_push($errors, [
-            // TO-DO: detect errors for a valid json api code
+            // TO-DO: report valid json api error code base on validation error.
             //'code'   => 0,
             'source' => ['pointer' => $field],
             'title'  => config('errors.invalid_attribute.title'),
