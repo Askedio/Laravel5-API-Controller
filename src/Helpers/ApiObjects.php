@@ -7,7 +7,7 @@ namespace Askedio\Laravel5ApiController\Helpers;
  * Base model is already loaded
  * Load each included module - recurisvely load sub models
  * Build collection of all possible model options
- * - profiles, profiles.addresses.
+ * - TO-DO: profiles, profiles.addresses.
  */
 class ApiObjects
 {
@@ -70,36 +70,35 @@ class ApiObjects
         return $this->columns;
     }
 
-  /**
-   * Itterate over object, build a relations, fillable and includes collection.
-   *
-   * @param  model $object the model to iterate over
-   *
-   * @return array
-   */
-  private function includes($object)
-  {
-      $fillable = $object->getFillable();
-      $includes = $object->getIncludes();
-      $table = $object->getTable();
-      $columns = $object->columns();
+    /**
+     * Itterate over object, build a relations, fillable and includes collection.
+     *
+     * @param  model $object the model to iterate over
+     *
+     * @return array
+     */
+    private function includes($object)
+    {
+        $fillable = $object->getFillable();
+        $includes = $object->getIncludes();
+        $table = $object->getTable();
+        $columns = $object->columns();
 
-      $results[$table] = [];
+        $results[$table] = [];
 
-      if (!empty($includes)) {
-          foreach ($includes as $include) {
-              $results[$table] = [
+        if (!empty($includes)) {
+            foreach ($includes as $include) {
+                $results[$table] = [
+                'object'   => $object,
+                'includes' => $this->includes(new $include()),
+               ];
+            }
+        }
 
-              'object'   => $object,
-              'includes' => $this->includes(new $include()),
-             ];
-          }
-      }
+        $this->fillables->put($table, $fillable);
+        $this->includes->push($table, $table);
+        $this->columns->put($table, $columns);
 
-      $this->fillables->put($table, $fillable);
-      $this->includes->push($table, $table);
-      $this->columns->put($table, $columns);
-
-      return $results;
-  }
+        return $results;
+    }
 }

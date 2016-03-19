@@ -55,4 +55,11 @@ class Api
 
         return collect($results);
     }
+
+    public function jsonBody()
+    {
+      return collect(request()->json()->all())->get('data');
+    }
+
+
 }
