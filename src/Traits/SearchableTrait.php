@@ -245,11 +245,11 @@ trait SearchableTrait
      */
     protected function getSearchQuery($column, $relevance, array $words, $relevanceMultiplier, $preWord = '', $postWord = '')
     {
-        $like_comparator = $this->getDatabaseDriver() == 'pgsql' ? 'ILIKE' : 'LIKE';
+        $likeComparator = $this->getDatabaseDriver() == 'pgsql' ? 'ILIKE' : 'LIKE';
         $cases = [];
 
         foreach ($words as $word) {
-            $cases[] = $this->getCaseCompare($column, $like_comparator, $relevance * $relevanceMultiplier);
+            $cases[] = $this->getCaseCompare($column, $likeComparator, $relevance * $relevanceMultiplier);
             $this->search_bindings[] = $preWord.$word.$postWord;
         }
 

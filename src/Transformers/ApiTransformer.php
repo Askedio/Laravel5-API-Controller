@@ -12,93 +12,126 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 class ApiTransformer
 {
+    /** @var object */
+    private $object;
+
     /**
-     * @param $object
+     * Detect the type of object, transform and return a KeysTransformerd results.
      *
-     * @return array
+     * @param object $object
+     *
+     * @return KeysTransformer
      */
     public function transform($object)
     {
-        $results = [];
-        if (is_object($object)) {
-            if (!$this->isPaginator($object)) {
-                $data = $this->item($object);
-                $include = $this->includes($object);
-                $include['links']['self'] = request()->url();
-            } elseif ($this->isPaginator($object)) {
-                $data = $this->transformObjects($object->items());
-                $include = $this->getPaginationMeta($object);
-            }
+        $this->object = $object;
 
-            $results = array_merge(['data' => $data], $include);
-        }
+        $results = $this->isPaginator() ? $this->transformPaginator() : $this->transformObject();
 
-        /* Done with data transformation, transform keys to valid json api spec */
         return (new KeysTransformer())->transform($results);
     }
 
     /**
-     * @param $object
+     * Transform Pagination.
      *
      * @return array
      */
-    private function includes($object)
+    private function transformPaginator()
     {
-        $results = [];
+        $results = array_map(function ($object) {
+         return $this->transformation($object);
+       }, $this->object->all());
 
-        $includes = $this->getIncludes($object);
-
-        if (empty($includes)) {
-            return $results;
-        }
-
-        $results['relationships'] = [];
-        $results['included'] = [];
-
-        foreach (array_values($includes) as $include) {
-            if (!isset($results['relationships'][$include['type']])) {
-                $results['relationships'][$include['type']]['data'] = [];
-            }
-            array_push($results['relationships'][$include['type']]['data'], ['id' => $include['id'], 'type' => $include['type']]);
-            array_push($results['included'], $include);
-        }
-
-        return $results;
+        return  array_merge(['data' => $results], $this->getPaginationMeta());
     }
 
     /**
-     * @param $object
+     * Transform objects.
      *
-     * @return array
+     * @return transformation
      */
-    private function getIncludes($object)
+    private function transformObject()
     {
-        $results = [];
-
-        foreach (app('api')->includes() as $include) {
-            if (is_object($object->$include)) {
-                foreach ($object->$include as $included) {
-                    $results[] = $this->item($included);
-                }
-            }
-        }
-
-        return $results;
+        return $this->transformation($this->object, true);
     }
 
+  /**
+   * Build the transformed results.
+   *
+   * @param  object $object
+   * @param  bool $single
+   *
+   * @return array
+   */
+  private function transformation($object, $single = false)
+  {
+      $includes = $this->objectIncludes($object);
+
+      $item = $single ? ['data' => $this->item($object)] : $this->item($object);
+      $data = array_merge($item, ['relationships' => $this->relations($includes, $object)]);
+
+      return array_merge(
+        $data,
+        ['included' => $includes]
+      );
+  }
+
+      /**
+       * Build a list of includes for this object.
+       *
+       * @param  object $object
+       *
+       * @return array
+       */
+      private function objectIncludes($object)
+      {
+          $results = [];
+
+          foreach (app('api')->includes() as $include) {
+              if (is_object($object->$include)) {
+                  foreach ($object->$include as $included) {
+                      $results[] = $this->item($included);
+                  }
+              }
+          }
+
+          return $results;
+      }
+
+      /**
+       * Build json api style results per item.
+       *
+       * @param $object
+       *
+       * @return array
+       */
+      private function item($object)
+      {
+          $pimaryId = $object->getId();
+
+          return [
+            'type'       => $object->getTable(),
+            'id'         => $object->$pimaryId,
+            'attributes' => $object->filterAndTransform(),
+          ];
+      }
+
     /**
-     * @param $object
+     * Get relations for the included items.
      *
-     * @return array
+     * @param [type] $includes [description]
+     * @param [type] $object   [description]
+     *
+     * @return [type] [description]
      */
-    private function transformObjects($object)
+    private function relations($includes, $object)
     {
-        $results = [];
-        foreach ($object as $key => $item) {
-            $results[$key] = array_merge($this->item($item), $this->includes($item));
+        $relations = [];
+        foreach ($includes as $inc) {
+            $relations[$inc['type']]['data'] = ['id' => $inc['attributes']['id'], 'type' => $inc['type']];
         }
 
-        return $results;
+        return $relations;
     }
 
     /**
@@ -106,25 +139,9 @@ class ApiTransformer
      *
      * @return bool
      */
-    private function isPaginator($object)
+    private function isPaginator()
     {
-        return $object instanceof LengthAwarePaginator;
-    }
-
-    /**
-     * @param $object
-     *
-     * @return array
-     */
-    private function item($object)
-    {
-        $pimaryId = $object->getId();
-
-        return [
-          'type'       => strtolower(class_basename($object)),
-          'id'         => $object->$pimaryId,
-          'attributes' => $object->filterAndTransform(),
-        ];
+        return $this->object instanceof LengthAwarePaginator;
     }
 
     /**
@@ -135,22 +152,22 @@ class ApiTransformer
      *
      * @return array
      */
-    private function getPaginationMeta($paginator)
+    private function getPaginationMeta()
     {
         return [
           'meta'  => [
-            'total'        => $paginator->total(),
-            'currentPage'  => $paginator->currentPage(),
-            'perPage'      => $paginator->perPage(),
-            'hasMorePages' => $paginator->hasMorePages(),
-            'hasPages'     => $paginator->hasPages(),
+            'total'        => $this->object->total(),
+            'currentPage'  => $this->object->currentPage(),
+            'perPage'      => $this->object->perPage(),
+            'hasMorePages' => $this->object->hasMorePages(),
+            'hasPages'     => $this->object->hasPages(),
           ],
           'links' => [
-            'self'  => $paginator->url($paginator->currentPage()),
-            'first' => $paginator->url(1),
-            'last'  => $paginator->url($paginator->lastPage()),
-            'next'  => $paginator->nextPageUrl(),
-            'prev'  => $paginator->previousPageUrl(),
+            'self'  => $this->object->url($this->object->currentPage()),
+            'first' => $this->object->url(1),
+            'last'  => $this->object->url($this->object->lastPage()),
+            'next'  => $this->object->nextPageUrl(),
+            'prev'  => $this->object->previousPageUrl(),
           ],
         ];
     }
