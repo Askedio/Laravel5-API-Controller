@@ -40,8 +40,8 @@ class ApiValidation
 
         $fillable = $this->objects->getFillables();
 
-        if(!isset($request['attributes'])){
-          throw (new BadRequestException('invalid_filter'))->withDetails(['data.attributes']);
+        if (!isset($request['attributes'])) {
+            throw (new BadRequestException('invalid_filter'))->withDetails(['data.attributes']);
         }
 
         $errors = array_diff(array_keys($request['attributes']), $fillable->flatten()->all());

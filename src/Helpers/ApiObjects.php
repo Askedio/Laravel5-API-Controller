@@ -73,7 +73,7 @@ class ApiObjects
     /**
      * Itterate over object, build a relations, fillable and includes collection.
      *
-     * @param  model $object the model to iterate over
+     * @param model $object the model to iterate over
      *
      * @return array
      */

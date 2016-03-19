@@ -9,11 +9,9 @@ class PostTest extends AcceptanceTestCase
     public function testBadPostField()
     {
         $this->json('POST', '/api/user', [
-          'data' =>
-          [
-            'type' => 'users',
-            'attributes' =>
-            [
+          'data' => [
+            'type'       => 'users',
+            'attributes' => [
               'badfield' => 'Ember Hamster kpok',
             ],
           ],
@@ -27,11 +25,9 @@ class PostTest extends AcceptanceTestCase
     public function testPostValidation()
     {
         $this->json('POST', '/api/user', [
-          'data' =>
-          [
-            'type' => 'users',
-            'attributes' =>
-            [
+          'data' => [
+            'type'       => 'users',
+            'attributes' => [
               'email' => 'test',
             ],
           ],

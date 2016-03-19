@@ -58,8 +58,8 @@ class ApiTransformer
     /**
      * Build the transformed results.
      *
-     * @param  object $object
-     * @param  bool $single
+     * @param object $object
+     * @param bool   $single
      *
      * @return array
      */
@@ -80,7 +80,7 @@ class ApiTransformer
     /**
      * Build a list of includes for this object.
      *
-     * @param  object $object
+     * @param object $object
      *
      * @return array
      */
@@ -127,9 +127,9 @@ class ApiTransformer
      */
     private function relations($includes)
     {
-      return array_map(function($inc){
+        return array_map(function ($inc) {
         return [$inc['type'] => ['data' => ['id' => $inc['attributes']['id'], 'type' => $inc['type']]]];
-      }, $includes);  
+      }, $includes);
     }
 
     /**
