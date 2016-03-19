@@ -18,7 +18,7 @@ trait ModelTrait
 
     public function getObjects()
     {
-        if (!$this->objects) {
+        if (! $this->objects) {
             $this->objects = new ApiObjects($this);
         }
 
@@ -68,7 +68,7 @@ trait ModelTrait
      */
     public function scopesetSort($query, $sort)
     {
-        if (empty($sort) || !is_string($sort) || empty($sorted = explode(',', $sort))) {
+        if (empty($sort) || ! is_string($sort) || empty($sorted = explode(',', $sort))) {
             return $query;
         }
 
@@ -78,7 +78,7 @@ trait ModelTrait
             return ltrim($string, '-');
         }, $sorted), $columns));
 
-        if (!empty($errors)) {
+        if (! empty($errors)) {
             throw (new BadRequestException('invalid_sort'))->withDetails([[$this->getTable(), implode(' ', $errors)]]);
         }
 
@@ -118,7 +118,7 @@ trait ModelTrait
 
     public function columns()
     {
-        if (!$this->cols) {
+        if (! $this->cols) {
             $this->cols = DB::connection()->getSchemaBuilder()->getColumnListing($this->getTable());
         }
 

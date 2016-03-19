@@ -108,7 +108,7 @@ class ApiController
     private function validate($action)
     {
         $validator = validator()->make($this->getRequest(), $this->model->getRule($action));
-        $errors = [];
+        $errors    = [];
         foreach ($validator->errors()->toArray() as $field => $err) {
             array_push($errors, [
                 // TO-DO: report valid json api error code base on validation error.
@@ -119,7 +119,7 @@ class ApiController
             ]);
         }
 
-        if (!empty($errors)) {
+        if (! empty($errors)) {
             throw (new InvalidAttributeException('invalid_attribute', 403))->withErrors($errors);
         }
     }

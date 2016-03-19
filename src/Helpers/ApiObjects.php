@@ -34,10 +34,10 @@ class ApiObjects
     public function __construct($object)
     {
         $this->baseObject = $object;
-        $this->fillables = collect([]);
-        $this->includes = collect([]);
-        $this->columns = collect([]);
-        $this->relations = collect($this->includes($object));
+        $this->fillables  = collect([]);
+        $this->includes   = collect([]);
+        $this->columns    = collect([]);
+        $this->relations  = collect($this->includes($object));
     }
 
     /**
@@ -81,12 +81,12 @@ class ApiObjects
     {
         $fillable = $object->getFillable();
         $includes = $object->getIncludes();
-        $table = $object->getTable();
-        $columns = $object->columns();
+        $table    = $object->getTable();
+        $columns  = $object->columns();
 
         $results[$table] = [];
 
-        if (!empty($includes)) {
+        if (! empty($includes)) {
             foreach ($includes as $include) {
                 $results[$table] = [
                     'object'   => $object,

@@ -9,7 +9,7 @@ trait SeeOrSaveJsonStructure
      */
     public function seeOrSaveJsonStructure()
     {
-        if (!env('RESPONSE_FOLDER')) {
+        if (! env('RESPONSE_FOLDER')) {
             return $this;
         }
 
@@ -17,7 +17,7 @@ trait SeeOrSaveJsonStructure
 
         $file = rtrim(env('RESPONSE_FOLDER'), '\\/').DIRECTORY_SEPARATOR.class_basename(debug_backtrace()[1]['class']).'-'.debug_backtrace()[1]['function'].'.json';
 
-        if (!env('SAVE_RESPONSES', false) && file_exists($file)) {
+        if (! env('SAVE_RESPONSES', false) && file_exists($file)) {
             $this->seeJsonStructure(json_decode(file_get_contents($file), true));
 
             return $this;
@@ -35,7 +35,7 @@ trait SeeOrSaveJsonStructure
      */
     private function setup()
     {
-        if (!is_dir(env('RESPONSE_FOLDER'))) {
+        if (! is_dir(env('RESPONSE_FOLDER'))) {
             mkdir(env('RESPONSE_FOLDER'), 0600, true);
         }
     }

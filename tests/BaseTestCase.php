@@ -38,7 +38,7 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     public function migrate()
     {
-        $fileSystem = new Filesystem();
+        $fileSystem  = new Filesystem();
         $classFinder = new ClassFinder();
 
         foreach ($fileSystem->files(__DIR__.'/App/Database/Migrations') as $file) {

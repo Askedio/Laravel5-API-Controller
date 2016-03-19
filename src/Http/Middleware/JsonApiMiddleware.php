@@ -36,7 +36,7 @@ class JsonApiMiddleware
      */
     private function checkGetVars()
     {
-        if (!$this->request->isMethod('get')) {
+        if (! $this->request->isMethod('get')) {
             return false;
         }
 
@@ -74,7 +74,7 @@ class JsonApiMiddleware
 
         app('api')->setVersion(isset($matches[1]) ? $matches[1] : config('jsonapi.version'));
 
-        if ($matches || $this->request->header('Accept') == config('jsonapi.accept') || !config('jsonapi.strict')) {
+        if ($matches || $this->request->header('Accept') === config('jsonapi.accept') || ! config('jsonapi.strict')) {
             return;
         }
 
@@ -88,7 +88,7 @@ class JsonApiMiddleware
      */
     private function checkContentType()
     {
-        if ($this->request->header('Content-Type') == config('jsonapi.content_type') || !config('jsonapi.strict')) {
+        if ($this->request->header('Content-Type') === config('jsonapi.content_type') || ! config('jsonapi.strict')) {
             return;
         }
 
