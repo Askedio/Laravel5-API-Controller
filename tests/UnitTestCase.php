@@ -7,7 +7,7 @@ use Askedio\Tests\App\User;
 
 class UnitTestCase extends BaseTestCase
 {
-   public $baseUrl = 'http://localhost';
+    public $baseUrl = 'http://localhost';
 
     public function api()
     {

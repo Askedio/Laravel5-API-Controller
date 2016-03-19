@@ -2,10 +2,9 @@
 
 namespace Askedio\Tests;
 
-
-trait SeeOrSaveJsonStructure {
-
-      /**
+trait SeeOrSaveJsonStructure
+{
+    /**
        * See a json result from a file or save json result to file.
        *
        * @param  \Illuminate\Http\JsonResponse $response [description]
@@ -14,21 +13,21 @@ trait SeeOrSaveJsonStructure {
        */
       public function seeOrSaveJsonStructure(\Illuminate\Http\JsonResponse $response)
       {
-        if(!env('RESPONSE_FOLDER')){
-          return;
-        }
+          if (!env('RESPONSE_FOLDER')) {
+              return;
+          }
 
-        $this->setup();
+          $this->setup();
 
-        $file = rtrim(env('RESPONSE_FOLDER'), '\\/').DIRECTORY_SEPARATOR.class_basename(debug_backtrace()[1]['class']).'-'.debug_backtrace()[1]['function'].'.json';
+          $file = rtrim(env('RESPONSE_FOLDER'), '\\/').DIRECTORY_SEPARATOR.class_basename(debug_backtrace()[1]['class']).'-'.debug_backtrace()[1]['function'].'.json';
 
-        if(!env('SAVE_RESPONSES', false) && file_exists($file)){
-          $this->seeJsonStructure(json_decode(file_get_contents($file), true));
-          return;
-        }
+          if (!env('SAVE_RESPONSES', false) && file_exists($file)) {
+              $this->seeJsonStructure(json_decode(file_get_contents($file), true));
 
-        file_put_contents($file, json_encode($this->getKeys($response->getContent())));
+              return;
+          }
 
+          file_put_contents($file, json_encode($this->getKeys($response->getContent())));
       }
 
       /**
@@ -36,12 +35,12 @@ trait SeeOrSaveJsonStructure {
        *
        * @return void
        */
-      private function setup(){
-        if(!is_dir(env('RESPONSE_FOLDER'))){
-          mkdir(env('RESPONSE_FOLDER'), 0600, true);
-        }
+      private function setup()
+      {
+          if (!is_dir(env('RESPONSE_FOLDER'))) {
+              mkdir(env('RESPONSE_FOLDER'), 0600, true);
+          }
       }
-
 
       /**
        * Return a array of keys.
@@ -73,5 +72,4 @@ trait SeeOrSaveJsonStructure {
       {
           return $this->arrayKeys(json_decode($content, true));
       }
-
 }

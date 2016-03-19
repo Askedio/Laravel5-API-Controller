@@ -6,9 +6,6 @@ use Askedio\Tests\AcceptanceTestCase;
 
 class ListTest extends AcceptanceTestCase
 {
-
-
-
     public function testList()
     {
         $this->json('GET', '/api/user');
