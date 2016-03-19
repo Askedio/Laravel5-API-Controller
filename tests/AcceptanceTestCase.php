@@ -33,11 +33,10 @@ class AcceptanceTestCase extends BaseTestCase
           'password' => bcrypt('password'), ]);
     }
 
-    public function saveOutput($response)
-    {
-        /*
-          TO-DO: save to config file and use said config file to load check arrays from, only when triggered to do so (like maybe some cli flag)
-       */
-        dd($response->getContent());
-    }
+
+
+
+
+
+
 }

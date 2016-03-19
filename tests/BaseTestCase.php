@@ -12,6 +12,9 @@ use Illuminate\Routing\Router;
 
 class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
 {
+    use SeeOrSaveJsonStructure;
+
+    
     /**
      * Setup DB before each test.
      */
@@ -83,36 +86,7 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
         $app->make('Illuminate\Foundation\Http\Kernel', [$app, $this->getRouter()])->bootstrap();
     }
 
-    /**
-     * Return an array of keys for json validation.
-     *
-     * @param array $array
-     *
-     * @return array
-     */
-    public function arrayKeys($array)
-    {
-        $results = [];
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $results = array_merge($results, [$key => array_merge(array_keys($value), $this->arrayKeys($value))]);
-            }
-        }
 
-        return $results;
-    }
-
-    /**
-     * Get Keys from a json array.
-     *
-     * @param string $var
-     *
-     * @return array
-     */
-    public function getKeys($var)
-    {
-        return $this->arrayKeys(json_decode($var, true));
-    }
 
     /**
      * Temporary.
