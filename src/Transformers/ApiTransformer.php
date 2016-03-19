@@ -12,83 +12,68 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 class ApiTransformer
 {
-
-
     private $object;
-
-
 
     public function transform($object)
     {
-      $this->object = $object;
+        $this->object = $object;
 
-      $results = $this->isPaginator() ? $this->transformPaginator() : $this->transformObject();
+        $results = $this->isPaginator() ? $this->transformPaginator() : $this->transformObject();
 
-      return (new KeysTransformer())->transform($results);
+        return (new KeysTransformer())->transform($results);
     }
 
+    private function relations($includes, $object)
+    {
+        $relations = [];
+        foreach ($includes as $inc) {
+            $relations[$inc['type']]['data'] = ['id' => $inc['attributes']['id'], 'type' => $inc['type']];
+        }
 
-private function relations($includes, $object)
-{
+        return $relations;
+    }
 
+    private function transformation($object, $single = false)
+    {
+        $includes = $this->objectIncludes($object);
 
-  $relations = [];
-  foreach($includes as $inc){
-    $relations[$inc['type']]['data'] = ['id' => $inc['attributes']['id'], 'type' => $inc['type']];
-  }
+        $ddd = $single ? ['data' => $this->item($object)] : $this->item($object);
+        $data = array_merge($ddd, ['relationships' => $this->relations($includes, $object)]);
 
-  return $relations;
-
-
-}
-
-private function transformation($object, $single=false){
-  $includes = $this->objectIncludes($object);
-
-  $ddd = $single ? ['data' => $this->item($object) ] : $this->item($object);
-  $data = array_merge($ddd, ['relationships' => $this->relations($includes, $object)]);
-
-  return array_merge(
+        return array_merge(
    $data,
-  ['included' =>  $includes]
+  ['included' => $includes]
   );
+    }
 
-}
+    private function objectIncludes($object)
+    {
+        $results = [];
 
-private function objectIncludes($object)
-{
-  $results = [];
+        foreach (app('api')->includes() as $include) {
+            if (is_object($object->$include)) {
+                foreach ($object->$include as $included) {
+                    $results[] = $this->item($included);
+                }
+            }
+        }
 
+        return $results;
+    }
 
-  foreach (app('api')->includes() as $include) {
-      if (is_object($object->$include)) {
-          foreach ($object->$include as $included) {
-              $results[] = $this->item($included);
-          }
-      }
-  }
-
-
-return $results;
-
-}
-
-     private function transformPaginator()
-     {
-       $results = array_map(function($object){
+    private function transformPaginator()
+    {
+        $results = array_map(function ($object) {
          return $this->transformation($object);
        }, $this->object->all());
-       return  array_merge(['data' => $results], $this->getPaginationMeta());
-     }
 
+        return  array_merge(['data' => $results], $this->getPaginationMeta());
+    }
 
-     private function transformObject()
-     {
-       return $this->transformation($this->object, true);
-     }
-
-
-
+    private function transformObject()
+    {
+        return $this->transformation($this->object, true);
+    }
 
     /**
      * @param $object
@@ -105,8 +90,6 @@ return $results;
           'attributes' => $object->filterAndTransform(),
         ];
     }
-
-
 
     /**
      * @param $object
