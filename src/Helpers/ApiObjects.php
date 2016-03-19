@@ -26,7 +26,7 @@ class ApiObjects
     /** @var collection */
     private $columns;
 
-/* will use some day
+/*
     public function getRelations()
     {
       return $this->relations;
@@ -54,7 +54,7 @@ class ApiObjects
         $this->fillables = collect([]);
         $this->includes = collect([]);
         $this->columns = collect([]);
-        $this->relations = collect([$this->includes($object)]);
+        $this->relations = collect($this->includes($object));
     }
 
   /**
@@ -77,10 +77,9 @@ class ApiObjects
       if (!empty($includes)) {
           foreach ($includes as $include) {
               $results[$table] = [
-               'primaryId' => $primaryId,
-               'fillable'  => $fillable,
-               'columns'   => $columns,
-               'includes'  => $this->includes(new $include()),
+
+              'object' => $object,
+              'includes'=>  $this->includes(new $include()),
              ];
           }
       }

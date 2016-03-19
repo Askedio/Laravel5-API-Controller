@@ -59,6 +59,7 @@ trait ModelTrait
 
     /**
      * Set order/sort as per json spec.
+     * TO-DO: Should go into the ApiValidation class so it can manage relational sorts, ie sort=-profiles.id,users.id
      *
      * @param string $query
      * @param string $sort
@@ -78,7 +79,7 @@ trait ModelTrait
         }, $sorted), $columns));
 
         if (!empty($errors)) {
-            throw (new BadRequestException('invalid_sort'))->withDetails([[strtolower(class_basename($this)), implode(' ', $errors)]]);
+            throw (new BadRequestException('invalid_sort'))->withDetails([[$this->getTable(), implode(' ', $errors)]]);
         }
 
         array_map(function ($column) use ($query) {
@@ -95,24 +96,15 @@ trait ModelTrait
      */
     public function scopefilterAndTransform()
     {
-        $results = $this->toArray();
+
         $fields = app('api')->fields();
 
         $key = $this->getTable();
 
-        if ($fields->isEmpty() || !$fields->has($key)) {
-            return $results;
-        }
+        $results = $this->isTransformable($this) ? $this->transform($this) : $this;
 
-        $results = [];
-
-        $columns = $this->columns();
-
-        foreach ($fields[$key] as $filter) {
-            if (in_array($filter, $columns)) {
-                $content = $this->isTransformable($this) ? $this->transform($this) : $results;
-                $results[$filter] = $content[$filter];
-            }
+        if ($fields->has($key)) {
+          $results = array_diff_key($results, array_flip(array_diff(array_keys($results),$fields->get($key))));
         }
 
         return $results;

@@ -12,104 +12,83 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 class ApiTransformer
 {
-    /**
-     * @param $object
-     *
-     * @return array
-     */
+
+
+    private $object;
+
+
+
     public function transform($object)
     {
-        $results = [];
-        if (is_object($object)) {
-            if (!$this->isPaginator($object)) {
-                $data = $this->item($object);
-                $include = $this->includes($object);
-                $include['links']['self'] = request()->url();
-            } elseif ($this->isPaginator($object)) {
-                $data = $this->transformObjects($object->items());
-                $include = $this->getPaginationMeta($object);
-            }
+      $this->object = $object;
 
-            $results = array_merge(['data' => $data], $include);
-        }
+      $results = $this->isPaginator() ? $this->transformPaginator() : $this->transformObject();
 
-        /* Done with data transformation, transform keys to valid json api spec */
-        return (new KeysTransformer())->transform($results);
+      return (new KeysTransformer())->transform($results);
     }
 
-    /**
-     * @param $object
-     *
-     * @return array
-     */
-    private function includes($object)
-    {
-        $results = [];
 
-        $includes = $this->getIncludes($object);
+private function relations($includes, $object)
+{
 
-        if (empty($includes)) {
-            return $results;
-        }
 
-        $results['relationships'] = [];
-        $results['included'] = [];
+  $relations = [];
+  foreach($includes as $inc){
+    $relations[$inc['type']]['data'] = ['id' => $inc['attributes']['id'], 'type' => $inc['type']];
+  }
 
-        foreach (array_values($includes) as $include) {
-            if (!isset($results['relationships'][$include['type']])) {
-                $results['relationships'][$include['type']]['data'] = [];
-            }
-            array_push($results['relationships'][$include['type']]['data'], ['id' => $include['id'], 'type' => $include['type']]);
-            array_push($results['included'], $include);
-        }
+  return $relations;
 
-        return $results;
-    }
 
-    /**
-     * @param $object
-     *
-     * @return array
-     */
-    private function getIncludes($object)
-    {
-        $results = [];
+}
 
-        foreach (app('api')->includes() as $include) {
-            if (is_object($object->$include)) {
-                foreach ($object->$include as $included) {
-                    $results[] = $this->item($included);
-                }
-            }
-        }
+private function transformation($object, $single=false){
+  $includes = $this->objectIncludes($object);
 
-        return $results;
-    }
+  $ddd = $single ? ['data' => $this->item($object) ] : $this->item($object);
+  $data = array_merge($ddd, ['relationships' => $this->relations($includes, $object)]);
 
-    /**
-     * @param $object
-     *
-     * @return array
-     */
-    private function transformObjects($object)
-    {
-        $results = [];
-        foreach ($object as $key => $item) {
-            $results[$key] = array_merge($this->item($item), $this->includes($item));
-        }
+  return array_merge(
+   $data,
+  ['included' =>  $includes]
+  );
 
-        return $results;
-    }
+}
 
-    /**
-     * @param $object
-     *
-     * @return bool
-     */
-    private function isPaginator($object)
-    {
-        return $object instanceof LengthAwarePaginator;
-    }
+private function objectIncludes($object)
+{
+  $results = [];
+
+
+  foreach (app('api')->includes() as $include) {
+      if (is_object($object->$include)) {
+          foreach ($object->$include as $included) {
+              $results[] = $this->item($included);
+          }
+      }
+  }
+
+
+return $results;
+
+}
+
+     private function transformPaginator()
+     {
+       $results = array_map(function($object){
+         return $this->transformation($object);
+       }, $this->object->all());
+       return  array_merge(['data' => $results], $this->getPaginationMeta());
+     }
+
+
+     private function transformObject()
+     {
+       return $this->transformation($this->object, true);
+     }
+
+
+
 
     /**
      * @param $object
@@ -121,10 +100,22 @@ class ApiTransformer
         $pimaryId = $object->getId();
 
         return [
-          'type'       => strtolower(class_basename($object)),
+          'type'       => $object->getTable(),
           'id'         => $object->$pimaryId,
           'attributes' => $object->filterAndTransform(),
         ];
+    }
+
+
+
+    /**
+     * @param $object
+     *
+     * @return bool
+     */
+    private function isPaginator()
+    {
+        return $this->object instanceof LengthAwarePaginator;
     }
 
     /**
@@ -135,22 +126,22 @@ class ApiTransformer
      *
      * @return array
      */
-    private function getPaginationMeta($paginator)
+    private function getPaginationMeta()
     {
         return [
           'meta'  => [
-            'total'        => $paginator->total(),
-            'currentPage'  => $paginator->currentPage(),
-            'perPage'      => $paginator->perPage(),
-            'hasMorePages' => $paginator->hasMorePages(),
-            'hasPages'     => $paginator->hasPages(),
+            'total'        => $this->object->total(),
+            'currentPage'  => $this->object->currentPage(),
+            'perPage'      => $this->object->perPage(),
+            'hasMorePages' => $this->object->hasMorePages(),
+            'hasPages'     => $this->object->hasPages(),
           ],
           'links' => [
-            'self'  => $paginator->url($paginator->currentPage()),
-            'first' => $paginator->url(1),
-            'last'  => $paginator->url($paginator->lastPage()),
-            'next'  => $paginator->nextPageUrl(),
-            'prev'  => $paginator->previousPageUrl(),
+            'self'  => $this->object->url($this->object->currentPage()),
+            'first' => $this->object->url(1),
+            'last'  => $this->object->url($this->object->lastPage()),
+            'next'  => $this->object->nextPageUrl(),
+            'prev'  => $this->object->previousPageUrl(),
           ],
         ];
     }
