@@ -155,6 +155,7 @@ class ApiTransformer
     private function getPaginationMeta()
     {
         $object = $this->object;
+
         return [
           'meta'  => [
             'total'        => $object->total(),
