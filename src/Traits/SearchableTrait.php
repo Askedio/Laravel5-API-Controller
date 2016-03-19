@@ -45,11 +45,11 @@ trait SearchableTrait
         $this->makeJoins($query);
 
         $search = mb_strtolower(trim($search));
-        $words = explode(' ', $search);
+        $words  = explode(' ', $search);
 
-        $selects = [];
+        $selects               = [];
         $this->search_bindings = [];
-        $relevanceCount = 0;
+        $relevanceCount        = 0;
 
         foreach ($this->getColumns() as $column => $relevance) {
             $relevanceCount += $relevance;
@@ -198,7 +198,7 @@ trait SearchableTrait
      */
     protected function filterQueryWithRelevance(Builder $query, array $selects, $relevanceCount)
     {
-        $comparator = $this->getDatabaseDriver() != 'mysql' ? implode(' + ', $selects) : 'relevance';
+        $comparator = $this->getDatabaseDriver() !== 'mysql' ? implode(' + ', $selects) : 'relevance';
 
         $relevanceCount = number_format($relevanceCount, 2, '.', '');
 
@@ -245,11 +245,11 @@ trait SearchableTrait
      */
     protected function getSearchQuery($column, $relevance, array $words, $relevanceMultiplier, $preWord = '', $postWord = '')
     {
-        $likeComparator = $this->getDatabaseDriver() == 'pgsql' ? 'ILIKE' : 'LIKE';
-        $cases = [];
+        $likeComparator = $this->getDatabaseDriver() === 'pgsql' ? 'ILIKE' : 'LIKE';
+        $cases          = [];
 
         foreach ($words as $word) {
-            $cases[] = $this->getCaseCompare($column, $likeComparator, $relevance * $relevanceMultiplier);
+            $cases[]                 = $this->getCaseCompare($column, $likeComparator, $relevance * $relevanceMultiplier);
             $this->search_bindings[] = $preWord.$word.$postWord;
         }
 
@@ -268,10 +268,10 @@ trait SearchableTrait
     protected function getCaseCompare($column, $compare, $relevance)
     {
         /* commented out for CI
-         }
+        }
          */
         $column = str_replace('.', '`.`', $column);
-        $field = 'LOWER(`'.$column.'`) '.$compare.' ?';
+        $field  = 'LOWER(`'.$column.'`) '.$compare.' ?';
 
         return '(case when '.$field.' then '.$relevance.' else 0 end)';
     }
@@ -284,10 +284,10 @@ trait SearchableTrait
      */
     protected function addBindingsToQuery(Builder $query, array $bindings)
     {
-        $count = $this->getDatabaseDriver() != 'mysql' ? 2 : 1;
+        $count = $this->getDatabaseDriver() !== 'mysql' ? 2 : 1;
         for ($i = 0; $i < $count; $i++) {
             foreach ($bindings as $binding) {
-                $type = $i == 0 ? 'where' : 'having';
+                $type = $i === 0 ? 'where' : 'having';
                 $query->addBinding($binding, $type);
             }
         }
@@ -303,7 +303,7 @@ trait SearchableTrait
     {
         $tableName = DB::connection($this->connection)->getTablePrefix().$this->getTable();
 
-        $this->getDatabaseDriver() == 'pgsql'
+        $this->getDatabaseDriver() === 'pgsql'
         ? $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as {$tableName}"))
         : $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as `{$tableName}`"));
 

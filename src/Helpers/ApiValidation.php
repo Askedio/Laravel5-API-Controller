@@ -32,7 +32,7 @@ class ApiValidation
      */
     public function validateRequests()
     {
-        if (!request()->isMethod('post') && !request()->isMethod('patch')) {
+        if (! request()->isMethod('post') && ! request()->isMethod('patch')) {
             return;
         }
 
@@ -40,55 +40,55 @@ class ApiValidation
 
         $fillable = $this->objects->getFillables();
 
-        if (!isset($request['attributes'])) {
+        if (! isset($request['attributes'])) {
             throw (new BadRequestException('invalid_filter'))->withDetails(['data.attributes']);
         }
 
         $errors = array_diff(array_keys($request['attributes']), $fillable->flatten()->all());
-        if (!empty($errors)) {
+        if (! empty($errors)) {
             throw (new BadRequestException('invalid_filter'))->withDetails($errors);
         }
     }
 
-  /**
-   * Validate include= variables to make sure our models have them (needs updated for sub includes, like include=users,profiles.addresses - by passes profiles for addresses).
-   *
-   * @return void
-   */
-  public function validateIncludes()
-  {
-      $allowed = $this->objects->getIncludes();
-      $includes = app('api')->includes();
+    /**
+     * Validate include= variables to make sure our models have them (needs updated for sub includes, like include=users,profiles.addresses - by passes profiles for addresses).
+     *
+     * @return void
+     */
+    public function validateIncludes()
+    {
+        $allowed  = $this->objects->getIncludes();
+        $includes = app('api')->includes();
 
-      $errors = array_diff($includes->all(), $allowed->all());
+        $errors = array_diff($includes->all(), $allowed->all());
 
-      if (!empty($errors)) {
-          throw (new BadRequestException('invalid_include'))->withDetails($errors);
-      }
-  }
+        if (! empty($errors)) {
+            throw (new BadRequestException('invalid_include'))->withDetails($errors);
+        }
+    }
 
-  /**
-   * Validate that fields[]= variables are in our models.
-   *
-   * @return array
-   */
-  public function validateFields()
-  {
-      $fields = app('api')->fields();
-      $columns = $this->objects->getColumns();
-      $includes = $this->objects->getIncludes();
+    /**
+     * Validate that fields[]= variables are in our models.
+     *
+     * @return array
+     */
+    public function validateFields()
+    {
+        $fields   = app('api')->fields();
+        $columns  = $this->objects->getColumns();
+        $includes = $this->objects->getIncludes();
 
-      $errors = array_diff($fields->keys()->all(), $includes->all());
-      if (!empty($errors)) {
-          throw (new BadRequestException('invalid_filter'))->withDetails($errors);
-      }
+        $errors = array_diff($fields->keys()->all(), $includes->all());
+        if (! empty($errors)) {
+            throw (new BadRequestException('invalid_filter'))->withDetails($errors);
+        }
 
-      $errors = $fields->map(function ($item, $key) use ($columns) {
-        return array_diff($item, $columns->get($key));
-      })->flatten()->all();
+        $errors = $fields->map(function ($item, $key) use ($columns) {
+            return array_diff($item, $columns->get($key));
+        })->flatten()->all();
 
-      if (!empty($errors)) {
-          throw (new BadRequestException('invalid_filter'))->withDetails($errors);
-      }
-  }
+        if (! empty($errors)) {
+            throw (new BadRequestException('invalid_filter'))->withDetails($errors);
+        }
+    }
 }

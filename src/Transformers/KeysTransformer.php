@@ -12,52 +12,52 @@ use Askedio\Laravel5ApiController\Helpers\Api;
 class KeysTransformer
 {
     /**
-      * @link http://jsonapi.org/format/#document-member-names-reserved-characters
-      *
-      * @var array
-      */
-     protected $forbiddenCharacters = [
-         '+',
-         ',',
-         '.',
-         '[',
-         ']',
-         '!',
-         '"',
-         '#',
-         '$',
-         '%',
-         '&',
-         '\'',
-         '(',
-         ')',
-         '*',
-         '/',
-         ':',
-         ';',
-         '<',
-         '=',
-         '>',
-         '?',
-         '@',
-         '\\',
-         '^',
-         '`',
-         '{',
-         '|',
-         '}',
-         '~',
-     ];
-     /**
-      * @link http://jsonapi.org/format/#document-member-names-allowed-characters
-      *
-      * @var array
-      */
-     protected $forbiddenFirstOrLast = [
-         '-',
-         '_',
-         ' ',
-     ];
+     * @link http://jsonapi.org/format/#document-member-names-reserved-characters
+     *
+     * @var array
+     */
+    protected $forbiddenCharacters = [
+        '+',
+        ',',
+        '.',
+        '[',
+        ']',
+        '!',
+        '"',
+        '#',
+        '$',
+        '%',
+        '&',
+        '\'',
+        '(',
+        ')',
+        '*',
+        '/',
+        ':',
+        ';',
+        '<',
+        '=',
+        '>',
+        '?',
+        '@',
+        '\\',
+        '^',
+        '`',
+        '{',
+        '|',
+        '}',
+        '~',
+    ];
+    /**
+     * @link http://jsonapi.org/format/#document-member-names-allowed-characters
+     *
+     * @var array
+     */
+    protected $forbiddenFirstOrLast = [
+        '-',
+        '_',
+        ' ',
+    ];
 
     /**
      * Convert array indexes to json api spec indexes.
@@ -85,7 +85,7 @@ class KeysTransformer
      */
     private function convert($key)
     {
-        if (!is_string($key)) {
+        if (! is_string($key)) {
             return $key;
         }
 

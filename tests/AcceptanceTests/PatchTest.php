@@ -10,12 +10,12 @@ class PatchTest extends AcceptanceTestCase
     {
         $this->createUser();
         $this->json('PATCH', '/api/user/1', [
-          'data' => [
-            'type'       => 'users',
-            'attributes' => [
-              'name' => 'testupdate',
+            'data' => [
+                'type'       => 'users',
+                'attributes' => [
+                    'name' => 'testupdate',
+                ],
             ],
-          ],
         ]);
         $response = $this->response;
         $this->assertEquals(200, $response->getStatusCode());
@@ -27,8 +27,8 @@ class PatchTest extends AcceptanceTestCase
     {
         $this->createUser();
         $this->json('PATCH', '/api/user/1', [
-            'test'     => 'test',
-          ]);
+            'test' => 'test',
+        ]);
 
         $response = $this->response;
         $this->assertEquals(400, $response->getStatusCode());
@@ -39,12 +39,12 @@ class PatchTest extends AcceptanceTestCase
     {
         $this->createUser();
         $this->json('PATCH', '/api/user/1', [
-          'data' => [
-            'type'       => 'users',
-            'attributes' => [
-              'email' => 'notanemail',
+            'data' => [
+                'type'       => 'users',
+                'attributes' => [
+                    'email' => 'notanemail',
+                ],
             ],
-          ],
         ]);
 
         $response = $this->response;
@@ -55,12 +55,12 @@ class PatchTest extends AcceptanceTestCase
     public function testPatch404()
     {
         $this->json('PATCH', '/api/user/404', [
-          'data' => [
-            'type'       => 'users',
-            'attributes' => [
-              'name' => 'Ember Hamster kpok',
+            'data' => [
+                'type'       => 'users',
+                'attributes' => [
+                    'name' => 'Ember Hamster kpok',
+                ],
             ],
-          ],
         ]);
 
         $response = $this->response;

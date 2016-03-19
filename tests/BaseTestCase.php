@@ -38,7 +38,7 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
      */
     public function migrate()
     {
-        $fileSystem = new Filesystem();
+        $fileSystem  = new Filesystem();
         $classFinder = new ClassFinder();
 
         foreach ($fileSystem->files(__DIR__.'/App/Database/Migrations') as $file) {
@@ -91,12 +91,12 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
     public function createUserRaw()
     {
         /* temporary since we dont have relational creation yet */
-      return (new User())->create([
-        'name'     => 'test',
-        'email'    => 'test@test.com',
-        'password' => bcrypt('password'),
-       ])->profiles()->saveMany([
-            new Profiles(['phone'     => '123']),
-       ]);
+        return (new User())->create([
+            'name'     => 'test',
+            'email'    => 'test@test.com',
+            'password' => bcrypt('password'),
+        ])->profiles()->saveMany([
+            new Profiles(['phone' => '123']),
+        ]);
     }
 }

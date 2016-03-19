@@ -39,10 +39,10 @@ class ApiTransformer
     private function transformPaginator()
     {
         $results = array_map(function ($object) {
-         return $this->transformation($object, false);
-       }, $this->object->all());
+            return $this->transformation($object, false);
+        }, $this->object->all());
 
-        return  array_merge(['data' => $results], $this->getPaginationMeta());
+        return array_merge(['data' => $results], $this->getPaginationMeta());
     }
 
     /**
@@ -71,9 +71,9 @@ class ApiTransformer
         $data = array_merge($item, ['relationships' => $this->relations($includes)]);
 
         return array_merge(
-          $data,
-          ['included' => $includes],
-          $single ? ['links' => ['self' => request()->url()]] : []
+            $data,
+            ['included' => $includes],
+            $single ? ['links' => ['self' => request()->url()]] : []
         );
     }
 
@@ -111,9 +111,9 @@ class ApiTransformer
         $pimaryId = $object->getId();
 
         return [
-          'type'       => $object->getTable(),
-          'id'         => $object->$pimaryId,
-          'attributes' => $object->filterAndTransform(),
+            'type'       => $object->getTable(),
+            'id'         => $object->$pimaryId,
+            'attributes' => $object->filterAndTransform(),
         ];
     }
 
@@ -128,8 +128,8 @@ class ApiTransformer
     private function relations($includes)
     {
         return array_map(function ($inc) {
-        return [$inc['type'] => ['data' => ['id' => $inc['attributes']['id'], 'type' => $inc['type']]]];
-      }, $includes);
+            return [$inc['type'] => ['data' => ['id' => $inc['attributes']['id'], 'type' => $inc['type']]]];
+        }, $includes);
     }
 
     /**
@@ -155,20 +155,20 @@ class ApiTransformer
         $object = $this->object;
 
         return [
-          'meta'  => [
-            'total'        => $object->total(),
-            'currentPage'  => $object->currentPage(),
-            'perPage'      => $object->perPage(),
-            'hasMorePages' => $object->hasMorePages(),
-            'hasPages'     => $object->hasPages(),
-          ],
-          'links' => [
-            'self'  => $object->url($object->currentPage()),
-            'first' => $object->url(1),
-            'last'  => $object->url($object->lastPage()),
-            'next'  => $object->nextPageUrl(),
-            'prev'  => $object->previousPageUrl(),
-          ],
+            'meta'  => [
+                'total'        => $object->total(),
+                'currentPage'  => $object->currentPage(),
+                'perPage'      => $object->perPage(),
+                'hasMorePages' => $object->hasMorePages(),
+                'hasPages'     => $object->hasPages(),
+            ],
+            'links' => [
+                'self'  => $object->url($object->currentPage()),
+                'first' => $object->url(1),
+                'last'  => $object->url($object->lastPage()),
+                'next'  => $object->nextPageUrl(),
+                'prev'  => $object->previousPageUrl(),
+            ],
         ];
     }
 }

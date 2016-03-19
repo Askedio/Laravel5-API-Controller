@@ -3,7 +3,6 @@
 namespace Askedio\Laravel5ApiController\Traits;
 
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
-use Askedio\Laravel5ApiController\Helpers\Api;
 use Askedio\Laravel5ApiController\Helpers\ApiController;
 use Askedio\Laravel5ApiController\Transformers\ApiTransformer;
 
@@ -14,7 +13,7 @@ trait ControllerTrait
 
     public function __construct()
     {
-        if (isset($this->version) && app('api')->getVersion() != $this->version) {
+        if (isset($this->version) && app('api')->getVersion() !== $this->version) {
             throw (new NotAcceptableException('not-acceptable'))->withDetails('/application/vnd.api.'.$this->version.'+json');
         }
 
@@ -24,46 +23,46 @@ trait ControllerTrait
     public function index()
     {
         return $this->render([
-          'success' => 200,
-          'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
-          'results' => $this->results->index(),
+            'success' => 200,
+            'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
+            'results' => $this->results->index(),
         ]);
     }
 
     public function store()
     {
         return $this->render([
-          'success' => 200,
-          'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
-          'results' => $this->results->store(),
+            'success' => 200,
+            'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
+            'results' => $this->results->store(),
         ]);
     }
 
     public function show($idd)
     {
         return $this->render([
-          'success' => 200,
-          'error'   => \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
-          'results' => $this->results->show($idd),
+            'success' => 200,
+            'error'   => \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+            'results' => $this->results->show($idd),
         ]);
     }
 
     public function update($idd)
     {
         return $this->render([
-          'success' => 200,
-          'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
-          'results' => $this->results->update($idd),
+            'success' => 200,
+            'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
+            'results' => $this->results->update($idd),
         ]);
     }
 
     public function destroy($idd)
     {
         return $this->render([
-          'success' => 200,
-          'error'   => \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
-          'data'    => $this->results->show($idd),
-          'results' => $this->results->destroy($idd),
+            'success' => 200,
+            'error'   => \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+            'data'    => $this->results->show($idd),
+            'results' => $this->results->destroy($idd),
         ]);
     }
 

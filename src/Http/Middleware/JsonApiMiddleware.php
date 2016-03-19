@@ -5,7 +5,6 @@ namespace Askedio\Laravel5ApiController\Http\Middleware;
 use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
 use Askedio\Laravel5ApiController\Exceptions\NotAcceptableException;
 use Askedio\Laravel5ApiController\Exceptions\UnsupportedMediaTypeException;
-use Askedio\Laravel5ApiController\Helpers\Api;
 use Closure;
 
 class JsonApiMiddleware
@@ -37,7 +36,7 @@ class JsonApiMiddleware
      */
     private function checkGetVars()
     {
-        if (!$this->request->isMethod('get')) {
+        if (! $this->request->isMethod('get')) {
             return false;
         }
 
@@ -55,10 +54,10 @@ class JsonApiMiddleware
 
         foreach (array_keys($badRequestInput) as $field) {
             array_push($errors, [
-            //'code'   => 0,
-            'source' => ['pointer' => $field],
-            'title'  => config('errors.invalid_get.title'),
-          ]);
+                //'code'   => 0,
+                'source' => ['pointer' => $field],
+                'title'  => config('errors.invalid_get.title'),
+            ]);
         }
 
         throw (new BadRequestException('invalid_get'))->withErrors($errors);
@@ -75,7 +74,7 @@ class JsonApiMiddleware
 
         app('api')->setVersion(isset($matches[1]) ? $matches[1] : config('jsonapi.version'));
 
-        if ($matches || $this->request->header('Accept') == config('jsonapi.accept') || !config('jsonapi.strict')) {
+        if ($matches || $this->request->header('Accept') === config('jsonapi.accept') || ! config('jsonapi.strict')) {
             return;
         }
 
@@ -89,7 +88,7 @@ class JsonApiMiddleware
      */
     private function checkContentType()
     {
-        if ($this->request->header('Content-Type') == config('jsonapi.content_type') || !config('jsonapi.strict')) {
+        if ($this->request->header('Content-Type') === config('jsonapi.content_type') || ! config('jsonapi.strict')) {
             return;
         }
 
