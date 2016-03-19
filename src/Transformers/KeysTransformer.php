@@ -85,7 +85,7 @@ class KeysTransformer
      */
     private function convert($key)
     {
-        if (!is_string($key)) {
+        if (! is_string($key)) {
             return $key;
         }
 

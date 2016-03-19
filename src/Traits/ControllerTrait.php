@@ -13,7 +13,7 @@ trait ControllerTrait
 
     public function __construct()
     {
-        if (isset($this->version) && app('api')->getVersion() != $this->version) {
+        if (isset($this->version) && app('api')->getVersion() !== $this->version) {
             throw (new NotAcceptableException('not-acceptable'))->withDetails('/application/vnd.api.'.$this->version.'+json');
         }
 
