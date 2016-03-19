@@ -12,9 +12,8 @@ class ApiValidation
     /** @var object */
     private $objects;
 
-
     /**
-     * Validate includes, fields and requests
+     * Validate includes, fields and requests.
      *
      * @param object $object The default model object
      */
@@ -28,6 +27,7 @@ class ApiValidation
 
     /**
      * Validate post and patch requests to make sure the elements are fillable (needs updating to json api spec posts/patch).
+     *
      * @return [type] [description]
      */
     public function validateRequests()
@@ -46,7 +46,7 @@ class ApiValidation
     }
 
   /**
-   * Validate include= variables to make sure our models have them (needs updated for sub includes, like include=users,profiles.addresses - by passes profiles for addresses)
+   * Validate include= variables to make sure our models have them (needs updated for sub includes, like include=users,profiles.addresses - by passes profiles for addresses).
    *
    * @return void
    */

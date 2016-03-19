@@ -59,14 +59,13 @@ class KeysTransformer
          ' ',
      ];
 
-
-     /**
-      * Convert array indexes to json api spec indexes.
-      *
-      * @param  array $array [description]
-      *
-      * @return array
-      */
+    /**
+     * Convert array indexes to json api spec indexes.
+     *
+     * @param array $array [description]
+     *
+     * @return array
+     */
     public function transform($array)
     {
         $results = [];
@@ -80,7 +79,8 @@ class KeysTransformer
     /**
      * Do the actual conversion.
      *
-     * @param  
+     * @param
+     *
      * @return
      */
     private function convert($key)
