@@ -9,8 +9,15 @@ use Askedio\Laravel5ApiController\Exceptions\BadRequestException;
  */
 class ApiValidation
 {
+    /** @var object */
     private $objects;
 
+
+    /**
+     * Validate includes, fields and requests
+     *
+     * @param object $object The default model object
+     */
     public function __construct($objects)
     {
         $this->objects = $objects;
@@ -19,6 +26,10 @@ class ApiValidation
         $this->validateRequests();
     }
 
+    /**
+     * Validate post and patch requests to make sure the elements are fillable (needs updating to json api spec posts/patch).
+     * @return [type] [description]
+     */
     public function validateRequests()
     {
         if (!request()->isMethod('post') && !request()->isMethod('patch')) {
@@ -35,7 +46,7 @@ class ApiValidation
     }
 
   /**
-   * Check if includes get variable is valid.
+   * Validate include= variables to make sure our models have them (needs updated for sub includes, like include=users,profiles.addresses - by passes profiles for addresses)
    *
    * @return void
    */
@@ -52,7 +63,7 @@ class ApiValidation
   }
 
   /**
-   * Validate fields belong.
+   * Validate that fields[]= variables are in our models.
    *
    * @return array
    */

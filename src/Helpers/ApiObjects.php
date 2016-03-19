@@ -26,28 +26,12 @@ class ApiObjects
     /** @var collection */
     private $columns;
 
-/*
-    public function getRelations()
-    {
-      return $this->relations;
-    }
-*/
 
-    public function getFillables()
-    {
-        return $this->fillables;
-    }
-
-    public function getIncludes()
-    {
-        return $this->includes;
-    }
-
-    public function getColumns()
-    {
-        return $this->columns;
-    }
-
+    /**
+     * Build all collections
+     * 
+     * @param object $object The default model object
+     */
     public function __construct($object)
     {
         $this->baseObject = $object;
@@ -55,6 +39,37 @@ class ApiObjects
         $this->includes = collect([]);
         $this->columns = collect([]);
         $this->relations = collect($this->includes($object));
+    }
+
+
+    /**
+     * Return a collection of all fillable items.
+     *
+     * @return collection
+     */
+    public function getFillables()
+    {
+        return $this->fillables;
+    }
+
+    /**
+     * Return a collection of all includes.
+     *
+     * @return collection
+     */
+    public function getIncludes()
+    {
+        return $this->includes;
+    }
+
+    /**
+     * Return a collection of all columns.
+     *
+     * @return collection
+     */
+    public function getColumns()
+    {
+        return $this->columns;
     }
 
   /**
