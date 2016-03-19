@@ -1,8 +1,0 @@
-preset: laravel
-
-linting: true
-
-enabled:
-  - strict
-  - align_double_arrow
-  - align_equals
