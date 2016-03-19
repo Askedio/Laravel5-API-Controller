@@ -39,7 +39,7 @@ class ApiTransformer
     private function transformPaginator()
     {
         $results = array_map(function ($object) {
-         return $this->transformation($object);
+         return $this->transformation($object, false);
        }, $this->object->all());
 
         return  array_merge(['data' => $results], $this->getPaginationMeta());
@@ -63,12 +63,12 @@ class ApiTransformer
    *
    * @return array
    */
-  private function transformation($object, $single = false)
+  private function transformation($object, $single)
   {
       $includes = $this->objectIncludes($object);
 
       $item = $single ? ['data' => $this->item($object)] : $this->item($object);
-      $data = array_merge($item, ['relationships' => $this->relations($includes, $object)]);
+      $data = array_merge($item, ['relationships' => $this->relations($includes)]);
 
       return array_merge(
         $data,
@@ -124,7 +124,7 @@ class ApiTransformer
      *
      * @return [type] [description]
      */
-    private function relations($includes, $object)
+    private function relations($includes)
     {
         $relations = [];
         foreach ($includes as $inc) {
@@ -154,20 +154,22 @@ class ApiTransformer
      */
     private function getPaginationMeta()
     {
+        $object = $this->object;
+
         return [
           'meta'  => [
-            'total'        => $this->object->total(),
-            'currentPage'  => $this->object->currentPage(),
-            'perPage'      => $this->object->perPage(),
-            'hasMorePages' => $this->object->hasMorePages(),
-            'hasPages'     => $this->object->hasPages(),
+            'total'        => $object->total(),
+            'currentPage'  => $object->currentPage(),
+            'perPage'      => $object->perPage(),
+            'hasMorePages' => $object->hasMorePages(),
+            'hasPages'     => $object->hasPages(),
           ],
           'links' => [
-            'self'  => $this->object->url($this->object->currentPage()),
-            'first' => $this->object->url(1),
-            'last'  => $this->object->url($this->object->lastPage()),
-            'next'  => $this->object->nextPageUrl(),
-            'prev'  => $this->object->previousPageUrl(),
+            'self'  => $object->url($object->currentPage()),
+            'first' => $object->url(1),
+            'last'  => $object->url($object->lastPage()),
+            'next'  => $object->nextPageUrl(),
+            'prev'  => $object->previousPageUrl(),
           ],
         ];
     }
