@@ -95,12 +95,12 @@ abstract class ApiException extends Exception
      */
     private function item($template, $detail)
     {
-        $insert  = $template;
+        $insert = $template;
         $replace = $template['detail'];
 
         $insert['detail'] = vsprintf($replace, $detail);
         if (isset($template['source'])) {
-            $insert['source']                              = [];
+            $insert['source'] = [];
             $insert['source'][$template['source']['type']] = vsprintf($template['source']['value'], $detail);
         }
 
@@ -120,8 +120,8 @@ abstract class ApiException extends Exception
             return false;
         }
 
-        $settings     = $this->settings($args);
-        $this->error  = $settings;
+        $settings = $this->settings($args);
+        $this->error = $settings;
         $this->status = $settings['code'];
     }
 
