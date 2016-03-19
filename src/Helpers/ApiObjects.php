@@ -26,10 +26,9 @@ class ApiObjects
     /** @var collection */
     private $columns;
 
-
     /**
-     * Build all collections
-     * 
+     * Build all collections.
+     *
      * @param object $object The default model object
      */
     public function __construct($object)
@@ -40,7 +39,6 @@ class ApiObjects
         $this->columns = collect([]);
         $this->relations = collect($this->includes($object));
     }
-
 
     /**
      * Return a collection of all fillable items.

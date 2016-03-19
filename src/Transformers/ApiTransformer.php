@@ -12,15 +12,13 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 class ApiTransformer
 {
-
     /** @var object */
     private $object;
-
 
     /**
      * Detect the type of object, transform and return a KeysTransformerd results.
      *
-     * @param  object $object
+     * @param object $object
      *
      * @return KeysTransformer
      */
@@ -32,8 +30,6 @@ class ApiTransformer
 
         return (new KeysTransformer())->transform($results);
     }
-
-
 
     /**
      * Transform Pagination.
@@ -49,7 +45,6 @@ class ApiTransformer
         return  array_merge(['data' => $results], $this->getPaginationMeta());
     }
 
-
     /**
      * Transform objects.
      *
@@ -60,15 +55,14 @@ class ApiTransformer
         return $this->transformation($this->object, true);
     }
 
-
-    /**
-     * Build the transformed results.
-     *
-     * @param  object $object
-     * @param  boolean $single
-     *
-     * @return array
-     */
+  /**
+   * Build the transformed results.
+   *
+   * @param  object $object
+   * @param  bool $single
+   *
+   * @return array
+   */
   private function transformation($object, $single = false)
   {
       $includes = $this->objectIncludes($object);
@@ -81,8 +75,6 @@ class ApiTransformer
         ['included' => $includes]
       );
   }
-
-
 
       /**
        * Build a list of includes for this object.
@@ -124,13 +116,13 @@ class ApiTransformer
           ];
       }
 
-
     /**
      * Get relations for the included items.
      *
-     * @param  [type] $includes [description]
-     * @param  [type] $object   [description]
-     * @return [type]           [description]
+     * @param [type] $includes [description]
+     * @param [type] $object   [description]
+     *
+     * @return [type] [description]
      */
     private function relations($includes, $object)
     {
@@ -141,10 +133,6 @@ class ApiTransformer
 
         return $relations;
     }
-
-
-
-
 
     /**
      * @param $object
