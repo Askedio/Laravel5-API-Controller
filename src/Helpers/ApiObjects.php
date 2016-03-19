@@ -79,7 +79,6 @@ class ApiObjects
    */
   private function includes($object)
   {
-      $primaryId = $object->getId();
       $fillable = $object->getFillable();
       $includes = $object->getIncludes();
       $table = $object->getTable();

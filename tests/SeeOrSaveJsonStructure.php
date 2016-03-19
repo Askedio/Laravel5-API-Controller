@@ -6,15 +6,12 @@ trait SeeOrSaveJsonStructure
 {
     /**
        * See a json result from a file or save json result to file.
-       *
-       * @param  \Illuminate\Http\JsonResponse $response [description]
-       *
-       * @return void
+       * 
        */
-      public function seeOrSaveJsonStructure(\Illuminate\Http\JsonResponse $response)
+      public function seeOrSaveJsonStructure()
       {
           if (!env('RESPONSE_FOLDER')) {
-              return;
+              return $this;
           }
 
           $this->setup();
@@ -24,10 +21,12 @@ trait SeeOrSaveJsonStructure
           if (!env('SAVE_RESPONSES', false) && file_exists($file)) {
               $this->seeJsonStructure(json_decode(file_get_contents($file), true));
 
-              return;
+              return $this;
           }
 
-          file_put_contents($file, json_encode($this->getKeys($response->getContent())));
+          file_put_contents($file, json_encode($this->getKeys($this->response->getContent())));
+
+          return $this;
       }
 
       /**

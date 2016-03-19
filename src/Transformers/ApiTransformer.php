@@ -68,7 +68,7 @@ class ApiTransformer
       $includes = $this->objectIncludes($object);
 
       $item = $single ? ['data' => $this->item($object)] : $this->item($object);
-      $data = array_merge($item, ['relationships' => $this->relations($includes, $object)]);
+      $data = array_merge($item, ['relationships' => $this->relations($includes)]);
 
       return array_merge(
         $data,
@@ -124,7 +124,7 @@ class ApiTransformer
      *
      * @return [type] [description]
      */
-    private function relations($includes, $object)
+    private function relations($includes)
     {
         $relations = [];
         foreach ($includes as $inc) {
