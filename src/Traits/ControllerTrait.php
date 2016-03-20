@@ -26,7 +26,7 @@ trait ControllerTrait
             'success' => 200,
             'error'   => [
               'class'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
-              'message' => trans('jsonapi::errors.server_error'),
+              'message' => 500,
             ],
             'results' => $this->results->index(),
         ]);
@@ -38,7 +38,7 @@ trait ControllerTrait
             'success' => 200,
             'error'   => [
               'class'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
-              'message' => trans('jsonapi::errors.server_error'),
+              'message' => 500,
             ],
             'results' => $this->results->store(),
         ]);
@@ -62,7 +62,7 @@ trait ControllerTrait
             'success' => 200,
             'error'   => [
               'class'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
-              'message' => trans('jsonapi::errors.server_error'),
+              'message' => 500,
             ],
             'results' => $this->results->update($idd),
         ]);
