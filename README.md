@@ -1,11 +1,12 @@
 ![laravel-cruddy](http://i.imgur.com/TmEh1m6.jpgg)
+
 A really simple package that provides a CRUD JSON API for your Laravel 5 application.
 
-[![Build Status](https://img.shields.io/travis/Askedio/Laravel5-API-Controller/master.svg?style=flat-square)](https://travis-ci.org/Askedio/Laravel5-API-Controller)
+[![Build Status](https://travis-ci.org/Askedio/laravel-Cruddy.svg?branch=master)](https://travis-ci.org/Askedio/laravel-Cruddy)
 [![StyleCI](https://styleci.io/repos/52752552/shield)](https://styleci.io/repos/52752552)
-[![Code Climate](https://codeclimate.com/github/Askedio/Laravel5-API-Controller/badges/gpa.svg)](https://codeclimate.com/github/Askedio/Laravel5-API-Controller)
-[![Codacy Badge](https://api.codacy.com/project/badge/grade/c2f2291fe3af4ea3a511afa64ddc034b)](https://www.codacy.com/app/gcphost/Laravel5-API-Controller)
-[![Codacy Badge](https://api.codacy.com/project/badge/coverage/c2f2291fe3af4ea3a511afa64ddc034b)](https://www.codacy.com/app/gcphost/Laravel5-API-Controller)
+[![Code Climate](https://codeclimate.com/github/Askedio/laravel-Cruddy/badges/gpa.svg)](https://codeclimate.com/github/Askedio/laravel-Cruddy)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/c2f2291fe3af4ea3a511afa64ddc034b)](https://www.codacy.com/app/gcphost/laravel-Cruddy)
+[![Codacy Badge](https://api.codacy.com/project/badge/coverage/c2f2291fe3af4ea3a511afa64ddc034b)](https://www.codacy.com/app/gcphost/laravel-Cruddy)
 
 * [Live Demo](https://cruddy.io/app/)
 * [Laravel 5.2 Example Package](https://github.com/Askedio/Laravel-5-CRUD-Example)
@@ -14,14 +15,12 @@ A really simple package that provides a CRUD JSON API for your Laravel 5 applica
 
 
 # Installation
-Read the [wiki](https://github.com/Askedio/Laravel5-API-Controller/wiki) for more details.
+Read the [wiki](https://github.com/Askedio/laravel-Cruddy/wiki) for more details.
 
 ### Install Package
 ~~~
-composer require askedio/laravel5-api-controller::0.0.6.x-dev
+composer require askedio/laravel-Cruddy::dev-master
 ~~~
-
-
 
 
 ### Add to Providers: config/app.php
@@ -44,7 +43,7 @@ class User extends Authenticatable
     use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
     ...
 ~~~
-You can set more details, like searching, includes, rules, primarykey and transform in the [Model Options](https://github.com/Askedio/Laravel5-API-Controller/wiki/Models).
+You can set more details, like searching, includes, rules, primarykey and transform in the [Model Options](https://github.com/Askedio/laravel-Cruddy/wiki/Models).
 
 ### Controller: app/Http/Controllers/Api/UserController.php
 Create a custom controller for your API.
@@ -75,7 +74,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 });
 ~~~
 * Provides configurable strict mode to do Accept and Content-type matching.
-* Provides [Version Control](https://github.com/Askedio/Laravel5-API-Controller/wiki/Version-Control)
+* Provides [Version Control](https://github.com/Askedio/laravel-Cruddy/wiki/Version-Control)
 
 
 
@@ -153,10 +152,7 @@ Supported:
 * Member Name Sanitation | [ref](http://jsonapi.org/format/#document-member-names)
 
 ## Not Supported:
-* PUT: I am using PATCH instead.
-* PATCH/POST input variables: Currently accepting {var:val}
-
-
+* PUT: Use PATCH instead.
 
 
 ## Strict Mode
