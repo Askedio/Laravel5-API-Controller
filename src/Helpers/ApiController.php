@@ -32,7 +32,7 @@ class ApiController
             $results->search(request()->input('search'));
         }
 
-        return $results->paginate(request()->input('page.limit', 10), ['*'], 'page', request()->input('page.number', 1)
+        return $results->paginate(request()->input('page.size', 10), ['*'], 'page', request()->input('page.number', 1)
         );
     }
 
@@ -87,7 +87,7 @@ class ApiController
     }
 
     /**
-     * Clean Request Fields.
+     * Get request body data->attibutes
      *
      * @return array
      */
@@ -111,8 +111,7 @@ class ApiController
         $errors    = [];
         foreach ($validator->errors()->toArray() as $field => $err) {
             array_push($errors, [
-                // TO-DO: report valid json api error code base on validation error.
-                //'code'   => 0,
+                //'code'   => 0, # TO-DO: report valid json api error code base on validation error.
                 'source' => ['pointer' => $field],
                 'title'  => config('errors.invalid_attribute.title'),
                 'detail' => implode(' ', $err),
