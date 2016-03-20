@@ -222,7 +222,7 @@
 		{
 			"id": "e8755e27-4396-cf48-5d77-4e20d6b4906e",
 			"headers": "Content-Type: application/vnd.api+json\nAccept: application/vnd.api+json\n",
-			"url": "http://localhost:8000/api/admin/user?page[limit]=1&page[number]=1",
+			"url": "http://localhost:8000/api/admin/user?page[size]=1&page[number]=1",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "GET",
@@ -231,7 +231,7 @@
 			"tests": "tests[\"Body Content-Type\"] = \"application/vnd.api+json\"\n\n\ntests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1458260453917,
+			"time": 1458489164991,
 			"name": "List Pagination",
 			"description": "            ",
 			"collectionId": "e34ec7c9-8419-ac7e-d344-2eac7e6cbe71",

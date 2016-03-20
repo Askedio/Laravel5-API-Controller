@@ -10,7 +10,7 @@ return [
     'allowed_get'  => [
       'include' => '',
       'fields'  => '',
-      'page'    => ['limit', 'number'],
+      'page'    => ['size', 'number'],
       'sort'    => '',
       'search'  => '',
     ],

@@ -22,6 +22,7 @@ class JsonApiMiddleware
     public function handle($request, Closure $next)
     {
         $this->request = $request;
+
         $this->checkGetVars();
         $this->checkAccept();
         $this->checkContentType();
