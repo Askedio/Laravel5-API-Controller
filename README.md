@@ -19,7 +19,7 @@ Read the [wiki](https://github.com/Askedio/laravel-Cruddy/wiki) for more details
 
 ### Install Package
 ~~~
-composer require askedio/laravel-Cruddy::dev-master
+composer require askedio/laravel-cruddy::dev-master
 ~~~
 
 
