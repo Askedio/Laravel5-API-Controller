@@ -119,7 +119,7 @@ class ApiController
             ]);
         }
 
-        if (! empty($errors)) {
+        if (!empty($errors)) {
             throw (new InvalidAttributeException('invalid_attribute', 403))->withErrors($errors);
         }
     }

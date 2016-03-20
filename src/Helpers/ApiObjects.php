@@ -4,10 +4,6 @@ namespace Askedio\Laravel5ApiController\Helpers;
 
 /**
  * Intended to build a collection of objects to be validated and transformed
- * Base model is already loaded
- * Load each included module - recurisvely load sub models
- * Build collection of all possible model options
- * - TO-DO: profiles, profiles.addresses.
  */
 class ApiObjects
 {

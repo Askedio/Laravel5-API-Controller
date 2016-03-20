@@ -1,7 +1,7 @@
 {
-    "name": "askedio/laravel5-api-controller",
-    "description": "A Generic Controller for Modals",
-    "keywords": ["laravel"],
+    "name": "askedio/laravel-Cruddy",
+    "description": "A JSON API CRUD Package for Laravel 5",
+    "keywords": ["laravel", "json", "jsonapi", "crud"],
     "license": "MIT",
     "type": "library",
     "require": {
