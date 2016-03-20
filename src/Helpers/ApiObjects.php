@@ -3,7 +3,7 @@
 namespace Askedio\Laravel5ApiController\Helpers;
 
 /**
- * Intended to build a collection of objects to be validated and transformed
+ * Intended to build a collection of objects to be validated and transformed.
  */
 class ApiObjects
 {
