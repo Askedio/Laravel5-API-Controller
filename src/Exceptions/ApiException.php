@@ -138,6 +138,6 @@ abstract class ApiException extends Exception
             'code'   => isset($args[1]) ? $args[1] : $this->status,
         ];
 
-        return array_merge($base, config(sprintf('errors.%s', $args[0]), []));
+        return array_merge($base, config(sprintf('jsonapi_errors.%s', $args[0]), []));
     }
 }

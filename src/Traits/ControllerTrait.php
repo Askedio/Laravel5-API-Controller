@@ -24,7 +24,10 @@ trait ControllerTrait
     {
         return $this->render([
             'success' => 200,
-            'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
+            'error'   => [
+              'class'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
+              'message' => trans('jsonapi::errors.server_error'),
+            ],
             'results' => $this->results->index(),
         ]);
     }
@@ -33,7 +36,10 @@ trait ControllerTrait
     {
         return $this->render([
             'success' => 200,
-            'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
+            'error'   => [
+              'class'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
+              'message' => trans('jsonapi::errors.server_error'),
+            ],
             'results' => $this->results->store(),
         ]);
     }
@@ -42,7 +48,10 @@ trait ControllerTrait
     {
         return $this->render([
             'success' => 200,
-            'error'   => \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+            'error'   => [
+              'class'   => \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+              'message' => trans('jsonapi::errors.not_found'),
+            ],
             'results' => $this->results->show($idd),
         ]);
     }
@@ -51,7 +60,10 @@ trait ControllerTrait
     {
         return $this->render([
             'success' => 200,
-            'error'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
+            'error'   => [
+              'class'   => \Symfony\Component\HttpKernel\Exception\HttpException::class,
+              'message' => trans('jsonapi::errors.server_error'),
+            ],
             'results' => $this->results->update($idd),
         ]);
     }
@@ -60,7 +72,10 @@ trait ControllerTrait
     {
         return $this->render([
             'success' => 200,
-            'error'   => \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+            'error'   => [
+              'class'   => \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
+              'message' => trans('jsonapi::errors.not_found')
+            ],
             'data'    => $this->results->show($idd),
             'results' => $this->results->destroy($idd),
         ]);
@@ -72,6 +87,6 @@ trait ControllerTrait
             return response()->jsonapi($data['success'], (new ApiTransformer())->transform(isset($data['data']) ? $data['data'] : $data['results']));
         }
 
-        throw new $data['error']('');
+        throw new $data['error']['class']($data['error']['message']);
     }
 }
