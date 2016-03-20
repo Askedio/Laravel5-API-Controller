@@ -8,8 +8,6 @@ A really simple package that provides a CRUD JSON API for your Laravel 5 applica
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/c2f2291fe3af4ea3a511afa64ddc034b)](https://www.codacy.com/app/gcphost/laravel-Cruddy)
 [![Codacy Badge](https://api.codacy.com/project/badge/coverage/c2f2291fe3af4ea3a511afa64ddc034b)](https://www.codacy.com/app/gcphost/laravel-Cruddy)
 
-<br>
-
 * [Live Demo](https://cruddy.io/app/).
 * [Laravel 5.2 Example Package](https://github.com/Askedio/Laravel-5-CRUD-Example).
 * Plays well with [jQuery CRUDdy](https://github.com/Askedio/jQuery-Cruddy).
@@ -75,7 +73,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 
 <br />
 <br />
-<br />
+
 
 
 # Usage
@@ -111,7 +109,7 @@ Content-Type: application/vnd.api+json
 ~~~
 
 
-<br /><br /><br />
+<br /><br />
 
 
 # Comments
