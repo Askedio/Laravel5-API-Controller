@@ -1,5 +1,5 @@
 {
-    "name": "askedio/laravel-Cruddy",
+    "name": "askedio/laravel-cruddy",
     "description": "A JSON API CRUD Package for Laravel 5",
     "keywords": ["laravel", "json", "jsonapi", "crud"],
     "license": "MIT",
