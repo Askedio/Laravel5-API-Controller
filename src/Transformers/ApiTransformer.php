@@ -28,7 +28,7 @@ class ApiTransformer
 
         $results = $this->isPaginator() ? $this->transformPaginator() : $this->transformObject();
 
-        return array_filter((new KeysTransformer())->transform($results));
+        return (new KeysTransformer())->transform($results);
     }
 
     /**
@@ -70,11 +70,11 @@ class ApiTransformer
         $item = $single ? ['data' => $this->item($object)] : $this->item($object);
         $data = array_merge($item, ['relationships' => $this->relations($includes)]);
 
-        return array_merge(
+        return array_filter(array_merge(
             $data,
             ['included' => $includes],
             $single ? ['links' => ['self' => request()->url()]] : []
-        );
+        ));
     }
 
     /**
