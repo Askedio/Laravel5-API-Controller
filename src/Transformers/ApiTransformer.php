@@ -28,7 +28,7 @@ class ApiTransformer
 
         $results = $this->isPaginator() ? $this->transformPaginator() : $this->transformObject();
 
-        return (new KeysTransformer())->transform($results);
+        return array_filter((new KeysTransformer())->transform($results));
     }
 
     /**

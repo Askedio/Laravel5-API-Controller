@@ -72,6 +72,6 @@ trait ControllerTrait
             return response()->jsonapi($data['success'], (new ApiTransformer())->transform(isset($data['data']) ? $data['data'] : $data['results']));
         }
 
-        throw new $data['error']();
+        throw new $data['error']('');
     }
 }
