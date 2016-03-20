@@ -87,7 +87,7 @@ class ApiController
     }
 
     /**
-     * Get request body data->attibutes
+     * Get request body data->attibutes.
      *
      * @return array
      */
