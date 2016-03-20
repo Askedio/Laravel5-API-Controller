@@ -113,7 +113,7 @@ class ApiController
             array_push($errors, [
                 //'code'   => 0, # TO-DO: report valid json api error code base on validation error.
                 'source' => ['pointer' => $field],
-                'title'  => config('errors.invalid_attribute.title'),
+                'title'  => trans('jsonapi::errors.invalid_attribute.title'),
                 'detail' => implode(' ', $err),
             ]);
         }

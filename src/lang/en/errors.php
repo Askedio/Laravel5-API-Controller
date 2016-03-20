@@ -2,6 +2,10 @@
 
 return [
 
+    'not_found' => 'Page not found',
+
+    'server_error' => 'There was an error while processing your request.',
+
     'not-acceptable' => [
         'title'  => 'Not Acceptable',
         'detail' => 'Accept was not %s.',

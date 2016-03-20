@@ -57,7 +57,7 @@ class JsonApiMiddleware
             array_push($errors, [
                 //'code'   => 0,
                 'source' => ['pointer' => $field],
-                'title'  => config('errors.invalid_get.title'),
+                'title'  => trans('jsonapi::errors.invalid_get.title'),
             ]);
         }
 
