@@ -1,8 +1,5 @@
 <?php
 
-namespace Askedio\Tests\App\Database\Migrations;
-
-use DB;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 

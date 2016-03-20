@@ -67,7 +67,7 @@ Create a prefixed group for your api and assign the api and jsonapi middleware. 
 ~~~
 Route::group(['prefix' => 'api', 'middleware' => ['api', 'jsonapi']], function()
 {
-  Route::resource('admin/user', 'Api\UserController');
+  Route::resource('user', 'Api\UserController');
 });
 ~~~
 
@@ -81,7 +81,7 @@ Consume the API using Laravels resource routes, GET, PATCH, POST and DELETE. [Mo
 
 ### Example
 ~~~
-GET http://localhost:8000/api/user/1
+GET /api/user/1
 ~~~
 
 ~~~
@@ -99,7 +99,7 @@ Content-Type: application/vnd.api+json
     }
   },
   "links": {
-    "self": "http://localhost:8000/api/user/1"
+    "self": "/api/user/1"
   },
   "jsonapi": {
     "version": "1.0",
