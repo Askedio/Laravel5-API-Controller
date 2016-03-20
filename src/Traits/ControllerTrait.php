@@ -74,7 +74,7 @@ trait ControllerTrait
             'success' => 200,
             'error'   => [
               'class'   => \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
-              'message' => trans('jsonapi::errors.not_found')
+              'message' => trans('jsonapi::errors.not_found'),
             ],
             'data'    => $this->results->show($idd),
             'results' => $this->results->destroy($idd),
