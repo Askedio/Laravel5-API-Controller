@@ -17,7 +17,7 @@ A really simple package that provides a CRUD JSON API for your Laravel 5 applica
 # Installation
 ### Composer: require
 ~~~
-composer require askedio/laravel-cruddy::dev-master
+composer require askedio/laravel-cruddy:dev-master
 ~~~
 
 
