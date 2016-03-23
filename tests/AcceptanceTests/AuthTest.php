@@ -6,10 +6,8 @@ use Askedio\Tests\AcceptanceTestCase;
 
 class AuthTest extends AcceptanceTestCase
 {
-
     public function testRead()
     {
-    
         $this->createUserRaw();
         $this->json('GET', '/api/me/profile', [], ['Authorization' => 'Basic YWRtaW5AbG9jYWxob3N0LmNvbTpwYXNzd29yZA==']);
         $response = $this->response;
@@ -27,6 +25,4 @@ class AuthTest extends AcceptanceTestCase
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(config('jsonapi.content_type'), $response->headers->get('Content-type'));
     }
-
-
 }

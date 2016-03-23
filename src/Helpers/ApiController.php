@@ -18,9 +18,9 @@ class ApiController
 
         new ApiValidation($this->model->getObjects());
 
-        if($parent->getAuth()){
-          $table = $this->model->getTable();
-          $this->model = auth()->user()->$table();
+        if ($parent->getAuth()) {
+            $table       = $this->model->getTable();
+            $this->model = auth()->user()->$table();
         }
     }
 

@@ -139,6 +139,7 @@ abstract class ApiException extends Exception
         ];
 
         $tpl = trans(sprintf('jsonapi::errors.%s', $args[0]));
+
         return array_merge($base, is_array($tpl) ? $tpl : []);
     }
 }

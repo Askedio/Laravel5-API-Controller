@@ -16,7 +16,6 @@ trait ModelTrait
         return isset($this->includes) ? $this->includes : [];
     }
 
-
     public function getObjects()
     {
         if (! $this->objects) {
