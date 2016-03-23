@@ -11,12 +11,13 @@ class ApiController
 
     /** @var object */
     private $object;
+
     /**
      * @param Controller $parent
      */
     public function __construct($parent)
     {
-        $this->model = new $parent->model();
+        $this->model  = new $parent->model();
         $this->object = $this->model;
 
         new ApiValidation($this->model->getObjects());
@@ -26,11 +27,11 @@ class ApiController
 
     private function setAuth($parent)
     {
-      if ($parent->getAuth()) {
-          $table       = $this->model->getTable();
-          $user        = auth()->user();
-          $this->object = $user->$table();
-      }
+        if ($parent->getAuth()) {
+            $table        = $this->model->getTable();
+            $user         = auth()->user();
+            $this->object = $user->$table();
+        }
     }
 
     /**
