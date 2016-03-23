@@ -82,6 +82,7 @@ abstract class ApiException extends Exception
         if (! is_array($details)) {
             $details = [$details];
         }
+
         return array_map(function ($detail) use ($template) {
             return $this->item($template, $detail);
         }, $details);
