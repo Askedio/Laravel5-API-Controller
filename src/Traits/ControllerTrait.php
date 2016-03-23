@@ -94,6 +94,4 @@ trait ControllerTrait
     {
         return isset($this->auth) ? $this->auth : false;
     }
-
-
 }

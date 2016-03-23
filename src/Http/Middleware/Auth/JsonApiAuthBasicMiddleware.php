@@ -16,12 +16,10 @@ class JsonApiAuthBasicMiddleware
      */
     public function handle($request, Closure $next)
     {
-
-        if((auth()->onceBasic())){
-          throw new UnauthorizedHttpException('invalid-credentials');
+        if ((auth()->onceBasic())) {
+            throw new UnauthorizedHttpException('invalid-credentials');
         }
 
         return $next($request);
     }
-
 }
