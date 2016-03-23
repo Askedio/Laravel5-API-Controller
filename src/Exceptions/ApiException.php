@@ -82,7 +82,6 @@ abstract class ApiException extends Exception
         if (! is_array($details)) {
             $details = [$details];
         }
-
         return array_map(function ($detail) use ($template) {
             return $this->item($template, $detail);
         }, $details);
@@ -138,6 +137,6 @@ abstract class ApiException extends Exception
             'code'   => isset($args[1]) ? $args[1] : $this->status,
         ];
 
-        return array_merge($base, config(sprintf('jsonapi_errors.%s', $args[0]), []));
+        return array_merge($base, trans(sprintf('jsonapi::errors.%s', $args[0]), []));
     }
 }
