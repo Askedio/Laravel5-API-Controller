@@ -4,6 +4,14 @@ return [
 
     'not_found' => 'Page not found',
 
+
+    'invalid-credentials' => [
+        'title'  => 'Unauthorized',
+        'detail' => 'Invalid credentials.',
+    ],
+
+
+
     'not-acceptable' => [
         'title'  => 'Not Acceptable',
         'detail' => 'Accept was not %s.',

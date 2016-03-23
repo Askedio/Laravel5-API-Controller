@@ -25,4 +25,7 @@ class Profiles extends Model
     protected $fillable = [
         'phone',
     ];
+
+
+
 }

@@ -303,9 +303,7 @@ trait SearchableTrait
     {
         $tableName = DB::connection($this->connection)->getTablePrefix().$this->getTable();
 
-        $this->getDatabaseDriver() === 'pgsql'
-        ? $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as {$tableName}"))
-        : $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as `{$tableName}`"));
+        $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as `{$tableName}`"));
 
         $original->mergeBindings($clone->getQuery());
     }

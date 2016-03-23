@@ -10,13 +10,18 @@ class ApiController
     private $model;
 
     /**
-     * @param modelclass.. $model
+     * @param Controller $parent
      */
-    public function __construct($model)
+    public function __construct($parent)
     {
-        $this->model = new $model();
+        $this->model = new $parent->model();
 
         new ApiValidation($this->model->getObjects());
+
+        if($parent->getAuth()){
+          $table = $this->model->getTable();
+          $this->model = auth()->user()->$table();
+        }
     }
 
     /**

@@ -17,7 +17,7 @@ trait ControllerTrait
             throw (new NotAcceptableException('not-acceptable'))->withDetails('/application/vnd.api.'.$this->version.'+json');
         }
 
-        $this->results = new ApiController($this->model);
+        $this->results = new ApiController($this);
     }
 
     public function index()
@@ -89,4 +89,11 @@ trait ControllerTrait
 
         throw new $data['error']['class']($data['error']['message']);
     }
+
+    public function getAuth()
+    {
+        return isset($this->auth) ? $this->auth : false;
+    }
+
+
 }

@@ -9,12 +9,13 @@ use DB;
 
 trait ModelTrait
 {
+    private $objects;
+
     public function getIncludes()
     {
         return isset($this->includes) ? $this->includes : [];
     }
 
-    private $objects;
 
     public function getObjects()
     {
