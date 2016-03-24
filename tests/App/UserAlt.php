@@ -42,7 +42,6 @@ class UserAlt extends Authenticatable
         ],
     ];
 
-
     protected $primaryKey = 'id';
 
     public function transform(User $user)
