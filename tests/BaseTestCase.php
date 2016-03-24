@@ -27,6 +27,7 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
         $this->app['config']->set('app.debug', false);
         $this->app['config']->set('app.key', env('APP_KEY', '1234567890123456'));
         $this->app['config']->set('app.cipher', 'AES-128-CBC');
+        $this->app['config']->set('auth.providers.users.model', \Askedio\Tests\App\User::class);
 
         $this->app->boot();
 
@@ -92,8 +93,8 @@ class BaseTestCase extends \Illuminate\Foundation\Testing\TestCase
     {
         /* temporary since we dont have relational creation yet */
         return (new User())->create([
-            'name'     => 'test',
-            'email'    => 'test@test.com',
+            'name'     => 'admin',
+            'email'    => 'admin@localhost.com',
             'password' => bcrypt('password'),
         ])->profiles()->saveMany([
             new Profiles(['phone' => '123']),

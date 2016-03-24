@@ -9,14 +9,29 @@ class ApiController
     /** @var object */
     private $model;
 
+    /** @var object */
+    private $object;
+
     /**
-     * @param modelclass.. $model
+     * @param Controller $parent
      */
-    public function __construct($model)
+    public function __construct($parent)
     {
-        $this->model = new $model();
+        $this->model  = new $parent->model();
+        $this->object = $this->model;
 
         new ApiValidation($this->model->getObjects());
+
+        $this->setAuth($parent);
+    }
+
+    private function setAuth($parent)
+    {
+        if ($parent->getAuth()) {
+            $table        = $this->model->getTable();
+            $user         = auth()->user();
+            $this->object = $user->$table();
+        }
     }
 
     /**
@@ -26,7 +41,7 @@ class ApiController
      */
     public function index()
     {
-        $results = $this->model->setSort(request()->input('sort'));
+        $results = $this->object->setSort(request()->input('sort'));
 
         if (request()->input('search') && $this->model->isSearchable()) {
             $results->search(request()->input('search'));
@@ -45,7 +60,7 @@ class ApiController
     {
         $this->validate('create');
 
-        return $this->model->create($this->getRequest());
+        return $this->object->create($this->getRequest());
     }
 
     /**
@@ -55,7 +70,7 @@ class ApiController
      */
     public function show($idd)
     {
-        return $this->model->find($idd);
+        return $this->object->find($idd);
     }
 
     /**
@@ -67,7 +82,7 @@ class ApiController
     {
         $this->validate('update');
 
-        if ($model = $this->model->find($idd)) {
+        if ($model = $this->object->find($idd)) {
             return $model->update($this->getRequest()) ? $model : false;
         }
 
@@ -81,7 +96,7 @@ class ApiController
      */
     public function destroy($idd)
     {
-        $model = $this->model->find($idd);
+        $model = $this->object->find($idd);
 
         return $model ? $model->delete() : false;
     }

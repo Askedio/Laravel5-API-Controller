@@ -9,12 +9,12 @@ use DB;
 
 trait ModelTrait
 {
+    private $objects;
+
     public function getIncludes()
     {
         return isset($this->includes) ? $this->includes : [];
     }
-
-    private $objects;
 
     public function getObjects()
     {
@@ -54,7 +54,7 @@ trait ModelTrait
      */
     public function isSearchable()
     {
-        return isset($this->searchable);
+        return isset($this->searchableColumns);
     }
 
     /**

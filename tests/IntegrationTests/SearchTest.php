@@ -21,12 +21,6 @@ class SearchTest extends IntegrationTestCase
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $search);
     }
 
-    public function testSearchEntireText()
-    {
-        $search = (new User())->search('test', 10, true)->with('profiles')->get();
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $search);
-    }
-
     public function testSearchNoColumnsDefined()
     {
         $search = (new Profiles())->search('test');

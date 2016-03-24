@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class UserAlt extends Authenticatable
 {
     use \Askedio\Laravel5ApiController\Traits\ModelTrait;
-    use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
+    use \Sofa\Eloquence\Eloquence;
 
     protected $table = 'users';
 
@@ -39,17 +39,6 @@ class UserAlt extends Authenticatable
         ],
         'create' => [
             'email' => 'email|required|unique:users,email',
-        ],
-    ];
-
-    protected $searchable = [
-        'columns' => [
-            'users.name'     => 10,
-            'users.email'    => 5,
-            'profiles.phone' => 5,
-        ],
-        'joins'   => [
-            'profiles' => ['users.id', 'profiles.user_id', 'users.id', 'profiles.user_id'],
         ],
     ];
 
