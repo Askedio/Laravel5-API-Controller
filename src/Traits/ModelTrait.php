@@ -13,7 +13,7 @@ trait ModelTrait
 
     public function getIncludes()
     {
-        return isset($this->includes) ? $this->includes : [];
+        return property_exists($this, 'includes') ? $this->includes : [];
     }
 
     public function getObjects()
@@ -34,7 +34,7 @@ trait ModelTrait
      */
     public function getRule($rule)
     {
-        return isset($this->rules[$rule]) ? $this->rules[$rule] : [];
+        return property_exists($this, 'rules') && array_key_exists($rule, $this->rules) ? $this->rules[$rule] : [];
     }
 
     /**
@@ -44,7 +44,7 @@ trait ModelTrait
      */
     public function getId()
     {
-        return isset($this->primaryKey) ? $this->primaryKey : 'id';
+        return property_exists($this, 'primaryKey') ? $this->primaryKey : 'id';
     }
 
     /**
@@ -54,7 +54,7 @@ trait ModelTrait
      */
     public function isSearchable()
     {
-        return isset($this->searchable);
+        return property_exists($this, 'searchable');
     }
 
     /**
