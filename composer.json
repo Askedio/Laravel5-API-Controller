@@ -6,7 +6,9 @@
     "type": "library",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*"     },
+        "laravel/framework": "5.2.*",
+        "sofa/eloquence": "~5.2@dev"
+    },
     "require-dev": {
         "laravel/laravel": "5.*",
         "phpunit/phpunit": "4.*",

@@ -45,6 +45,8 @@ class GenericServiceProvider extends ServiceProvider
         $router->middleware('jsonapi', \Askedio\Laravel5ApiController\Http\Middleware\JsonApiMiddleware::class);
         $router->middleware('jsonapi.auth.basic', \Askedio\Laravel5ApiController\Http\Middleware\Auth\JsonApiAuthBasicMiddleware::class);
 
+        $this->app->register('Sofa\Eloquence\ServiceProvider');
+
         response()->macro('jsonapi', function ($code, $value) {
             $apiResponse = new \Askedio\Laravel5ApiController\Http\Responses\ApiResponse();
 
