@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProfilesAlt extends Model
 {
     use \Askedio\Laravel5ApiController\Traits\ModelTrait;
-    use \Sofa\Eloquence\Eloquence;
+    use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
 
     protected $includes = [
     ];

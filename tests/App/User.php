@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use \Askedio\Laravel5ApiController\Traits\ModelTrait;
-    use \Sofa\Eloquence\Eloquence;
+    use \Askedio\Laravel5ApiController\Traits\SearchableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -40,7 +40,17 @@ class User extends Authenticatable
         ],
     ];
 
-    protected $searchableColumns = ['name', 'email'];
+    protected $searchable = [
+        'columns' => [
+            'users.name'       => 10,
+            'users.email'      => 5,
+            'profiles.user_id' => 5,
+        ],
+        'joins'   => [
+            'profiles' => ['users.id', 'profiles.user_id'],
+        ],
+        'groupBy' => 'profiles.user_id',
+    ];
 
     protected $primaryKey = 'id';
 

@@ -54,7 +54,7 @@ trait ModelTrait
      */
     public function isSearchable()
     {
-        return isset($this->searchableColumns);
+        return isset($this->searchable);
     }
 
     /**
