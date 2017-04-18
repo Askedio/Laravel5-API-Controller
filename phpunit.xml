@@ -40,3 +40,4 @@
         <env name="JSONAPI_STRICT" value="true"/>
     </php>
 </phpunit>
+
